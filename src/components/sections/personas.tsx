@@ -27,39 +27,19 @@ export function PersonasSection() {
 
       <div className="mt-10 grid gap-6 lg:grid-cols-[280px_1fr]">
         {/* Persona selector */}
-        <div className="flex gap-2 lg:flex-col lg:gap-1.5">
+        <div className="flex flex-wrap gap-2 lg:flex-col lg:flex-nowrap">
           {personas.map((p, i) => (
             <button
               key={p.name}
               onClick={() => setActive(i)}
               className={cn(
-                "flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all",
+                "inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-all",
                 active === i
-                  ? "bg-bond-navy text-white shadow-md shadow-bond-navy/20"
-                  : "bg-muted/50 text-muted-foreground hover:bg-muted"
+                  ? "bg-bond-navy text-white shadow-sm"
+                  : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
               )}
             >
-              <div
-                className={cn(
-                  "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-bold",
-                  active === i
-                    ? "bg-white/20 text-white"
-                    : "bg-bond-navy/10 text-bond-navy"
-                )}
-              >
-                {p.emoji}
-              </div>
-              <div className="hidden min-w-0 lg:block">
-                <p className="truncate text-sm font-semibold">{p.name}</p>
-                <p
-                  className={cn(
-                    "truncate text-xs",
-                    active === i ? "text-white/70" : "text-muted-foreground"
-                  )}
-                >
-                  {p.role}
-                </p>
-              </div>
+              {p.role}
             </button>
           ))}
         </div>
@@ -75,23 +55,13 @@ export function PersonasSection() {
           >
             <Card className="rounded-2xl border-border/50">
               <CardContent className="p-6 md:p-8">
-                <div className="flex items-center gap-3">
-                  <div
-                    className={cn(
-                      "flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold text-white",
-                      personas[active].color
-                    )}
-                  >
-                    {personas[active].emoji}
-                  </div>
-                  <div>
-                    <h3 className="font-display text-lg font-bold text-foreground">
-                      {personas[active].name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {personas[active].role}
-                    </p>
-                  </div>
+                <div>
+                  <h3 className="font-display text-lg font-bold text-foreground">
+                    {personas[active].name}
+                  </h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {personas[active].role}
+                  </p>
                 </div>
 
                 {/* Pain point */}

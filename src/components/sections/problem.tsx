@@ -109,31 +109,6 @@ export function ProblemSection() {
           </motion.div>
         ))}
       </div>
-
-      {/* RACI */}
-      <h3 className="mt-14 font-display text-xl font-bold text-bond-navy-dark">
-        Ownership &amp; RACI
-      </h3>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        {[
-          { area: "Agent API", owner: "Engineering Lead" },
-          { area: "Legal & Compliance", owner: "Legal + Security" },
-          { area: "CS Onboarding", owner: "Marc / CS Lead" },
-          { area: "Pilot Success", owner: "Jacob (PM)" },
-          { area: "Vendor Management", owner: "PM + Engineering" },
-          { area: "Finance & Pricing", owner: "Finance" },
-        ].map(({ area, owner }) => (
-          <div
-            key={area}
-            className="flex items-center justify-between rounded-xl border border-border/50 bg-white px-4 py-3"
-          >
-            <span className="text-sm font-medium text-foreground">{area}</span>
-            <span className="rounded-full bg-bond-navy/5 px-3 py-1 text-xs font-medium text-bond-navy">
-              {owner}
-            </span>
-          </div>
-        ))}
-      </div>
     </SectionWrapper>
   );
 }

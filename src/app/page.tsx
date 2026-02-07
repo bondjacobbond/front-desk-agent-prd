@@ -6,6 +6,7 @@ import { CompetitiveSection } from "@/components/sections/competitive";
 import { PersonasSection } from "@/components/sections/personas";
 import { FeaturesSection } from "@/components/sections/features";
 import { ArchitectureSection } from "@/components/sections/architecture";
+import { BuildVsBuySection } from "@/components/sections/build-vs-buy";
 import { TimelineSection } from "@/components/sections/timeline-section";
 import { PricingSection } from "@/components/sections/pricing";
 import { RisksSection } from "@/components/sections/risks";
@@ -23,6 +24,7 @@ export default function Home() {
         <PersonasSection />
         <FeaturesSection />
         <ArchitectureSection />
+        <BuildVsBuySection />
         <TimelineSection />
         <PricingSection />
         <RisksSection />

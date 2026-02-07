@@ -21,6 +21,7 @@ import {
   BarChart3,
   FileQuestion,
   Zap,
+  Scale,
 } from "lucide-react";
 
 const sections = [
@@ -31,6 +32,7 @@ const sections = [
   { id: "personas", label: "Personas", icon: Users },
   { id: "features", label: "Features", icon: LayoutGrid },
   { id: "architecture", label: "Architecture", icon: Layers },
+  { id: "build-vs-buy", label: "Build vs Buy", icon: Scale },
   { id: "timeline", label: "Timeline", icon: Clock },
   { id: "pricing", label: "Pricing", icon: DollarSign },
   { id: "risks", label: "Risks", icon: AlertTriangle },

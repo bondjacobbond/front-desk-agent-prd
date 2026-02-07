@@ -24,8 +24,8 @@ export function TimelineSection() {
       <SectionLabel>Delivery Plan</SectionLabel>
       <SectionTitle>From kickoff to scale</SectionTitle>
       <SectionDescription>
-        18-month phased rollout -- foundation and pilot, action-taking and
-        scale, then proactive intelligence.
+        24-month phased rollout -- foundation and pilot, action-taking and
+        scale, proactive intelligence, then Bond Agents.
       </SectionDescription>
 
       <div className="mt-10 space-y-6">

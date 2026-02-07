@@ -124,9 +124,10 @@ export function CompetitiveSection() {
           <span className="font-semibold text-foreground">
             Hybrid with parallel de-risking.
           </span>{" "}
-          Build the orchestration/reasoning layer (Bond&apos;s moat), buy voice
-          infrastructure (commodity), pilot with Bland to validate while
-          building in parallel.
+          Build the Agent API and business logic layer (Bond&apos;s moat is
+          being the system of record), buy or partner for voice infrastructure
+          and agentic orchestration (commodity), pilot with Bland to validate
+          while building in parallel.
         </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {[
@@ -134,14 +135,15 @@ export function CompetitiveSection() {
               label: "Build",
               items: [
                 "Agent API layer",
-                "Orchestration engine",
-                "Policy engine",
+                "Policy & business logic",
                 "Admin UI",
+                "Confidence scoring",
               ],
             },
             {
-              label: "Buy",
+              label: "Buy/Partner",
               items: [
+                "Agentic orchestration",
                 "Voice (ElevenLabs)",
                 "Telephony (Twilio)",
                 "Foundation LLM",

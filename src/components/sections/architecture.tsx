@@ -16,10 +16,11 @@ export function ArchitectureSection() {
   return (
     <SectionWrapper id="architecture">
       <SectionLabel>Architecture</SectionLabel>
-      <SectionTitle>Four layers, one system</SectionTitle>
+      <SectionTitle>Five layers, one system</SectionTitle>
       <SectionDescription>
-        Build intelligence, buy infrastructure. The orchestration layer is
-        Bond&apos;s moat -- everything else is commodity.
+        Own the data & business logic, buy the agentic layer. Bond&apos;s moat is
+        being the system of record -- the Agent API and policy engine are what
+        make the AI agent effective.
       </SectionDescription>
 
       {/* Architecture layers */}
@@ -94,13 +95,13 @@ export function ArchitectureSection() {
           {[
             {
               method: "GET",
-              path: "/facilities/{id}/schedules",
-              desc: "Programs, sessions, capacity, waitlist. SLA: freshness ≤60s",
+              path: "/organizations/{id}/schedules",
+              desc: "Events linked to programs, sessions, capacity, waitlist. SLA: freshness ≤60s",
             },
             {
               method: "GET",
               path: "/programs/{id}",
-              desc: "Description, age ranges, prerequisites, pricing, instructor",
+              desc: "Description, age ranges, prerequisites, pricing, instructor, richer metadata",
             },
             {
               method: "GET",

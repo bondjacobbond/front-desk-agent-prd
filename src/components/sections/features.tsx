@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { featurePhases } from "@/lib/prd-data";
+import type { DemoStep } from "@/lib/prd-data";
 
 const priorityStyles: Record<string, string> = {
   P0: "bg-bond-navy text-white",
@@ -26,6 +27,209 @@ const sizeLabels: Record<string, string> = {
   L: "Large",
 };
 
+const speakerConfig: Record<
+  DemoStep["speaker"],
+  { label: string; color: string; align: "left" | "right" | "center" }
+> = {
+  agent: {
+    label: "AI Agent",
+    color: "bg-bond-navy text-white",
+    align: "left",
+  },
+  caller: {
+    label: "Caller",
+    color: "bg-white text-foreground border border-border/60",
+    align: "right",
+  },
+  system: {
+    label: "System",
+    color: "bg-bond-gold/10 text-bond-gold border border-bond-gold/20",
+    align: "center",
+  },
+  operator: {
+    label: "Operator",
+    color: "bg-white text-foreground border border-bond-navy/30",
+    align: "right",
+  },
+};
+
+function DemoTranscript({
+  demo,
+}: {
+  demo: (typeof featurePhases)[number]["demo"];
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="mt-6 mb-6">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="group flex w-full items-center gap-3 rounded-2xl border border-bond-navy/15 bg-white px-5 py-4 text-left transition-all hover:border-bond-navy/30 hover:shadow-md"
+      >
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-bond-navy/10 text-sm">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            className="text-bond-navy"
+          >
+            <path
+              d="M4 5.5L8 9.5L12 5.5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={cn(
+                "transition-transform duration-200 origin-center",
+                isOpen && "translate-y-[-1px]"
+              )}
+              style={{
+                transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                transformOrigin: "8px 7.5px",
+              }}
+            />
+          </svg>
+        </span>
+        <div className="min-w-0 flex-1">
+          <span className="font-display text-sm font-bold text-bond-navy-dark">
+            See it in action
+          </span>
+          <span className="ml-2 text-xs text-muted-foreground">
+            {demo.title}
+          </span>
+        </div>
+        <Badge
+          variant="outline"
+          className="shrink-0 rounded-full border-bond-navy/20 bg-bond-navy/5 text-[10px] font-semibold text-bond-navy"
+        >
+          Demo
+        </Badge>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="mt-3 rounded-2xl border border-border/50 bg-white p-5">
+              {/* Context banner */}
+              <div className="mb-5 rounded-xl bg-bond-soft-bg px-4 py-3">
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  <span className="font-semibold text-bond-navy-dark">
+                    Scenario:
+                  </span>{" "}
+                  {demo.context}
+                </p>
+              </div>
+
+              {/* Transcript */}
+              <div className="space-y-3">
+                {demo.steps.map((step, i) => {
+                  const config = speakerConfig[step.speaker];
+
+                  if (step.speaker === "system") {
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.03 }}
+                        className="flex justify-center"
+                      >
+                        <div className="max-w-[90%] rounded-xl border border-dashed border-bond-gold/30 bg-bond-gold/5 px-4 py-2.5">
+                          <div className="flex items-start gap-2">
+                            <span className="mt-0.5 shrink-0 rounded-full bg-bond-gold/15 px-2 py-0.5 font-display text-[9px] font-bold tracking-wide text-bond-gold uppercase">
+                              {step.annotation || "System"}
+                            </span>
+                          </div>
+                          <p className="mt-1.5 whitespace-pre-line text-[11px] leading-relaxed text-muted-foreground">
+                            {step.text}
+                          </p>
+                        </div>
+                      </motion.div>
+                    );
+                  }
+
+                  const isRight =
+                    config.align === "right";
+
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.03 }}
+                      className={cn(
+                        "flex",
+                        isRight ? "justify-end" : "justify-start"
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          "max-w-[80%] rounded-2xl px-4 py-3",
+                          step.speaker === "agent"
+                            ? "rounded-bl-md bg-bond-navy text-white"
+                            : step.speaker === "operator"
+                              ? "rounded-br-md border border-bond-navy/20 bg-bond-navy/5 text-foreground"
+                              : "rounded-br-md border border-border/60 bg-white text-foreground"
+                        )}
+                      >
+                        <div className="mb-1 flex items-center gap-2">
+                          <span
+                            className={cn(
+                              "font-display text-[10px] font-bold tracking-wide uppercase",
+                              step.speaker === "agent"
+                                ? "text-white/70"
+                                : step.speaker === "operator"
+                                  ? "text-bond-navy"
+                                  : "text-muted-foreground"
+                            )}
+                          >
+                            {step.speaker === "operator"
+                              ? "Operator (Sarah)"
+                              : config.label}
+                          </span>
+                          {step.annotation && (
+                            <span
+                              className={cn(
+                                "rounded-full px-1.5 py-0.5 text-[9px] font-medium",
+                                step.speaker === "agent"
+                                  ? "bg-white/15 text-white/80"
+                                  : "bg-bond-navy/10 text-bond-navy/70"
+                              )}
+                            >
+                              {step.annotation}
+                            </span>
+                          )}
+                        </div>
+                        <p
+                          className={cn(
+                            "text-xs leading-relaxed",
+                            step.speaker === "agent"
+                              ? "text-white/90"
+                              : "text-foreground"
+                          )}
+                        >
+                          {step.text}
+                        </p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function FeaturesSection() {
   const [activePhase, setActivePhase] = useState(0);
 
@@ -34,8 +238,8 @@ export function FeaturesSection() {
       <SectionLabel>Features</SectionLabel>
       <SectionTitle>What we are building</SectionTitle>
       <SectionDescription>
-        A phased approach from intelligent answering through action-taking to
-        proactive intelligence.
+        Five phases from schedule data & FAQs to Bond Agents — a managed
+        ecosystem of AI teammates across the facility.
       </SectionDescription>
 
       {/* Phase tabs */}
@@ -77,6 +281,9 @@ export function FeaturesSection() {
               {featurePhases[activePhase].label}
             </Badge>
           </div>
+
+          {/* Demo section */}
+          <DemoTranscript demo={featurePhases[activePhase].demo} />
 
           <div className="grid gap-3 sm:grid-cols-2">
             {featurePhases[activePhase].features.map((f, i) => (
