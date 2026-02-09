@@ -54,7 +54,7 @@ export function PersonasSection() {
             transition={{ duration: 0.3 }}
           >
             <Card className="rounded-2xl border-border/50">
-              <CardContent className="p-6 md:p-8">
+              <CardContent className="px-6 pt-4 pb-6 md:px-8 md:pt-6 md:pb-8">
                 <div>
                   <h3 className="font-display text-lg font-bold text-foreground">
                     {personas[active].name}

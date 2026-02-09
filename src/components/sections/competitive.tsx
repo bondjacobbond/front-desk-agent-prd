@@ -23,10 +23,12 @@ export function CompetitiveSection() {
   return (
     <SectionWrapper id="competitive" muted>
       <SectionLabel>Market Landscape</SectionLabel>
-      <SectionTitle>Bond&apos;s strategic window</SectionTitle>
+      <SectionTitle>Bond&apos;s strategic window is closing</SectionTitle>
       <SectionDescription>
-        No one in the private athletic facility space has a voice-first AI
-        agent. Bond has a 12-18 month window to own the category.
+        Baseline has already deployed a voice AI front desk agent (powered by
+        EmbedReach) to their sports facility customers. Bond&apos;s window to
+        lead the category with deeper integration is narrowing — speed to
+        market is critical.
       </SectionDescription>
 
       {/* Competitor cards */}
@@ -104,9 +106,10 @@ export function CompetitiveSection() {
           </div>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             Planned: Voice + email + chat, fully integrated with Bond as system
-            of record. $250-500/mo target pricing. ServiceTitan proved it for
-            home services. Momence proved text AI at $399/mo for fitness. Bond
-            brings voice-first AI to private athletic facilities.
+            of record. $250-500/mo target pricing. Baseline&apos;s EmbedReach-powered
+            agent handles FAQs and sends links — Bond&apos;s agent will go deeper:
+            real-time data, in-call booking, customer recognition, and proactive
+            outreach. The moat is being the system of record.
           </p>
           <div className="mt-4 flex items-center gap-2 text-sm font-medium text-bond-navy">
             Read full competitive analysis
