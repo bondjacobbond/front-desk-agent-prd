@@ -337,7 +337,7 @@ export const featurePhases: Array<{
         },
         {
           speaker: "agent",
-          text: "The youth hockey league schedule is posted on our website under Programs, and it's also available in the Bond app. The schedule varies week to week based on ice availability and game schedules. Would you like me to tell you what's coming up this week?",
+          text: "The youth hockey league schedule is posted on our website under Programs. The schedule varies week to week based on ice availability and game schedules. Would you like me to tell you what's coming up this week?",
           annotation: "Schedule & Availability Query",
         },
         {
