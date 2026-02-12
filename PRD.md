@@ -30,7 +30,7 @@ ServiceTitan has proven this model works at massive scale in home services: thei
 
 ## WHO: Feature Request Origin & Beneficiaries
 
-**Origin:** This initiative is driven by a convergence of signals. Facility operators consistently report staffing challenges at the front desk, particularly during peak programming hours when phones ring most and staff are busiest with in-person check-ins. Bond's largest customers (Chelsea Piers, Toca, Canlan Ice Sports, Shoot 360) have expressed interest in automation solutions that reduce operational burden without sacrificing customer experience. The competitive landscape is accelerating — Momence launched its AI Inbox in 2025, Rec Technologies is building AI teammates for municipal recreation, and ServiceTitan has proven the model works at enterprise scale in adjacent verticals.
+**Origin:** This initiative is driven by a convergence of signals. Facility operators consistently report staffing challenges at the front desk, particularly during peak programming hours when phones ring most and staff are busiest with in-person check-ins. Bond's largest customers (Chelsea Piers, Toca, Canlan Ice Sports, Palm Beach Skate Zone) have expressed interest in automation solutions that reduce operational burden without sacrificing customer experience. The competitive landscape is accelerating — Momence launched its AI Inbox in 2025, Rec Technologies is building AI teammates for municipal recreation, and ServiceTitan has proven the model works at enterprise scale in adjacent verticals.
 
 **Primary Beneficiaries:**
 
@@ -54,7 +54,7 @@ Facility operators and front desk staff benefit from reduced call volume, fewer 
 
 | Metric | How to Measure |
 | --- | --- |
-| 3 facilities activate AI Front Desk Agent within 60 days of launch | Track activations in Bond admin; target early adopters from Chelsea Piers, Toca, Shoot 360 |
+| 3 facilities activate AI Front Desk Agent within 60 days of launch | Track activations in Bond admin; target early adopters from Chelsea Piers, Toca, Palm Beach Skate Zone |
 | 80%+ of inbound calls answered by the AI are completed end-to-end without escalation. 'Completed end-to-end' = caller issue classified as resolved by agent AND agent performed any requested write (booking/cancellation) or provided the requested factual answer; confirmation email sent; caller survey (sample) satisfaction ≥ 6/10. **To validate: pilot must reach at least 300 AI-handled calls across 3 facilities, or 100 calls per facility, whichever comes first.** | Monitor escalation rate in agent dashboard; compare to total call volume; track resolution classification and post-call surveys |
 | Average call answer time under 3 seconds (vs. industry average of 30+ seconds or missed entirely) | Telephony platform metrics; compare to pre-activation missed call rates |
 | Net Promoter Score from facility operators of 7+ (out of 10) on agent performance | Post-pilot survey administered by CS team at 30 and 60 days |
@@ -96,7 +96,7 @@ Facility operators and front desk staff benefit from reduced call volume, fewer 
 
 ### Strategic Architecture Decision: Own the Data & Business Logic, Buy the Agentic Layer
 
-**Hybrid approach with parallel de-risking:** Build the Agent API and business logic layer (Bond's moat is being the system of record), buy or partner for voice infrastructure and agentic orchestration (commodity), pilot with Bland to validate at scale while building in parallel.
+**Hybrid approach with parallel de-risking:** Build the Agent API and business logic layer (Bond's moat is being the system of record), build or partner for voice infrastructure and agentic orchestration (commodity), pilot with Bland to validate at scale while building in parallel.
 
 **Decision trigger (binding):** After 60 days, evaluate: (1) Can Bland handle mass configuration updates efficiently? (2) Is our Agent API stable and serving the orchestration layer reliably? (3) What's the cost-per-facility delta between vendor orchestration and building our own? Use these answers to commit to one path or continue hybrid.
 
@@ -278,7 +278,7 @@ We've spent significant time evaluating this question — meeting with vendors, 
 
 ### Recommendation
 
-**Hybrid approach with parallel de-risking: Own the data and business logic, buy or partner for the agentic layer, pilot with Bland.**
+**Hybrid approach with parallel de-risking: Own the data and business logic, build or partner for the agentic layer, pilot with Bland.**
 
 Matt framed it well: "I think of the vendor more as the wrapper than the intelligence itself. If there's a tool that allows us to easily provide phone numbers and connect to people's email and provide the interface — that's the stuff I don't want to build. But the orchestration layer, the reasoning engine — we need to own that."
 
@@ -288,7 +288,7 @@ Matt framed it well: "I think of the vendor more as the wrapper than the intelli
 
 1. **Build the Bond Agent API layer** — this is the critical investment and the core of Bond's moat. Purpose-built endpoints that give any AI agent structured, permissioned access to Bond's data (schedules, registrations, memberships, customer profiles, policies, pricing).
 2. **Build the policy and business logic engine** — facility-specific rules, cancellation policies, refund workflows, escalation logic, and exception handling. This is Bond's proprietary domain knowledge codified into software. No vendor can replicate this.
-3. **Buy or partner for the agentic orchestration layer** — conversation state management, LLM orchestration, intent routing, and multi-turn reasoning. These capabilities are increasingly commodity. Vendors like Bland, Decagon, or a build using frameworks like LangGraph can handle this; Bond's value is in the data and logic the orchestrator calls into, not the orchestrator itself.
+3. **Build or partner for the agentic orchestration layer** — conversation state management, LLM orchestration, intent routing, and multi-turn reasoning. These capabilities are increasingly commodity. Vendors like Bland, Decagon, or a build using frameworks like LangGraph can handle this; Bond's value is in the data and logic the orchestrator calls into, not the orchestrator itself.
 4. **Use ElevenLabs (or similar) for voice infrastructure** — STT, TTS, phone integration. Don't build a voice stack.
 5. **Use Twilio for telephony** — phone number provisioning, call routing, SMS.
 6. **Consider Blank Metal for an initial sprint** — accelerate architecture decisions and get expert guidance on agent design patterns. Hand off to our team for ongoing development.
@@ -440,7 +440,7 @@ The AI Front Desk Agent is composed of four primary layers that work together to
 
 Telephony (inbound/outbound calls), SMS, and email channel management. This layer handles call routing, audio streaming, and channel-specific protocols. Build on proven infrastructure providers (Twilio, Vonage, or similar) rather than building telephony from scratch. This is commodity infrastructure — Bond's differentiation is not in how calls are routed but in the data and business logic that power what happens during the call.
 
-**Layer 2: Speech Processing (Buy/Partner)**
+**Layer 2: Speech Processing (Build/Partner)**
 
 Speech-to-text (STT) converts caller audio to text in real-time with low latency. Text-to-speech (TTS) converts agent responses back to natural-sounding audio. Use best-in-class models from providers like Deepgram, ElevenLabs, or OpenAI Realtime API. This layer must support: sub-500ms latency for natural conversational pacing, accurate recognition of sports terminology ("Zamboni," "power play clinic," facility-specific program names), multiple accents and speaking styles, and barge-in detection (caller interrupting the agent).
 
@@ -448,7 +448,7 @@ Speech-to-text (STT) converts caller audio to text in real-time with low latency
 
 The structured data access and business logic layer that makes any AI agent effective in the context of a specific facility. This is where Bond's true competitive advantage lives — not in orchestrating LLMs, but in being the system of record and encoding the business rules that govern how facilities operate. It comprises: the Agent API (Bond's internal API that gives any AI agent structured, permissioned access to the Bond platform — schedules, registrations, memberships, customer profiles, policies, pricing), a policy engine (facility-specific rules configured by admins that govern what the agent can and cannot do), and a confidence scoring system (determines when to act autonomously vs. escalate to human).
 
-**Layer 3b: Agentic Orchestration (Buy/Partner — Commodity)**
+**Layer 3b: Agentic Orchestration (Build/Partner — Commodity)**
 
 The reasoning and conversation management layer that understands intent, routes to the right workflow, and maintains conversation context. This layer is increasingly commoditized and can be sourced from vendors or built using open frameworks. It comprises: an LLM orchestration layer (prompt engineering, context management, conversation memory), a conversation state manager (tracks multi-turn conversations, handles topic changes, maintains context across the call), and intent classification and routing logic. The orchestration layer calls into Bond's Agent API and policy engine — its effectiveness depends entirely on the quality of Bond's data and business logic, which is why the system of record is the moat, not the orchestrator.
 
@@ -481,7 +481,7 @@ Every Agent API call is logged, permissioned, and auditable. The AI agent operat
 | Speech-to-Text | Buy | Best-in-class models from Deepgram, OpenAI, Google are superior to anything we'd build |
 | Text-to-Speech | Buy | ElevenLabs, OpenAI TTS deliver human-quality voice; no advantage to building |
 | LLM Foundation Model | Buy | Use Claude, GPT-4, or similar; focus engineering on the data layer, not model training |
-| Agentic Orchestration Layer | Buy/Partner | Conversation state management, LLM orchestration, and intent routing are increasingly commodity. Vendors or open frameworks (LangGraph, etc.) handle this well. Bond's value is in the data and logic the orchestrator calls into, not the orchestrator itself. |
+| Agentic Orchestration Layer | Build/Partner | Conversation state management, LLM orchestration, and intent routing are increasingly commodity. Vendors or open frameworks (LangGraph, etc.) handle this well. Bond's value is in the data and logic the orchestrator calls into, not the orchestrator itself. |
 | Agent API (Bond Data Access) | **Build — Moat** | Core platform investment and the heart of Bond's competitive advantage. No one else can build structured, permissioned access to Bond's data. This is what makes the AI agent effective. |
 | Policy & Business Logic Engine | **Build — Moat** | Facility-specific rules, cancellation policies, refund workflows, and exception handling are Bond's proprietary domain knowledge. This is irreplaceable. |
 | Admin Configuration UI | Build | Core product experience; must feel native to Bond |

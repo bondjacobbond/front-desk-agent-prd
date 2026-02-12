@@ -128,7 +128,7 @@ export function CompetitiveSection() {
             Hybrid with parallel de-risking.
           </span>{" "}
           Build the Agent API and business logic layer (Bond&apos;s moat is
-          being the system of record), buy or partner for voice infrastructure
+          being the system of record), build or partner for voice infrastructure
           and agentic orchestration (commodity), pilot with Bland to validate
           while building in parallel.
         </p>
@@ -144,7 +144,7 @@ export function CompetitiveSection() {
               ],
             },
             {
-              label: "Buy/Partner",
+              label: "Build/Partner",
               items: [
                 "Agentic orchestration",
                 "Voice (ElevenLabs)",

@@ -16,11 +16,12 @@ export function ArchitectureSection() {
   return (
     <SectionWrapper id="architecture">
       <SectionLabel>Architecture</SectionLabel>
-      <SectionTitle>Five layers, one system</SectionTitle>
+      <SectionTitle>Four layers, one system</SectionTitle>
       <SectionDescription>
-        Own the data & business logic, buy the agentic layer. Bond&apos;s moat is
-        being the system of record -- the Agent API and policy engine are what
-        make the AI agent effective.
+        Bond owns the intelligence — the Agent API, policy engine, and data
+        access that make the AI agent effective. Where it runs (in-house or on a
+        partner platform) is a deployment decision. The moat is being the system
+        of record.
       </SectionDescription>
 
       {/* Architecture layers */}
@@ -37,7 +38,9 @@ export function ArchitectureSection() {
               className={`rounded-2xl transition-all hover:shadow-md ${
                 layer.decision === "Build"
                   ? "border-bond-navy/20 bg-gradient-to-r from-bond-navy/[0.03] to-transparent"
-                  : "border-border/50"
+                  : layer.decision === "Build / Partner"
+                    ? "border-bond-navy/10 bg-gradient-to-r from-bond-navy/[0.02] to-transparent"
+                    : "border-border/50"
               }`}
             >
               <CardContent className="p-5 md:p-6">
@@ -47,7 +50,9 @@ export function ArchitectureSection() {
                       className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold ${
                         layer.decision === "Build"
                           ? "bg-bond-navy text-white"
-                          : "bg-muted text-muted-foreground"
+                          : layer.decision === "Build / Partner"
+                            ? "bg-bond-navy/80 text-white"
+                            : "bg-muted text-muted-foreground"
                       }`}
                     >
                       {layer.layer}
@@ -69,7 +74,9 @@ export function ArchitectureSection() {
                     className={`shrink-0 rounded-full text-xs font-bold ${
                       layer.decision === "Build"
                         ? "border-bond-navy/20 bg-bond-navy/10 text-bond-navy"
-                        : "border-bond-gold/30 bg-bond-gold/10 text-bond-gold"
+                        : layer.decision === "Build / Partner"
+                          ? "border-bond-navy/15 bg-bond-navy/5 text-bond-navy/80"
+                          : "border-bond-gold/30 bg-bond-gold/10 text-bond-gold"
                     }`}
                   >
                     {layer.decision}

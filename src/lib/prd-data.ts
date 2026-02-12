@@ -7,7 +7,7 @@ export const kpiPhases = [
       {
         metric: "Facilities activated",
         target: "3",
-        how: "Track activations in Bond admin; target early adopters from Chelsea Piers, Toca, Shoot 360",
+        how: "Track activations in Bond admin; target early adopters from Chelsea Piers, Toca, Palm Beach Skate Zone",
       },
       {
         metric: "End-to-end resolution",
@@ -787,7 +787,7 @@ export const featurePhases: Array<{
     demo: {
       title: "Monday Morning with Your AI Team",
       context:
-        "It's 8:00 AM Monday. Sarah, the GM at Shoot 360, opens her Agent Command Center. Her AI team has been working all weekend.",
+        "It's 8:00 AM Monday. Sarah, the GM at Palm Beach Skate Zone, opens her Agent Command Center. Her AI team has been working all weekend.",
       steps: [
         {
           speaker: "system",
@@ -850,37 +850,30 @@ export const architectureLayers = [
   {
     layer: 1,
     name: "Communication Infrastructure",
-    decision: "Buy",
+    decision: "Partner",
     desc: "Telephony, SMS, email channel management. Call routing and audio streaming.",
     tech: "Twilio / Vonage",
   },
   {
     layer: 2,
     name: "Speech Processing",
-    decision: "Buy",
+    decision: "Partner",
     desc: "STT converts caller audio to text. TTS converts responses to natural-sounding audio. Sub-500ms latency.",
     tech: "Deepgram / ElevenLabs / OpenAI",
   },
   {
     layer: 3,
-    name: "Agent API & Business Logic",
-    decision: "Build",
-    desc: "Structured data access and business logic layer. Agent API, policy engine, confidence scoring. This is Bond's moat — being the system of record.",
-    tech: "Bond proprietary — the moat",
-  },
-  {
-    layer: "3b",
     name: "Agentic Orchestration",
-    decision: "Buy/Partner",
-    desc: "Reasoning and conversation management. LLM orchestration, conversation state, intent routing. Calls into Bond's Agent API — effectiveness depends on Bond's data layer.",
+    decision: "Build / Partner",
+    desc: "Reasoning and conversation management. LLM orchestration, conversation state, intent routing. Bond owns the logic; where it runs (in-house or partner platform) is a deployment decision.",
     tech: "Bland / Decagon / LangGraph",
   },
   {
     layer: 4,
-    name: "Integration & Data Layer",
+    name: "Bond Intelligence Layer",
     decision: "Build",
-    desc: "Agent API providing structured, permissioned access to Bond platform data.",
-    tech: "Bond Agent API v1",
+    desc: "Agent API, policy engine, confidence scoring, and structured access to Bond platform data. This is the moat — Bond is the system of record.",
+    tech: "Bond Agent API + Policy Engine",
   },
 ];
 
