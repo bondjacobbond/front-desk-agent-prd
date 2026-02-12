@@ -1046,48 +1046,23 @@ export const timeline = [
   },
 ];
 
-export const pricingTiers = [
-  {
-    name: "Starter",
-    price: "$249",
-    period: "/month",
-    target: "Small single-sport facilities",
-    features: [
-      "Voice-only",
-      "Up to 200 calls/month",
-      "Business hours + after hours",
-      "Basic dashboard",
-    ],
-  },
-  {
-    name: "Professional",
-    price: "$399",
-    period: "/month",
-    target: "Mid-size multi-sport facilities",
-    popular: true,
-    features: [
-      "Voice + email + chat",
-      "Up to 500 calls/month",
-      "Action-taking (book/cancel)",
-      "Full dashboard",
-      "Priority support",
-    ],
-  },
-  {
-    name: "Enterprise",
-    price: "$599",
-    period: "/month",
-    target: "Large facilities, franchise groups",
-    features: [
-      "All channels",
-      "Unlimited calls",
-      "Advanced analytics",
-      "Custom integrations",
-      "Dedicated success manager",
-      "Multi-location support",
-    ],
-  },
-];
+export const pricingModel = {
+  name: "Bond AI Front Desk Agent",
+  price: "$399",
+  period: "/month per facility",
+  target: "Simple flat pricing for all facilities",
+  features: [
+    "Voice + email + chat",
+    "Action-taking (book/cancel/reschedule)",
+    "Facility-specific knowledge and policies",
+    "Dashboard with call transcripts and outcomes",
+    "Standard onboarding and support included",
+  ],
+  notes: [
+    "No feature-based tiers during pilot and early rollout",
+    "Usage guardrails are managed in contract terms, not package complexity",
+  ],
+};
 
 export const risks = [
   {
@@ -1144,7 +1119,7 @@ export const risks = [
     likelihood: "Medium",
     impact: "Medium",
     mitigation:
-      "Monitor cost per call; optimize prompts for token efficiency; volume pricing; tiered pricing to match usage",
+      "Monitor cost per call; optimize prompts for token efficiency; negotiate better vendor volume rates; revisit pricing if margins compress",
   },
 ];
 
@@ -1188,19 +1163,13 @@ export const openDecisions = [
     issue: "Pricing model",
     status: "Open",
     owners: "PM, CEO, Finance",
-    desc: "Flat fee vs. usage-based vs. hybrid. Recommend flat fee with tier structure.",
+    desc: "Flat fee vs. usage-based vs. hybrid. Recommend a simple flat per-facility fee for launch.",
   },
   {
-    issue: "PCI compliance approach",
-    status: "Open",
-    owners: "PM, Engineering, Security",
-    desc: "May need secure SMS payment link during call. Defer to Phase 2 deep-dive.",
-  },
-  {
-    issue: "Multi-language timeline",
+    issue: "Monitoring and incident response plan",
     status: "High Priority",
-    owners: "PM, Engineering, CS",
-    desc: "Spanish is highest demand. Run discovery to determine if Phase 2 is needed in pilot geographies.",
+    owners: "Engineering, CS",
+    desc: "Define production telemetry, alert thresholds, on-call ownership, and rollback triggers for pilot reliability.",
   },
 ];
 

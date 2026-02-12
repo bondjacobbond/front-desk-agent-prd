@@ -34,7 +34,7 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 **Risk:** Cannot commit to development timeline without full spec
 
 ### 2. Legal/Compliance Signoff 🔴 LEGAL
-**Issue:** Missing written policies for PCI, AI disclosure, recording consent, data retention  
+**Issue:** Missing written policies for AI disclosure, recording consent, data retention, and vendor data processing terms  
 **Owner:** Legal Counsel  
 **Timeline:** Before pilot launch  
 **Risk:** Regulatory violations, liability exposure
@@ -62,7 +62,7 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 ## High Priority Items (Resolve Soon)
 
 6. **Admin UI Specification** (Design) — Wireframes/UX spec needed  
-7. **Spanish Language Discovery** (Product) — May need Phase 2 prioritization  
+7. **Incident Monitoring & Alerting Plan** (Engineering) — Define production telemetry, thresholds, and on-call ownership  
 8. **Sales Enablement Materials** (Sales) — ROI calculator, positioning guide  
 9. **Support Model Definition** (CS) — SLAs, escalation process  
 10. **Telephony Vendor Selection** (Engineering) — Twilio vs. Vonage decision
@@ -89,7 +89,7 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 - Legal/compliance gates must be resolved (critical blocker)
 - Mass update capability is underspecified (critical risk)
 - Baseline already live with voice AI in Bond's exact ICP (urgent competitive pressure)
-- Spanish language support may need earlier prioritization
+- Monitoring and incident response approach is underspecified for pilot reliability
 - Pilot success gates may be too aggressive (60 days for 80% resolution)
 
 ---
@@ -97,15 +97,15 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 ## Top 10 Questions Requiring Resolution
 
 1. **Engineering:** What is the current Bond API performance baseline? Can we achieve <250ms 95%tile?
-2. **Legal:** What is the PCI scope assessment? Do we need Level 1 certification?
-3. **Product:** What is the minimum viable customer recognition for Phase 1? (Phone lookup only?)
-4. **Engineering:** Who owns Agent API development? New team or existing platform team?
-5. **Legal:** Which states require AI disclosure? What is the exact disclosure language?
-6. **Finance:** What are Bland's fees? (Per-minute? Per-resolution? Flat?)
-7. **CS:** What is the target CS time per facility for onboarding?
-8. **Sales:** What is the sales motion? (Add-on? Standalone? Both?)
-9. **Product:** Should Spanish support be a pilot selection criterion?
-10. **Engineering:** What is the fallback if Bland's mass update fails?
+2. **Legal:** Given Stripe handles card data, what exact PCI boundary documentation and contractual language must we still maintain?
+3. **Product:** What is the minimum viable customer recognition for Phase 1? (Phone lookup only, or include account disambiguation?)
+4. **Engineering:** Who owns Agent API delivery and operations? (Platform team, dedicated squad, or mixed model?)
+5. **Legal:** Which states require AI/call recording disclosure for our use cases, and what is the approved script per state group?
+6. **Finance:** What is the fully loaded per-call and per-resolved-call cost, including telephony, STT/TTS, LLM, vendor, and support overhead?
+7. **CS:** What is the target CS effort per facility for onboarding and month-one hypercare?
+8. **Sales:** What is the launch motion and packaging strategy? (Add-on, bundle, standalone, or segment-specific mix?)
+9. **Product + CS:** What are explicit pilot entry/exit criteria and rollback triggers at the facility level?
+10. **Engineering:** What is the tested fallback plan if mass update, telephony, or agent orchestration fails in production?
 
 ---
 
@@ -138,7 +138,7 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 | Legal compliance gaps | Medium | Critical | 🔴 Blocking pilot launch |
 | Baseline competitive threat | Confirmed | High | 🔴 Baseline live with EmbedReach voice AI in Bond's ICP — differentiate on depth |
 | Mass update failure | Medium | High | ⚠️ Needs technical design |
-| Spanish language gap | Medium | Medium | ⚠️ Needs discovery |
+| Monitoring/incident response gap | Medium | Medium | ⚠️ Needs runbook + ownership |
 | Pilot success gate too aggressive | Medium | Medium | ⚠️ Consider phased criteria |
 
 ---

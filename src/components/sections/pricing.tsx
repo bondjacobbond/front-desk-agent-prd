@@ -10,8 +10,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, TrendingUp } from "lucide-react";
-import { pricingTiers, revenueProjections } from "@/lib/prd-data";
-import { cn } from "@/lib/utils";
+import { pricingModel, revenueProjections } from "@/lib/prd-data";
 
 export function PricingSection() {
   return (
@@ -19,65 +18,62 @@ export function PricingSection() {
       <SectionLabel>Business Model</SectionLabel>
       <SectionTitle>Pricing and revenue</SectionTitle>
       <SectionDescription>
-        Momence validated $399/mo for text-only AI. Bond&apos;s voice-first
-        agent delivers higher value and should command comparable or higher
-        pricing.
+        Keep pricing simple at launch: one flat fee per facility. Momence
+        validated $399/mo for text-only AI, so Bond can launch with a clear
+        and easy-to-understand price point.
       </SectionDescription>
 
-      {/* Pricing tiers */}
-      <div className="mt-10 grid gap-4 md:grid-cols-3">
-        {pricingTiers.map((tier, i) => (
-          <motion.div
-            key={tier.name}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
-          >
-            <Card
-              className={cn(
-                "relative h-full rounded-2xl transition-all hover:shadow-lg",
-                tier.popular
-                  ? "border-2 border-bond-navy shadow-md"
-                  : "border-border/50"
-              )}
-            >
-              {tier.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge className="rounded-full bg-bond-navy px-3 py-1 text-[10px] font-bold text-white">
-                    Recommended
-                  </Badge>
-                </div>
-              )}
-              <CardContent className="p-6">
-                <h3 className="font-display text-base font-bold text-foreground">
-                  {tier.name}
-                </h3>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  {tier.target}
-                </p>
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span className="font-display text-3xl font-bold text-bond-navy">
-                    {tier.price}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    {tier.period}
-                  </span>
-                </div>
-                <ul className="mt-5 space-y-2.5">
-                  {tier.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2">
-                      <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-bond-navy/10">
-                        <Check className="h-2.5 w-2.5 text-bond-navy" />
-                      </div>
-                      <span className="text-sm text-muted-foreground">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
+      {/* Simple flat pricing */}
+      <div className="mt-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+        >
+          <Card className="relative rounded-2xl border-2 border-bond-navy shadow-md">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <Badge className="rounded-full bg-bond-navy px-3 py-1 text-[10px] font-bold text-white">
+                Simple Launch Pricing
+              </Badge>
+            </div>
+            <CardContent className="p-6">
+              <h3 className="font-display text-base font-bold text-foreground">
+                {pricingModel.name}
+              </h3>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {pricingModel.target}
+              </p>
+              <div className="mt-4 flex items-baseline gap-1">
+                <span className="font-display text-3xl font-bold text-bond-navy">
+                  {pricingModel.price}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  {pricingModel.period}
+                </span>
+              </div>
+              <ul className="mt-5 space-y-2.5">
+                {pricingModel.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-2">
+                    <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-bond-navy/10">
+                      <Check className="h-2.5 w-2.5 text-bond-navy" />
+                    </div>
+                    <span className="text-sm text-muted-foreground">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <ul className="mt-4 space-y-2">
+                {pricingModel.notes.map((note) => (
+                  <li key={note} className="text-xs text-muted-foreground">
+                    {note}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
 
       {/* Revenue projections */}

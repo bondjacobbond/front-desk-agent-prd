@@ -235,3 +235,10 @@ import { cn } from "@/lib/utils";
 - Focus on clarity, readability, and visual appeal
 - The PRD content drives the structure and features
 - Keep the codebase maintainable and easy to update as PRD evolves
+
+## Content Sync Requirement
+
+- When updating review decisions, open questions, or resolution priorities, always update both documentation and frontend data in the same change:
+  - `PRD_REVIEW_SUMMARY.md`
+  - `PRD_REVIEW_COUNCIL.md`
+  - `src/lib/prd-data.ts` (the frontend source of truth for rendered PRD decision content)

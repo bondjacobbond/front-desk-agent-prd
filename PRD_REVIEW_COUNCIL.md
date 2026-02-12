@@ -18,7 +18,7 @@ This document contains comprehensive reviews from seven distinct perspectives on
 - ⚠️ Agent API specification needs more detail before engineering commitment
 - ⚠️ Legal/compliance gates must be resolved before pilot
 - ⚠️ Mass update capability is a critical risk that needs validation
-- ⚠️ Spanish language support may need earlier prioritization
+- ⚠️ Monitoring and incident response plan is underspecified for pilot reliability
 
 ---
 
@@ -55,9 +55,9 @@ This document contains comprehensive reviews from seven distinct perspectives on
    - **Issue:** Phase 1 includes "Customer Recognition" as P1, but this requires phone number → customer matching which may be incomplete (many callers use mobile numbers not in Bond system)
    - **Recommendation:** Clarify Phase 1 customer recognition scope. Is it "recognize if phone number exists in Bond" or "full customer context"? If the latter, this is a P0 dependency.
 
-2. **Multi-Language Support Timing**
-   - **Issue:** Spanish is marked as Phase 3, but demographic data suggests many facilities serve Spanish-speaking communities. This could be a pilot blocker.
-   - **Recommendation:** Add discovery item: "Survey pilot facilities for Spanish-speaking call volume. If >20% of calls, move Spanish to Phase 2."
+2. **Pilot Reliability Readiness**
+   - **Issue:** Pilot reliability requirements are defined, but monitoring, alerting, and incident ownership are not explicit.
+   - **Recommendation:** Add an operational readiness plan with telemetry, alert thresholds, on-call ownership, and rollback triggers.
 
 3. **Pilot Success Gates Are Too Aggressive**
    - **Issue:** Day 60 gate requires "80% resolved calls" but definition requires 300 calls minimum. For 5 facilities, that's 60 calls each. If facilities average 50 calls/week, that's only 1.2 weeks of data.
@@ -76,13 +76,13 @@ This document contains comprehensive reviews from seven distinct perspectives on
 ### Questions for Resolution
 
 1. What is the minimum viable customer recognition capability for Phase 1? (Phone number lookup only? Full customer history?)
-2. Should Spanish support be a pilot selection criterion? (Only select facilities with <10% Spanish-speaking callers?)
+2. What are explicit pilot entry/exit criteria and rollback triggers at the facility level?
 3. What is the escalation plan if Bland pilot fails the 60-day evaluation? (Immediate switch to build? Alternative vendor?)
 4. How do we measure "platform stickiness" quantitatively? (Churn rate delta? Feature adoption? NPS?)
 
 ### Overall Assessment: **8.5/10**
 
-Strong strategic foundation, but needs resolution on customer recognition scope, Spanish language timing, and competitive response planning.
+Strong strategic foundation, but needs resolution on customer recognition scope, pilot reliability operations, and competitive response planning.
 
 ---
 
@@ -382,13 +382,13 @@ Pricing is validated, but sales motion and enablement materials need definition.
 
 ### Critical Concerns
 
-1. **PCI Compliance Approach Is Incomplete**
-   - **Issue:** PRD mentions "tokenized DTMF + tokenized processing or agent sends secure SMS payment link" but doesn't specify:
-     - Which approach is recommended?
-     - What is the PCI scope assessment?
-     - Who is responsible for PCI compliance? (Bond? Vendor? Both?)
-     - What is the audit requirement?
-   - **Recommendation:** Legal must provide written PCI compliance plan before pilot. Recommend SMS payment link approach (reduces PCI scope).
+1. **Payment Compliance Boundary Must Be Documented**
+   - **Issue:** Stripe handles card data, but PRD does not yet define:
+     - Exact PCI boundary and residual scope for Bond and vendors
+     - Required contractual terms and attestations
+     - Approved payment flow patterns in voice calls
+     - Internal owner for ongoing compliance evidence
+   - **Recommendation:** Legal + Security should publish a written Stripe-based payment compliance boundary and ownership matrix before pilot.
 
 2. **AI Disclosure Requirements Are State-Specific**
    - **Issue:** PRD recommends "always disclose" but doesn't specify:
@@ -442,14 +442,14 @@ Pricing is validated, but sales motion and enablement materials need definition.
 
 ### Questions for Resolution
 
-1. What is the PCI scope assessment? Do we need PCI Level 1 certification?
+1. With Stripe as processor, what exact PCI boundary documentation and contractual language are still required before pilot?
 2. Can we get legal signoff before pilot launch? (Timeline?)
 3. What is the liability cap for agent errors? (Same as Bond platform? Different?)
 4. Do we need terms of service updates for AI agent feature?
 
 ### Overall Assessment: **6/10**
 
-Compliance considerations are identified but need detailed legal review and written policies before pilot. PCI and disclosure requirements are critical path.
+Compliance considerations are identified but need detailed legal review and written policies before pilot. Stripe boundary documentation and disclosure requirements are critical path.
 
 ---
 
@@ -666,7 +666,7 @@ Pilot plan is structured, but onboarding and support processes need detailed def
    - **Timeline:** Before Month 1, Week 3-4
 
 2. **Legal/Compliance Signoff** (Legal)
-   - PCI compliance plan (written)
+   - Stripe-based payment compliance boundary and ownership matrix (written)
    - AI disclosure scripts (state-by-state)
    - Recording consent compliance plan
    - Data retention policy
@@ -703,11 +703,12 @@ Pilot plan is structured, but onboarding and support processes need detailed def
    - **Owner:** UX Lead
    - **Timeline:** Before Month 2, Week 3-4
 
-7. **Spanish Language Discovery** (Product)
-   - Survey pilot facilities for Spanish call volume
-   - Decision criteria for Phase 2 vs. Phase 3
-   - **Owner:** PM
-   - **Timeline:** Before pilot facility selection
+7. **Monitoring & Incident Response Plan** (Engineering/CS)
+   - Production telemetry and alert thresholds
+   - On-call ownership and escalation workflow
+   - Facility-level rollback triggers and runbook
+   - **Owner:** Engineering Lead, CS Lead
+   - **Timeline:** Before pilot launch
 
 8. **Sales Enablement Materials** (Sales)
    - ROI calculator
