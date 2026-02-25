@@ -109,28 +109,36 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 
 ---
 
-## Recommended Next Steps
+## Recommended Approach: ElevenLabs-First Pilot
 
-1. **Immediate (This Week) — Post Bland Demo (Feb 19):**
-   - Review Bland's formal commercial proposal when received
-   - Model unit economics at 3, 50, and 150 facility scale with Bland pricing ($150K + $0.30/min)
-   - Decide: pilot voice-only with Bland, or require email solution before pilot?
-   - Scope email channel alternatives (Zendesk integration, separate provider, or defer)
-   - Scope API integration effort for embedding Bland data into Bond's back office
+**Decision rationale:** Bland's $150K minimum is an enterprise commitment, not a trial. Bond cannot validate product-market fit at that price point. ElevenLabs provides the voice, workflow, knowledge base, and analytics infrastructure at $0.09-0.10/min with no minimum — and Bond already has a working prototype (Palm Beach Skate Zone, Feb 2026). Bland remains a strong escalation path if the ElevenLabs pilot hits production quality walls.
 
-2. **Short-Term (Next 2 Weeks):**
-   - Complete Agent API v1 specification (Bland webhook nodes need Bond API endpoints)
-   - Obtain legal signoff on compliance approach (note: Bland demo agent did not self-identify as AI)
-   - Negotiate Bland commercial terms (time-boxed commitment for concessions)
-   - Design white-label data access model (how Bond surfaces Bland call data to facility customers)
-   - Create onboarding playbook draft
+### Next Steps
 
-3. **Before Pilot Launch:**
-   - Complete all critical path items
-   - Validate cost economics model with actual Bland pricing
-   - Finalize admin UI design
-   - Complete CS training materials
-   - Work with Bland managed services team to build and tune pilot agent (~2 month ramp)
+1. **Immediate (This Week):**
+   - Deepen ElevenLabs prototype: connect to Bond data via custom tools/webhooks, stress-test with realistic scenarios
+   - Begin Agent API v1 specification (ElevenLabs custom tools need Bond API endpoints)
+   - Identify 3 pilot facilities and begin knowledge base preparation (FAQs, policies, schedules)
+   - Obtain legal signoff on AI disclosure policy (note: must decide whether agent identifies as AI)
+   - Optional: scope Blank Metal 1-sprint engagement ($30-50K) for architecture guidance
+
+2. **Short-Term (Next 2-4 Weeks):**
+   - Build Bond orchestration layer on ElevenLabs: multi-location variable system, facility-specific knowledge bases, call routing
+   - Design and build call log/transcript dashboard in Bond admin (Bond owns the data layer directly — no third-party embedding)
+   - Create onboarding playbook draft for pilot facilities
+   - Model unit economics: estimated call minutes per facility, ElevenLabs + LLM costs, margin analysis at $399/mo
+
+3. **Before Pilot Launch (Months 2-4):**
+   - Complete Agent API v1 and connect to ElevenLabs via custom tools
+   - Production-harden with test calls, iterate on conversation flows and knowledge base
+   - Deploy to 3 pilot facilities with active monitoring
+   - Build QA practice: listen to early calls, tune agent responses, track quality metrics
+   - Keep Bland relationship warm — receive their proposal, defer signing until pilot data exists
+
+4. **Post-Pilot Decision Point (Month 5-6):**
+   - Evaluate ElevenLabs pilot: voice quality, resolution rate, customer satisfaction, edge case handling
+   - If quality is sufficient: scale to 50+ facilities on ElevenLabs, continue building
+   - If quality gaps exist: bring Bland data to negotiation table — real call volumes and use cases = better terms
 
 ---
 
@@ -159,14 +167,15 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 
 ### Impact on PRD Decisions
 
-| Decision | Previous Status | New Status |
+| Decision | Previous Status | Current Status |
 |----------|----------------|------------|
-| Voice provider selection | Open | Narrowing — Bland validated as pilot partner |
-| LLM provider strategy | Open | Informed — Bland proprietary LLM for pilot; long-term agnostic |
-| Mass update capability | Critical risk | Largely resolved via Bland's modular pathways |
-| Pricing model | Open | Critical — $150K floor changes unit economics |
-| Email channel | Assumed bundled | New gap — needs separate solution |
-| Monitoring | Open | Partially addressed — Bland provides metrics; Bond needs own layer |
+| Voice provider selection | Open | **Decided — ElevenLabs for pilot** (prototype built). Bland is escalation path. |
+| LLM provider strategy | Open | **Decided — BYO Model via ElevenLabs** (Gemini 2.5 Flash tested, model-agnostic) |
+| Mass update capability | Critical risk | Bond builds to own spec (ElevenLabs approach). Bland's modular pathways validated as fallback. |
+| Pricing model | Open | **Simplified** — no $150K floor. ElevenLabs usage ~$18-20/facility/month at $0.09-0.10/min |
+| Email channel | Assumed bundled | **Solved by build path** — Bond orchestration layer handles email as a channel directly |
+| Monitoring | Open | Bond builds own monitoring (ElevenLabs provides basic analytics; Bond extends for production) |
+| Bland relationship | Recommended for pilot | **Deprioritized to escalation path** — $150K minimum not viable as trial |
 
 ### Updated Bland Score
 
@@ -182,14 +191,14 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 
 | Risk | Likelihood | Impact | Mitigation Status |
 |------|------------|--------|-------------------|
-| Agent API spec delay | High | Critical | ⚠️ Needs immediate attention — Bland webhook nodes need Bond API endpoints |
-| Legal compliance gaps | Medium | Critical | 🔴 Blocking pilot launch — Bland demo did not self-identify as AI |
+| Agent API spec delay | High | Critical | ⚠️ Needs immediate attention — ElevenLabs custom tools need Bond API endpoints |
+| Legal compliance gaps | Medium | Critical | 🔴 Blocking pilot launch — must define AI disclosure policy |
 | Baseline competitive threat | Confirmed | High | 🔴 Baseline live with EmbedReach voice AI in Bond's ICP — differentiate on depth |
-| Mass update failure | Low | High | ✅ Largely resolved — Bland's modular pathway config demonstrated |
-| Cost economics with Bland pricing | Medium-High | High | ⚠️ $150K/yr minimum + $0.30/min — need 32+ facilities to cover platform costs |
-| Email channel gap | Confirmed | Medium | ⚠️ Bland doesn't support email (Bond's #2 channel) — need separate solution |
-| Bland vendor dependency | Medium | Medium | ⚠️ Proprietary Conversational Pathways — architect Bond layer as vendor-agnostic |
-| Monitoring/incident response gap | Medium | Medium | ⚠️ Bland provides metrics; Bond needs own monitoring layer |
+| ElevenLabs production quality gap | Medium | High | ⚠️ Key risk of build path — voice latency, turn-taking, interruption handling may not match Bland without tuning. Bland is escalation path if gaps can't be closed. |
+| Production-hardening without managed services | Medium | Medium | ⚠️ Bond must build own QA/monitoring practice. No Bland team listening to first 100 calls. Mitigate: manual call review, Blank Metal guidance. |
+| Cost economics with ElevenLabs | Low | Low | ✅ Dramatically simplified — $0.09-0.10/min with no platform fee. $399/mo has strong margins from day one. |
+| Email channel gap | Low | Low | ✅ Resolved — ElevenLabs build path allows Bond to handle email as a channel in its own orchestration layer |
+| Monitoring/incident response gap | Medium | Medium | ⚠️ Bond must build production telemetry, alerting, and on-call process. ElevenLabs provides basic analytics. |
 | Pilot success gate too aggressive | Medium | Medium | ⚠️ Consider phased criteria |
 
 ---
@@ -201,14 +210,14 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 The PRD provides an excellent strategic foundation, but execution readiness requires completion of critical path items. Recommend proceeding with stakeholder review and parallel work on critical items.
 
 **Conditions for Pilot Launch:**
-- [ ] Agent API v1 specification complete (Bland webhook endpoints defined)
+- [ ] Agent API v1 specification complete (ElevenLabs custom tool endpoints defined)
 - [ ] Legal/compliance signoff obtained (including AI disclosure policy)
-- [x] Mass update system designed (Bland modular pathways validated Feb 19)
+- [ ] Multi-location variable system built on ElevenLabs platform
 - [ ] Onboarding playbook created
-- [ ] Cost economics model validated (with actual Bland enterprise pricing)
-- [ ] Bland commercial terms agreed ($150K+ negotiation)
-- [ ] Email channel strategy decided (defer, integrate, or separate provider)
-- [ ] White-label data access model scoped (API embedding for facility customers)
+- [ ] Cost economics model validated (ElevenLabs usage + LLM inference at $399/mo price point)
+- [ ] Call log/transcript dashboard built in Bond admin
+- [ ] 3 pilot facility knowledge bases populated
+- [ ] QA monitoring practice established (who listens to calls, how issues are flagged)
 
 ---
 

@@ -64,20 +64,41 @@ export function CompetitiveSection() {
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   {c.ai}
                 </p>
-                <div className="mt-4 flex items-center justify-between border-t border-border/50 pt-3">
-                  <div className="flex items-center gap-1.5 text-xs">
-                    {c.voice ? (
-                      <Check className="h-3.5 w-3.5 text-green-600" />
-                    ) : (
-                      <X className="h-3.5 w-3.5 text-red-400" />
-                    )}
-                    <span className="text-muted-foreground">
+                <div className="mt-4 space-y-3 border-t border-border/50 pt-3">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs">
+                    <div className="flex items-center gap-1.5">
+                      {c.voice ? (
+                        <Check className="h-3.5 w-3.5 text-green-600" />
+                      ) : (
+                        <X className="h-3.5 w-3.5 text-red-400" />
+                      )}
+                      <span className="text-muted-foreground">Voice</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      {c.email ? (
+                        <Check className="h-3.5 w-3.5 text-green-600" />
+                      ) : (
+                        <X className="h-3.5 w-3.5 text-red-400" />
+                      )}
+                      <span className="text-muted-foreground">Email</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      {c.text ? (
+                        <Check className="h-3.5 w-3.5 text-green-600" />
+                      ) : (
+                        <X className="h-3.5 w-3.5 text-red-400" />
+                      )}
+                      <span className="text-muted-foreground">Text</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">
                       {c.voiceLabel}
                     </span>
+                    <span className="text-xs font-medium text-muted-foreground">
+                      {c.pricing}
+                    </span>
                   </div>
-                  <span className="text-xs font-medium text-muted-foreground">
-                    {c.pricing}
-                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -105,16 +126,33 @@ export function CompetitiveSection() {
             </Badge>
           </div>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Planned: Voice + email + chat, fully integrated with Bond as system
+            Planned: Voice + email + text, fully integrated with Bond as system
             of record. $250-500/mo target pricing. Baseline&apos;s EmbedReach-powered
             agent handles FAQs and sends links — Bond&apos;s agent will go deeper:
             real-time data, in-call booking, customer recognition, and proactive
             outreach. The moat is being the system of record.
           </p>
-          <div className="mt-4 flex items-center gap-2 text-sm font-medium text-bond-navy">
+          <div className="mt-3 flex items-center gap-4 text-xs">
+            <div className="flex items-center gap-1.5">
+              <Check className="h-3.5 w-3.5 text-green-600" />
+              <span className="text-muted-foreground">Voice</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Check className="h-3.5 w-3.5 text-green-600" />
+              <span className="text-muted-foreground">Email</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Check className="h-3.5 w-3.5 text-green-600" />
+              <span className="text-muted-foreground">Text</span>
+            </div>
+          </div>
+          <a
+            href="#competitive"
+            className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-bond-navy transition-colors hover:text-bond-navy-dark hover:underline"
+          >
             Read full competitive analysis
             <ArrowRight className="h-4 w-4" />
-          </div>
+          </a>
         </CardContent>
       </Card>
 

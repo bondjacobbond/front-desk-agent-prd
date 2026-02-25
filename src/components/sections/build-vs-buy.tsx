@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   SectionWrapper,
   SectionLabel,
@@ -10,19 +11,15 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { vendors, evaluationCriteria } from "@/lib/prd-data";
-import { Check, X, AlertCircle, Star } from "lucide-react";
+import { Check, X, AlertCircle, Star, ChevronDown } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 
 const tierColors: Record<string, string> = {
   "Tier 1 - Recommended for Pilot": "bg-green-50 text-green-700 border-green-200",
-  "Tier 1 - Recommended for Pilot (Demo Validated)": "bg-green-50 text-green-700 border-green-200",
-  "Tier 1 - Viable Alternative (ElevenLabs approach)": "bg-blue-50 text-blue-700 border-blue-200",
-  "Tier 1 - Long-term Best Option": "bg-blue-50 text-blue-700 border-blue-200",
-  "Foundation for Build In-House (Reassessed Feb 2026)": "bg-blue-50 text-blue-700 border-blue-200",
+  "Tier 1 - Escalation Path / Scale Option (Demo Validated)": "bg-blue-50 text-blue-700 border-blue-200",
   "Tier 2 - Monitor": "bg-yellow-50 text-yellow-700 border-yellow-200",
   "Tier 3 - Not Recommended": "bg-red-50 text-red-700 border-red-200",
-  "Infrastructure Component": "bg-purple-50 text-purple-700 border-purple-200",
-  "Build Accelerator": "bg-indigo-50 text-indigo-700 border-indigo-200",
 };
 
 function ScoreBox({ score }: { score: number | null }) {
@@ -44,7 +41,7 @@ function ScoreBox({ score }: { score: number | null }) {
 
   return (
     <span
-      className={`inline-flex h-7 w-7 items-center justify-center rounded-md border text-xs font-bold ${getScoreColor(score)}`}
+      className={`inline-flex h-7 min-w-7 items-center justify-center rounded-md border px-1.5 text-xs font-bold ${getScoreColor(score)}`}
     >
       {score}
     </span>
@@ -55,8 +52,6 @@ export function BuildVsBuySection() {
   const tier1Vendors = vendors.filter((v) => v.tier.includes("Tier 1"));
   const tier2Vendors = vendors.filter((v) => v.tier.includes("Tier 2"));
   const tier3Vendors = vendors.filter((v) => v.tier.includes("Tier 3"));
-  const infrastructureVendors = vendors.filter((v) => v.tier.includes("Infrastructure") || v.tier.includes("Build Accelerator"));
-
   return (
     <SectionWrapper id="build-vs-buy">
       <SectionLabel>Build vs. Buy Analysis</SectionLabel>
@@ -112,6 +107,8 @@ export function BuildVsBuySection() {
                   <tr>
                     <th className="text-left p-3 font-semibold text-foreground">Vendor</th>
                     <th className="text-center p-3 font-semibold text-foreground">Voice</th>
+                    <th className="text-center p-3 font-semibold text-foreground">Email</th>
+                    <th className="text-center p-3 font-semibold text-foreground">Text</th>
                     <th className="text-center p-3 font-semibold text-foreground">Multi-Tenant</th>
                     <th className="text-center p-3 font-semibold text-foreground">Integration</th>
                     <th className="text-center p-3 font-semibold text-foreground">Actions</th>
@@ -119,7 +116,7 @@ export function BuildVsBuySection() {
                     <th className="text-center p-3 font-semibold text-foreground">Time</th>
                     <th className="text-center p-3 font-semibold text-foreground">Cost</th>
                     <th className="text-center p-3 font-semibold text-foreground">Control</th>
-                    <th className="text-center p-3 font-semibold text-bond-navy sticky right-0 bg-muted/50 z-10 border-l-2 border-r border-t border-b border-border min-w-[90px]">Total</th>
+                    <th className="text-center p-3 font-semibold text-bond-navy sticky right-0 z-10 min-w-[100px] border-l-2 border-border bg-muted shadow-[inset_4px_0_6px_-2px_rgba(0,0,0,0.08)]">Total</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -128,6 +125,12 @@ export function BuildVsBuySection() {
                       <td className="p-3 font-medium text-foreground">{vendor.name}</td>
                       <td className="text-center p-3">
                         <ScoreBox score={vendor.scores.voice} />
+                      </td>
+                      <td className="text-center p-3">
+                        <ScoreBox score={vendor.scores.email} />
+                      </td>
+                      <td className="text-center p-3">
+                        <ScoreBox score={vendor.scores.text} />
                       </td>
                       <td className="text-center p-3">
                         <ScoreBox score={vendor.scores.multiTenancy} />
@@ -150,7 +153,7 @@ export function BuildVsBuySection() {
                       <td className="text-center p-3">
                         <ScoreBox score={vendor.scores.strategicControl} />
                       </td>
-                      <td className={`text-center p-3 sticky right-0 z-10 border-l-2 border-r border-t border-b border-border min-w-[90px] ${idx % 2 === 0 ? "bg-muted/20" : "bg-white"}`}>
+                      <td className={`text-center p-3 sticky right-0 z-10 min-w-[100px] border-l-2 border-border shadow-[inset_4px_0_6px_-2px_rgba(0,0,0,0.08)] ${idx % 2 === 0 ? "bg-muted" : "bg-white"}`}>
                         <ScoreBox score={vendor.score} />
                       </td>
                     </tr>
@@ -164,11 +167,10 @@ export function BuildVsBuySection() {
 
       {/* Vendor Cards by Tier */}
       <Tabs defaultValue="tier1" className="mt-10">
-        <TabsList className="grid w-full grid-cols-4 mb-6">
+        <TabsList className="grid w-full grid-cols-3 mb-6">
           <TabsTrigger value="tier1">Tier 1</TabsTrigger>
           <TabsTrigger value="tier2">Tier 2</TabsTrigger>
           <TabsTrigger value="tier3">Tier 3</TabsTrigger>
-          <TabsTrigger value="infrastructure">Infrastructure</TabsTrigger>
         </TabsList>
 
         <TabsContent value="tier1" className="space-y-6">
@@ -188,12 +190,6 @@ export function BuildVsBuySection() {
             <VendorCard key={vendor.name} vendor={vendor} index={i} />
           ))}
         </TabsContent>
-
-        <TabsContent value="infrastructure" className="space-y-6">
-          {infrastructureVendors.map((vendor, i) => (
-            <VendorCard key={vendor.name} vendor={vendor} index={i} />
-          ))}
-        </TabsContent>
       </Tabs>
 
       {/* Strategic Recommendation */}
@@ -207,10 +203,11 @@ export function BuildVsBuySection() {
               </h3>
             </div>
             <p className="text-sm leading-relaxed text-muted-foreground mb-6">
-              <span className="font-semibold text-foreground">Hybrid approach with parallel de-risking:</span>{" "}
-              Own the data and business logic (Bond&apos;s moat), buy commodity infrastructure (voice, telephony), 
-              and pilot the orchestration layer with Bland while building in parallel. The 60-day Bland pilot 
-              produces real customer feedback while Bond builds the Agent API foundation that every future Bond Agent will run on.
+              <span className="font-semibold text-foreground">Build on ElevenLabs, prove demand cheaply, keep Bland as escalation path.</span>{" "}
+              ElevenLabs provides voice, workflows, knowledge bases, and analytics at $0.09-0.10/min with no minimum commitment.
+              Bond builds the orchestration layer and Agent API (the real moat) on top. Pilot at 3 facilities for near-zero
+              platform cost. If production quality gaps emerge, Bland&apos;s managed services become the answer — and Bond
+              negotiates from strength with real call data. Either way, Bond owns the intelligence layer.
             </p>
             <div className="grid gap-4 md:grid-cols-3">
               <Card className="rounded-xl border-border/50">
@@ -224,8 +221,9 @@ export function BuildVsBuySection() {
                   <ul className="space-y-1.5">
                     {[
                       "Agent API & Business Logic",
-                      "Policy Engine & Admin Config",
-                      "Confidence Scoring",
+                      "Orchestration & Conversation Flows",
+                      "Multi-Location Config & Admin",
+                      "Call Dashboard & Monitoring",
                     ].map((item) => (
                       <li
                         key={item}
@@ -244,13 +242,14 @@ export function BuildVsBuySection() {
                     variant="outline"
                     className="mb-3 rounded-full border-bond-gold/20 text-xs font-semibold text-bond-gold"
                   >
-                    Buy (Commodity)
+                    ElevenLabs (Foundation)
                   </Badge>
                   <ul className="space-y-1.5">
                     {[
-                      "Voice Infrastructure (ElevenLabs)",
-                      "Telephony (Twilio)",
-                      "Foundation LLM",
+                      "Voice Quality & TTS/STT",
+                      "Workflow Engine & RAG",
+                      "Custom Tools (webhooks)",
+                      "$0.09/min, no minimums",
                     ].map((item) => (
                       <li
                         key={item}
@@ -269,13 +268,13 @@ export function BuildVsBuySection() {
                     variant="outline"
                     className="mb-3 rounded-full border-bond-navy-light/20 text-xs font-semibold text-bond-navy-light"
                   >
-                    Pilot → Evaluate
+                    Bland (Escalation Path)
                   </Badge>
                   <ul className="space-y-1.5">
                     {[
-                      "Bland AI (60-day pilot)",
-                      "1-2 facilities",
-                      "Decision trigger at day 60",
+                      "If quality gaps can't be closed",
+                      "Managed production-hardening",
+                      "Negotiate with real pilot data",
                     ].map((item) => (
                       <li
                         key={item}
@@ -296,7 +295,59 @@ export function BuildVsBuySection() {
   );
 }
 
+const PREVIEW_COUNT = 3;
+
+function ExpandableList({
+  items,
+  icon,
+  iconColor,
+  dotColor,
+  label,
+}: {
+  items: string[];
+  icon: React.ReactNode;
+  iconColor: string;
+  dotColor: string;
+  label: string;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const hasMore = items.length > PREVIEW_COUNT;
+  const visible = expanded ? items : items.slice(0, PREVIEW_COUNT);
+  const remaining = items.length - PREVIEW_COUNT;
+
+  return (
+    <div>
+      <div className="flex items-center gap-2 mb-2">
+        {icon}
+        <h5 className="text-xs font-semibold text-foreground">
+          {label}
+          <span className="ml-1.5 font-normal text-muted-foreground">({items.length})</span>
+        </h5>
+      </div>
+      <ul className="space-y-1.5">
+        {visible.map((item) => (
+          <li key={item} className="flex items-start gap-2 text-xs text-muted-foreground">
+            <div className={cn("mt-1 h-1 w-1 shrink-0 rounded-full", dotColor)} />
+            {item}
+          </li>
+        ))}
+      </ul>
+      {hasMore && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="mt-2 flex items-center gap-1 text-[11px] font-medium text-bond-navy hover:text-bond-navy-dark transition-colors"
+        >
+          <ChevronDown className={cn("h-3 w-3 transition-transform", expanded && "rotate-180")} />
+          {expanded ? "Show less" : `Show ${remaining} more`}
+        </button>
+      )}
+    </div>
+  );
+}
+
 function VendorCard({ vendor, index }: { vendor: typeof vendors[0]; index: number }) {
+  const [showPricing, setShowPricing] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -326,55 +377,8 @@ function VendorCard({ vendor, index }: { vendor: typeof vendors[0]; index: numbe
             </div>
           </div>
 
-          {/* Pricing */}
-          <div className="mb-4 p-3 rounded-lg bg-muted/30">
-            <p className="text-xs font-semibold text-foreground mb-2">Pricing Model: {vendor.pricing.model}</p>
-            <div className="space-y-1">
-              {vendor.pricing.plans.map((plan) => (
-                <div key={plan.name} className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">{plan.name}:</span>
-                  <span className="font-medium text-foreground">
-                    {plan.price} {plan.rate && `• ${plan.rate}`}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Strengths & Weaknesses */}
-          <div className="grid gap-4 md:grid-cols-2 mb-4">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Check className="h-4 w-4 text-green-600" />
-                <h5 className="text-xs font-semibold text-foreground">Strengths</h5>
-              </div>
-              <ul className="space-y-1.5">
-                {vendor.strengths.map((strength) => (
-                  <li key={strength} className="flex items-start gap-2 text-xs text-muted-foreground">
-                    <div className="mt-1 h-1 w-1 shrink-0 rounded-full bg-green-600" />
-                    {strength}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <X className="h-4 w-4 text-red-400" />
-                <h5 className="text-xs font-semibold text-foreground">Weaknesses</h5>
-              </div>
-              <ul className="space-y-1.5">
-                {vendor.weaknesses.map((weakness) => (
-                  <li key={weakness} className="flex items-start gap-2 text-xs text-muted-foreground">
-                    <div className="mt-1 h-1 w-1 shrink-0 rounded-full bg-red-400" />
-                    {weakness}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Verdict */}
-          <div className="pt-4 border-t border-border/50">
+          {/* Verdict (promoted to top — most important context) */}
+          <div className="mb-4 p-3 rounded-lg bg-bond-navy/[0.03] border border-bond-navy/10">
             <div className="flex items-start gap-2">
               <AlertCircle className="h-4 w-4 text-bond-navy mt-0.5 shrink-0" />
               <div>
@@ -382,6 +386,57 @@ function VendorCard({ vendor, index }: { vendor: typeof vendors[0]; index: numbe
                 <p className="text-xs leading-relaxed text-muted-foreground">{vendor.verdict}</p>
               </div>
             </div>
+          </div>
+
+          {/* Pricing (collapsible) */}
+          <div className="mb-4">
+            <button
+              onClick={() => setShowPricing(!showPricing)}
+              className="flex items-center gap-2 text-xs font-semibold text-foreground hover:text-bond-navy transition-colors w-full"
+            >
+              <ChevronDown className={cn("h-3.5 w-3.5 transition-transform text-muted-foreground", showPricing && "rotate-180")} />
+              Pricing: {vendor.pricing.model}
+            </button>
+            <AnimatePresence>
+              {showPricing && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="mt-2 p-3 rounded-lg bg-muted/30 space-y-1">
+                    {vendor.pricing.plans.map((plan) => (
+                      <div key={plan.name} className="flex items-center justify-between text-xs">
+                        <span className="text-muted-foreground">{plan.name}:</span>
+                        <span className="font-medium text-foreground">
+                          {plan.price} {plan.rate && `• ${plan.rate}`}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Strengths & Weaknesses */}
+          <div className="grid gap-4 md:grid-cols-2">
+            <ExpandableList
+              items={vendor.strengths}
+              icon={<Check className="h-4 w-4 text-green-600" />}
+              iconColor="text-green-600"
+              dotColor="bg-green-600"
+              label="Strengths"
+            />
+            <ExpandableList
+              items={vendor.weaknesses}
+              icon={<X className="h-4 w-4 text-red-400" />}
+              iconColor="text-red-400"
+              dotColor="bg-red-400"
+              label="Weaknesses"
+            />
           </div>
         </CardContent>
       </Card>

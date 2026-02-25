@@ -23,6 +23,7 @@ import {
   Zap,
   Scale,
 } from "lucide-react";
+import { CopyPrdButton } from "@/components/copy-prd-button";
 
 const sections = [
   { id: "hero", label: "Overview", icon: Zap },
@@ -86,6 +87,7 @@ export function Nav() {
                 </p>
               </div>
             </div>
+            <CopyPrdButton className="mt-4 w-full justify-center" />
           </div>
           <div className="flex-1 overflow-y-auto px-3 py-4">
             <ul className="space-y-0.5">
@@ -116,16 +118,18 @@ export function Nav() {
       </nav>
 
       {/* Mobile header */}
-      <header className="fixed left-0 top-0 z-50 flex h-14 w-full items-center justify-between border-b border-border/50 bg-white/80 px-4 backdrop-blur-xl lg:hidden">
-        <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-bond-navy text-xs font-bold text-white">
+      <header className="fixed left-0 top-0 z-50 flex h-14 w-full items-center justify-between gap-2 border-b border-border/50 bg-white/80 px-4 backdrop-blur-xl lg:hidden">
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-bond-navy text-xs font-bold text-white">
             B
           </div>
-          <p className="font-display text-sm font-bold text-bond-navy">
+          <p className="truncate font-display text-sm font-bold text-bond-navy">
             AI Front Desk Agent
           </p>
         </div>
-        <Sheet open={open} onOpenChange={setOpen}>
+        <div className="flex shrink-0 items-center gap-2">
+          <CopyPrdButton size="sm" compact />
+          <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="h-8 w-8">
               <Menu className="h-5 w-5" />
@@ -155,6 +159,7 @@ export function Nav() {
             </div>
           </SheetContent>
         </Sheet>
+        </div>
       </header>
     </>
   );
