@@ -169,7 +169,7 @@ We've spent significant time evaluating this question — meeting with vendors, 
 
 ### Option A: Build In-House (using ElevenLabs + LLM APIs)
 
-**Approach:** Use ElevenLabs for voice infrastructure (STT, TTS, phone integration via Twilio/SIP). Use a frontier LLM (Claude, GPT) for reasoning. Build our own agent orchestration layer, knowledge base management, and staff dashboard. Build the Bond Agent API layer.
+**Approach:** Use ElevenLabs for voice and text infrastructure (STT, TTS, Chat Mode, phone integration via Twilio/SIP). Use a frontier LLM (Claude, GPT) for reasoning. Build our own agent orchestration layer, knowledge base management, and staff dashboard. Build the Bond Agent API layer.
 
 **Pros:**
 
@@ -289,7 +289,7 @@ Matt framed it well: "I think of the vendor more as the wrapper than the intelli
 1. **Build the Bond Agent API layer** — this is the critical investment and the core of Bond's moat. Purpose-built endpoints that give any AI agent structured, permissioned access to Bond's data (schedules, registrations, memberships, customer profiles, policies, pricing).
 2. **Build the policy and business logic engine** — facility-specific rules, cancellation policies, refund workflows, escalation logic, and exception handling. This is Bond's proprietary domain knowledge codified into software. No vendor can replicate this.
 3. **Build or partner for the agentic orchestration layer** — conversation state management, LLM orchestration, intent routing, and multi-turn reasoning. These capabilities are increasingly commodity. Vendors like Bland, Decagon, or a build using frameworks like LangGraph can handle this; Bond's value is in the data and logic the orchestrator calls into, not the orchestrator itself.
-4. **Use ElevenLabs (or similar) for voice infrastructure** — STT, TTS, phone integration. Don't build a voice stack.
+4. **Use ElevenLabs (or similar) for voice and text infrastructure** — STT, TTS, Chat Mode, phone integration. Don't build a voice stack.
 5. **Use Twilio for telephony** — phone number provisioning, call routing, SMS.
 6. **Consider Blank Metal for an initial sprint** — accelerate architecture decisions and get expert guidance on agent design patterns. Hand off to our team for ongoing development.
 7. **Run a 60-day parallel pilot with Bland AI** — Start with 1-2 facilities on Bland while building the Agent API in parallel. This de-risks the timeline and tests the mass update concern in production. If Bland's configuration management at scale proves viable, we can expand. If the mass update issue becomes real (updating 300 pathways individually), we'll have already built the foundation to swap in our own orchestration layer or move to a different vendor.
@@ -1043,11 +1043,11 @@ Annual billing saves 20%.
 
 ---
 
-### Vendor 6: ElevenLabs (Voice Infrastructure)
+### Vendor 6: ElevenLabs (Voice + Text Infrastructure)
 
-**Category:** Voice Infrastructure Provider (STT / TTS / Conversational AI Platform)
+**Category:** Voice & Text Conversational AI Platform (STT / TTS / Chat Mode)
 
-**Overview:** ElevenLabs is a leading voice AI company known for industry-best text-to-speech quality. They offer a Conversational AI platform for building voice agents, combining their proprietary voice models with LLM orchestration. In January 2026, they cut pricing by ~50%, with calls now starting at $0.10/min (Creator/Pro) and $0.08/min (Business annual). ElevenLabs is both a research company (develops underlying audio models) and a product company (builds the conversational orchestration platform).
+**Overview:** ElevenLabs is a leading voice AI company known for industry-best text-to-speech quality. They offer a Conversational AI platform for building voice and text agents. In February 2026, they launched **Chat Mode**, enabling text-only conversational agents (voice agents can enable chat instantly). The platform supports voice, chat, or both. In January 2026, they cut pricing by ~50%, with calls now starting at $0.10/min (Creator/Pro) and $0.08/min (Business annual). ElevenLabs is both a research company (develops underlying audio models) and a product company (builds the conversational orchestration platform).
 
 **Pricing (as of Jan 2026):**
 
@@ -1061,6 +1061,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 
 **Strengths:**
 - Best-in-class voice quality (TTS); industry-leading naturalness and expressiveness
+- **Native text/chat support (Chat Mode, Feb 2026)** — build text-only agents or enable chat on existing voice agents; same knowledge base and reasoning across modalities
 - Conversational AI platform provides both infrastructure and orchestration capabilities
 - Aggressive pricing: $0.08–0.10/min is very competitive for the quality level
 - ElevenLabs owns the research — can optimize cost/quality as models improve
@@ -1090,7 +1091,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 
 **Weighted Score: 2.75 / 5** (as standalone) / **Infrastructure Rating: Excellent**
 
-**Verdict:** ElevenLabs is not a vendor alternative to Bland or Decagon — it's an infrastructure component. The recommended approach uses ElevenLabs (or similar) for voice infrastructure (Layer 2) regardless of whether Bond builds or buys the orchestration layer. Their January 2026 price cut makes them even more attractive. Best used as part of the "Build" option or as the voice layer underneath a vendor orchestrator.
+**Verdict:** ElevenLabs is not a vendor alternative to Bland or Decagon — it's an infrastructure component. The recommended approach uses ElevenLabs (or similar) for voice and text infrastructure (Layer 2) regardless of whether Bond builds or buys the orchestration layer. Their January 2026 price cut and February 2026 Chat Mode launch make them even more attractive. Best used as part of the "Build" option or as the voice+text layer underneath a vendor orchestrator.
 
 ---
 
@@ -1098,7 +1099,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 
 **Category:** Full in-house development using best-in-class infrastructure components
 
-**Overview:** Use ElevenLabs for voice infrastructure ($0.08–0.10/min), a frontier LLM (Claude/GPT) for reasoning, Twilio for telephony, and Bond's engineering team to build the Agent API, orchestration layer, policy engine, admin configuration portal, and conversation dashboard.
+**Overview:** Use ElevenLabs for voice and text infrastructure ($0.08–0.10/min; Chat Mode for text agents), a frontier LLM (Claude/GPT) for reasoning, Twilio for telephony, and Bond's engineering team to build the Agent API, orchestration layer, policy engine, admin configuration portal, and conversation dashboard.
 
 **Strengths:**
 - Full ownership of every layer: data access, business logic, orchestration, and admin experience
@@ -1160,7 +1161,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 | --- | --- | --- |
 | Agent API & Business Logic | **Build (Bond's Moat)** | Bond engineering team; consider Blank Metal for initial sprint |
 | Policy Engine & Admin Config | **Build** | Bond engineering team |
-| Voice Infrastructure (STT/TTS) | **Buy** | ElevenLabs ($0.08–0.10/min) |
+| Voice + Text Infrastructure (STT/TTS/Chat) | **Buy** | ElevenLabs ($0.08–0.10/min) |
 | Telephony | **Buy** | Twilio |
 | Agentic Orchestration | **Pilot with Bland → Evaluate → Build or Continue** | Bland AI (pilot); parallel build using ElevenLabs + LLM APIs |
 | Architecture Acceleration | **Engage (optional)** | Blank Metal ($30–50K/sprint for 2–3 sprints) |

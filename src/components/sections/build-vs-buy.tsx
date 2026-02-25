@@ -203,155 +203,126 @@ export function BuildVsBuySection() {
               </h3>
             </div>
             <p className="text-sm leading-relaxed text-muted-foreground mb-2">
-              <span className="font-semibold text-foreground">Build on ElevenLabs, prove demand cheaply, keep Bland as escalation path.</span>{" "}
-              Bond needs to validate product-market fit before making a major platform commitment.
-              The question isn&apos;t whether Bland is a good product — the demo proved it is — it&apos;s whether
-              Bond can trial an AI agent with real facilities at low risk.
+              <span className="font-semibold text-foreground">Architect for replaceability. Then pick the fastest path to an amazing product.</span>{" "}
+              The voice AI market is commoditizing fast — Bland won&apos;t be this unique in 12 months.
+              Whichever vendor powers the voice layer today, Bond must be able to swap it behind the scenes
+              without a customer noticing. The real question is: what gets the best product in front of
+              facilities fastest so Bond can take the lead?
             </p>
 
-            {/* The Core Argument */}
-            <div className="mt-6 mb-6">
-              <h4 className="text-sm font-bold text-foreground mb-4">Why Bland can&apos;t be a trial</h4>
-              <div className="grid gap-4 md:grid-cols-2">
-                {/* Bland path */}
-                <div className="rounded-xl border border-red-200 bg-red-50/50 p-4 sm:p-5">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-red-100 text-red-700">
-                      <X className="h-3.5 w-3.5" />
-                    </div>
-                    <span className="text-sm font-bold text-red-900">Trial with Bland</span>
+            {/* The Non-Negotiable */}
+            <div className="mt-6 mb-6 rounded-xl border-2 border-bond-navy/15 bg-bond-navy/[0.03] p-4 sm:p-5">
+              <h4 className="text-sm font-bold text-bond-navy-dark mb-3">The non-negotiable: vendor-agnostic architecture</h4>
+              <p className="text-xs leading-relaxed text-muted-foreground mb-3">
+                Regardless of which voice platform is chosen, Bond&apos;s Intelligence Layer (Agent API, orchestration,
+                multi-location config, monitoring) must sit above the vendor as an abstraction. This is Bond&apos;s moat — and
+                it&apos;s what makes the voice platform a replaceable commodity in 12 months when the market catches up.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-4">
+                {[
+                  { label: "Agent API", detail: "Bond-owned business logic" },
+                  { label: "Orchestration", detail: "Conversation flows & routing" },
+                  { label: "Multi-Location Config", detail: "Per-facility knowledge & policies" },
+                  { label: "Monitoring & QA", detail: "Call dashboard & alerting" },
+                ].map((item) => (
+                  <div key={item.label} className="rounded-lg bg-white/60 border border-bond-navy/10 p-3">
+                    <p className="text-xs font-semibold text-bond-navy-dark">{item.label}</p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">{item.detail}</p>
                   </div>
-                  <div className="space-y-3.5">
-                    {[
-                      { label: "Upfront commitment", value: "$150K before a single call", detail: "$100K platform + $50K managed services" },
-                      { label: "Per-minute cost", value: "$0.30/min on top", detail: "Enterprise rate, negotiable with volume" },
-                      { label: "Cost for 3-facility pilot", value: "~$150K+ / year", detail: "Same $150K floor whether you run 3 or 50 facilities" },
-                      { label: "Time to first live call", value: "~2 months", detail: "Managed services onboarding required for production quality" },
-                      { label: "If pilot fails?", value: "$150K sunk", detail: "No incremental path — you pay the full platform fee to learn" },
-                    ].map((row) => (
-                      <div key={row.label} className="border-b border-red-100 pb-3 last:border-0 last:pb-0">
-                        <p className="text-[11px] font-medium text-red-800 mb-0.5">{row.label}</p>
-                        <p className="text-sm font-bold text-red-950">{row.value}</p>
-                        <p className="text-[11px] text-red-700 mt-0.5">{row.detail}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* ElevenLabs path */}
-                <div className="rounded-xl border border-green-200 bg-green-50/50 p-4 sm:p-5">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-700">
-                      <Check className="h-3.5 w-3.5" />
-                    </div>
-                    <span className="text-sm font-bold text-green-900">Trial with ElevenLabs</span>
-                  </div>
-                  <div className="space-y-3.5">
-                    {[
-                      { label: "Upfront commitment", value: "$0 platform fee", detail: "Usage-based from day one, no minimums" },
-                      { label: "Per-minute cost", value: "$0.09-0.10/min", detail: "3x cheaper than Bland, bundled minutes on higher plans" },
-                      { label: "Cost for 3-facility pilot", value: "~$55-60/mo usage", detail: "~600 call-minutes × $0.09 = real cost to learn" },
-                      { label: "Prototype already built", value: "Palm Beach Skate Zone", detail: "Feb 2026 — validates feasibility on ElevenLabs platform" },
-                      { label: "If pilot fails?", value: "Minimal loss", detail: "Stop paying. Pivot to Bland with real data on what didn't work" },
-                    ].map((row) => (
-                      <div key={row.label} className="border-b border-green-100 pb-3 last:border-0 last:pb-0">
-                        <p className="text-[11px] font-medium text-green-800 mb-0.5">{row.label}</p>
-                        <p className="text-sm font-bold text-green-950">{row.value}</p>
-                        <p className="text-[11px] text-green-700 mt-0.5">{row.detail}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                ))}
               </div>
-              <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-                <span className="font-semibold text-foreground">The gap is structural, not quality.</span>{" "}
-                Bland&apos;s pricing model is designed for enterprises that have already validated demand and need
-                managed production services. Bond isn&apos;t there yet — it needs to prove that facilities will adopt
-                an AI agent before committing $150K. ElevenLabs lets Bond run that experiment at the cost of a few
-                hundred dollars, not six figures.
+              <p className="text-[11px] text-muted-foreground mt-3">
+                Bond builds these regardless of vendor choice. This is the same work either way — the voice platform
+                decision only affects what sits underneath.
               </p>
             </div>
 
-            {/* What this looks like in practice */}
-            <h4 className="text-sm font-bold text-foreground mb-4">What each party owns</h4>
-            <div className="grid gap-4 md:grid-cols-3">
-              <Card className="rounded-xl border-border/50">
-                <CardContent className="p-5">
-                  <Badge
-                    variant="outline"
-                    className="mb-3 rounded-full border-bond-navy/20 text-xs font-semibold text-bond-navy"
-                  >
-                    Bond Builds (The Moat)
+            {/* Two Viable Paths */}
+            <h4 className="text-sm font-bold text-foreground mb-4">Two viable paths — different tradeoffs</h4>
+            <div className="grid gap-4 md:grid-cols-2 mb-6">
+              {/* Path A: Bland */}
+              <div className="rounded-xl border border-blue-200 bg-blue-50/40 p-4 sm:p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700 text-xs font-bold">
+                      A
+                    </div>
+                    <span className="text-sm font-bold text-blue-900">Bland: Speed to Market</span>
+                  </div>
+                  <Badge variant="outline" className="rounded-full text-[10px] font-semibold border-blue-300 text-blue-700 bg-blue-50">
+                    Fastest
                   </Badge>
-                  <ul className="space-y-1.5">
-                    {[
-                      "Agent API & Business Logic",
-                      "Orchestration & Conversation Flows",
-                      "Multi-Location Config & Admin",
-                      "Call Dashboard & Monitoring",
-                    ].map((item) => (
-                      <li
-                        key={item}
-                        className="flex items-start gap-2 text-sm text-muted-foreground"
-                      >
-                        <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bond-navy/30" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-              <Card className="rounded-xl border-border/50">
-                <CardContent className="p-5">
-                  <Badge
-                    variant="outline"
-                    className="mb-3 rounded-full border-bond-gold/20 text-xs font-semibold text-bond-gold"
-                  >
-                    ElevenLabs Provides
+                </div>
+                <div className="space-y-3.5">
+                  {[
+                    { label: "Thesis", value: "Best product fastest wins", detail: "Pay a premium in year 1 for production-quality voice from day one. Bland's 3 years of tuning, managed services, and Conversational Pathways get Bond to market while competitors are still building." },
+                    { label: "Time to live pilot", value: "~2-3 months", detail: "Bland's managed services team handles voice tuning and production hardening. Bond focuses on the Agent API and multi-location config." },
+                    { label: "Year-1 cost", value: "$150K+ (negotiable)", detail: "$100K platform + $50K managed services + $0.30/min usage. Matt believes this is negotiable — needs to be tested with a counter-offer." },
+                    { label: "Risk", value: "Coupling to Conversational Pathways", detail: "Bland's flow builder is proprietary. Bond must ensure orchestration logic lives in Bond's layer, not Bland's, to preserve replaceability." },
+                    { label: "12-month view", value: "Swap vendor, keep customers", detail: "Market commoditizes. Bond renegotiates or migrates to a cheaper platform. Customers never notice because Bond owns the interface." },
+                  ].map((row) => (
+                    <div key={row.label} className="border-b border-blue-100 pb-3 last:border-0 last:pb-0">
+                      <p className="text-[11px] font-medium text-blue-800 mb-0.5">{row.label}</p>
+                      <p className="text-sm font-bold text-blue-950">{row.value}</p>
+                      <p className="text-[11px] leading-relaxed text-blue-800 mt-0.5">{row.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Path B: ElevenLabs */}
+              <div className="rounded-xl border border-green-200 bg-green-50/40 p-4 sm:p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-700 text-xs font-bold">
+                      B
+                    </div>
+                    <span className="text-sm font-bold text-green-900">ElevenLabs: Cost Efficiency</span>
+                  </div>
+                  <Badge variant="outline" className="rounded-full text-[10px] font-semibold border-green-300 text-green-700 bg-green-50">
+                    Cheapest
                   </Badge>
-                  <ul className="space-y-1.5">
-                    {[
-                      "Voice Quality (TTS/STT)",
-                      "Workflow Engine & RAG",
-                      "Custom Tools (webhooks)",
-                      "Pay only for what you use",
-                    ].map((item) => (
-                      <li
-                        key={item}
-                        className="flex items-start gap-2 text-sm text-muted-foreground"
-                      >
-                        <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bond-gold/30" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-              <Card className="rounded-xl border-border/50">
-                <CardContent className="p-5">
-                  <Badge
-                    variant="outline"
-                    className="mb-3 rounded-full border-bond-navy-light/20 text-xs font-semibold text-bond-navy-light"
-                  >
-                    Bland Stays As
-                  </Badge>
-                  <ul className="space-y-1.5">
-                    {[
-                      "Escalation if quality gaps emerge",
-                      "Managed production-hardening",
-                      "Scale option at 50+ facilities",
-                      "Negotiate with real pilot data",
-                    ].map((item) => (
-                      <li
-                        key={item}
-                        className="flex items-start gap-2 text-sm text-muted-foreground"
-                      >
-                        <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bond-navy-light/30" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                </div>
+                <div className="space-y-3.5">
+                  {[
+                    { label: "Thesis", value: "Prove demand before committing", detail: "Validate product-market fit at near-zero platform cost. Prototype already works (Palm Beach Skate Zone, Feb 2026). If facilities don't adopt, Bond learns cheaply." },
+                    { label: "Time to live pilot", value: "~4-6 months", detail: "Bond builds more of the orchestration stack. ElevenLabs provides voice/workflows/RAG, but Bond must handle production hardening, monitoring, and QA internally." },
+                    { label: "Year-1 cost", value: "~$55-60/mo usage + eng time", detail: "$0.09-0.10/min with no minimums. Engineering investment ($300-500K) is the real cost, but that builds Bond's moat regardless." },
+                    { label: "Risk", value: "Underestimating production complexity", detail: "Gap between 'demo that works' and 'production agent at scale' is significant. No managed services team — Bond must build its own QA and monitoring practice." },
+                    { label: "12-month view", value: "Deep ownership, flexible options", detail: "Bond owns the full stack. Can stay on ElevenLabs (costs drop as plans scale), switch to Bland if quality demands it, or migrate to whatever's best." },
+                  ].map((row) => (
+                    <div key={row.label} className="border-b border-green-100 pb-3 last:border-0 last:pb-0">
+                      <p className="text-[11px] font-medium text-green-800 mb-0.5">{row.label}</p>
+                      <p className="text-sm font-bold text-green-950">{row.value}</p>
+                      <p className="text-[11px] leading-relaxed text-green-800 mt-0.5">{row.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* The deciding question */}
+            <div className="rounded-xl bg-muted/40 border border-border/50 p-4 sm:p-5">
+              <h4 className="text-sm font-bold text-foreground mb-2">The deciding question</h4>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                <span className="font-semibold text-foreground">Does Bland get Bond to an amazing product materially faster?</span>{" "}
+                Both paths require Bond to build the Agent API, multi-location config, admin UI, and monitoring layer — that
+                work is identical. Bland&apos;s advantage is production-quality voice from day one and managed
+                services that handle tuning. ElevenLabs&apos; advantage is zero commitment and a prototype that already works.
+                If the time delta is 2-3 months and Bland&apos;s $150K can be negotiated down, Path A may be worth the premium
+                for first-mover advantage. If the delta is small because Bond&apos;s build work is the bottleneck either way,
+                Path B is the rational choice.
+              </p>
+              <div className="mt-3 flex flex-col sm:flex-row gap-2 text-[11px]">
+                <div className="rounded-lg bg-white/80 border border-border/50 px-3 py-2 flex-1">
+                  <span className="font-semibold text-foreground">Next step:</span>{" "}
+                  <span className="text-muted-foreground">Negotiate with Bland — test whether $150K is actually the floor, or if a reduced pilot deal is possible.</span>
+                </div>
+                <div className="rounded-lg bg-white/80 border border-border/50 px-3 py-2 flex-1">
+                  <span className="font-semibold text-foreground">Parallel:</span>{" "}
+                  <span className="text-muted-foreground">Continue ElevenLabs prototype development so Bond has a working fallback regardless of Bland negotiation outcome.</span>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>

@@ -111,7 +111,7 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 
 ## Recommended Approach: ElevenLabs-First Pilot
 
-**Decision rationale:** Bland's $150K minimum is an enterprise commitment, not a trial. Bond cannot validate product-market fit at that price point. ElevenLabs provides the voice, workflow, knowledge base, and analytics infrastructure at $0.09-0.10/min with no minimum — and Bond already has a working prototype (Palm Beach Skate Zone, Feb 2026). Bland remains a strong escalation path if the ElevenLabs pilot hits production quality walls.
+**Decision rationale:** Bland's $150K minimum is an enterprise commitment, not a trial. Bond cannot validate product-market fit at that price point. ElevenLabs provides voice, text chat (Chat Mode, Feb 2026), workflow, knowledge base, and analytics infrastructure at $0.09-0.10/min with no minimum — and Bond already has a working prototype (Palm Beach Skate Zone, Feb 2026). Bland remains a strong escalation path if the ElevenLabs pilot hits production quality walls.
 
 ### Next Steps
 

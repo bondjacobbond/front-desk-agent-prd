@@ -185,7 +185,7 @@ export function CompetitiveSection() {
               label: "Build/Partner",
               items: [
                 "Agentic orchestration",
-                "Voice (ElevenLabs)",
+                "Voice + Text (ElevenLabs)",
                 "Telephony (Twilio)",
                 "Foundation LLM",
               ],
