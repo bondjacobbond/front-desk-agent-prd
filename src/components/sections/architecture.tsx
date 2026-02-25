@@ -9,8 +9,73 @@ import {
 } from "@/components/section-wrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { architectureLayers, performanceTargets } from "@/lib/prd-data";
 import { Layers, Gauge } from "lucide-react";
+
+const phase1Endpoints = [
+  {
+    method: "GET",
+    path: "/organizations/{id}/schedules",
+    desc: "Events linked to programs, sessions, capacity, waitlist. SLA: freshness ≤60s",
+  },
+  {
+    method: "GET",
+    path: "/programs/{id}",
+    desc: "Description, age ranges, prerequisites, pricing, instructor, richer metadata",
+  },
+  {
+    method: "GET",
+    path: "/customers?phone={E164}|email={email}|firstName={}&lastName={}",
+    desc: "Customer record, family, registrations, balance, VIP tags. Lookup by phone (E164), email, or firstName+lastName when phone isn't on file",
+  },
+  {
+    method: "GET",
+    path: "/policies/{category}",
+    desc: "Structured policy objects with cancellation windows, refund rules",
+  },
+];
+
+const phase2Endpoints = [
+  {
+    method: "POST",
+    path: "/registrations",
+    desc: "Create registration. Requires agentToken + confirmationFlow",
+  },
+  {
+    method: "POST",
+    path: "/cancellations",
+    desc: "Process cancellation with reasonCode. Returns refund/credit info",
+  },
+];
+
+function EndpointCard({
+  endpoint,
+}: {
+  endpoint: { method: string; path: string; desc: string };
+}) {
+  return (
+    <div
+      className="flex flex-col gap-2 rounded-xl border border-border/50 bg-white px-4 py-3 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-3"
+    >
+      <span
+        className={`shrink-0 rounded-md px-2 py-0.5 font-mono text-[11px] font-bold ${
+          endpoint.method === "GET"
+            ? "bg-green-50 text-green-700"
+            : "bg-blue-50 text-blue-700"
+        }`}
+      >
+        {endpoint.method}
+      </span>
+      <code className="min-w-0 break-all font-mono text-xs text-foreground sm:flex-1 sm:min-w-0">
+        {endpoint.path}
+      </code>
+      <span className="min-w-0 text-xs text-muted-foreground sm:ml-auto sm:flex-1 sm:min-w-[10rem]">
+        {endpoint.desc}
+      </span>
+    </div>
+  );
+}
 
 export function ArchitectureSection() {
   return (
@@ -98,61 +163,28 @@ export function ArchitectureSection() {
             Agent API v1 Contract
           </h3>
         </div>
-        <div className="mt-4 space-y-2">
-          {[
-            {
-              method: "GET",
-              path: "/organizations/{id}/schedules",
-              desc: "Events linked to programs, sessions, capacity, waitlist. SLA: freshness ≤60s",
-            },
-            {
-              method: "GET",
-              path: "/programs/{id}",
-              desc: "Description, age ranges, prerequisites, pricing, instructor, richer metadata",
-            },
-            {
-              method: "GET",
-              path: "/customers?phone={E164}",
-              desc: "Customer record, family, registrations, balance, VIP tags",
-            },
-            {
-              method: "GET",
-              path: "/policies/{category}",
-              desc: "Structured policy objects with cancellation windows, refund rules",
-            },
-            {
-              method: "POST",
-              path: "/registrations",
-              desc: "Create registration. Requires agentToken + confirmationFlow",
-            },
-            {
-              method: "POST",
-              path: "/cancellations",
-              desc: "Process cancellation with reasonCode. Returns refund/credit info",
-            },
-          ].map((endpoint) => (
-            <div
-              key={endpoint.path}
-              className="flex flex-col gap-2 rounded-xl border border-border/50 bg-white px-4 py-3 sm:flex-row sm:items-center"
-            >
-              <span
-                className={`shrink-0 rounded-md px-2 py-0.5 font-mono text-[11px] font-bold ${
-                  endpoint.method === "GET"
-                    ? "bg-green-50 text-green-700"
-                    : "bg-blue-50 text-blue-700"
-                }`}
-              >
-                {endpoint.method}
-              </span>
-              <code className="shrink-0 font-mono text-xs text-foreground">
-                {endpoint.path}
-              </code>
-              <span className="text-xs text-muted-foreground sm:ml-auto">
-                {endpoint.desc}
-              </span>
-            </div>
-          ))}
-        </div>
+        <Tabs defaultValue="phase1" className="mt-4">
+          <TabsList className="grid w-full max-w-md grid-cols-2">
+            <TabsTrigger value="phase1">Phase 1</TabsTrigger>
+            <TabsTrigger value="phase2">Phase 2</TabsTrigger>
+          </TabsList>
+          <TabsContent value="phase1" className="mt-4 space-y-2">
+            <p className="mb-2 text-xs text-muted-foreground">
+              Read-only: schedule, program, customer, and policy data
+            </p>
+            {phase1Endpoints.map((endpoint) => (
+              <EndpointCard key={endpoint.path} endpoint={endpoint} />
+            ))}
+          </TabsContent>
+          <TabsContent value="phase2" className="mt-4 space-y-2">
+            <p className="mb-2 text-xs text-muted-foreground">
+              Write operations: registration and cancellation processing
+            </p>
+            {phase2Endpoints.map((endpoint) => (
+              <EndpointCard key={endpoint.path} endpoint={endpoint} />
+            ))}
+          </TabsContent>
+        </Tabs>
         <p className="mt-3 text-xs text-muted-foreground">
           All endpoints: &lt;250ms p95 response, idempotent writes, RBAC
           facility scope. Every call logged with agent_id, facility_id,

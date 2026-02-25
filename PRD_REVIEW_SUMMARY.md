@@ -1,7 +1,7 @@
 # PRD Review Council — Executive Summary
 
-**Review Date:** February 7, 2026  
-**PRD Version:** Draft — Requirements Gathering
+**Review Date:** February 7, 2026 (Updated: February 19, 2026 — post Bland demo)  
+**PRD Version:** Draft — Requirements Gathering + Vendor Validation
 
 ---
 
@@ -111,22 +111,70 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 
 ## Recommended Next Steps
 
-1. **Immediate (This Week):**
-   - Assign owners to all critical path items
-   - Schedule stakeholder review meeting
-   - Create tracking mechanism for resolution
+1. **Immediate (This Week) — Post Bland Demo (Feb 19):**
+   - Review Bland's formal commercial proposal when received
+   - Model unit economics at 3, 50, and 150 facility scale with Bland pricing ($150K + $0.30/min)
+   - Decide: pilot voice-only with Bland, or require email solution before pilot?
+   - Scope email channel alternatives (Zendesk integration, separate provider, or defer)
+   - Scope API integration effort for embedding Bland data into Bond's back office
 
 2. **Short-Term (Next 2 Weeks):**
-   - Complete Agent API v1 specification
-   - Obtain legal signoff on compliance approach
-   - Design mass update system architecture
+   - Complete Agent API v1 specification (Bland webhook nodes need Bond API endpoints)
+   - Obtain legal signoff on compliance approach (note: Bland demo agent did not self-identify as AI)
+   - Negotiate Bland commercial terms (time-boxed commitment for concessions)
+   - Design white-label data access model (how Bond surfaces Bland call data to facility customers)
    - Create onboarding playbook draft
 
 3. **Before Pilot Launch:**
    - Complete all critical path items
-   - Validate cost economics model
+   - Validate cost economics model with actual Bland pricing
    - Finalize admin UI design
    - Complete CS training materials
+   - Work with Bland managed services team to build and tune pilot agent (~2 month ramp)
+
+---
+
+## Bland Demo Update (February 19, 2026)
+
+**Participants:** Matt Minoff (Bond CEO), Jacob (Bond PM), Maggie (Bland SE), Matt (Bland AE)
+
+### Key Findings
+
+**Validated (Positive):**
+- Voice quality, latency, and natural conversation exceeded expectations in live demo
+- Conversational Pathways architecture (node-based, per-node context) provides targeted debugging and reduces hallucination risk
+- Purpose-built proprietary voice LLM (not wrapping frontier models) — explains low latency
+- Multi-location support confirmed: one pathway serves all facilities with per-phone-number variable overrides (agent name, location, knowledge base, API endpoints)
+- Mass update concern **largely resolved**: pathway changes propagate globally; micro-changes possible per location
+- Post-call "Citations" model provides sentiment analysis, topic extraction, and cited utterances for auditability
+- API-native (99% of dashboard available via API) — enables Bond to embed data in its own back office
+- SMS + RCS supported; access tiers (Viewer/Prompter/Operator/Admin) available
+
+**Concerns / Gaps:**
+- **Email not supported** — Bond's #2 priority channel. On Bland roadmap but unavailable today.
+- **Enterprise pricing: $150K minimum** ($100K/yr platform + $50K managed services + $0.30/min) — significantly above published self-serve rates
+- **White-label login not supported** — Bond's facility customers cannot log into Bland directly. API embedding is recommended path.
+- **~2 months to production** with managed services team actively tuning agent
+- **Bland did not disclose AI identity** in demo — legal must define Bond's disclosure policy
+
+### Impact on PRD Decisions
+
+| Decision | Previous Status | New Status |
+|----------|----------------|------------|
+| Voice provider selection | Open | Narrowing — Bland validated as pilot partner |
+| LLM provider strategy | Open | Informed — Bland proprietary LLM for pilot; long-term agnostic |
+| Mass update capability | Critical risk | Largely resolved via Bland's modular pathways |
+| Pricing model | Open | Critical — $150K floor changes unit economics |
+| Email channel | Assumed bundled | New gap — needs separate solution |
+| Monitoring | Open | Partially addressed — Bland provides metrics; Bond needs own layer |
+
+### Updated Bland Score
+
+| Criterion | Previous | Updated | Notes |
+|-----------|----------|---------|-------|
+| Multi-Tenancy | 3/5 | 4/5 | Per-phone-number modular config demonstrated |
+| Mass Update | 2/5 | 4/5 | Global pathway changes + per-location overrides |
+| Overall | 3.55 | 3.9 | Demo validation + resolved key concerns |
 
 ---
 
@@ -134,11 +182,14 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 
 | Risk | Likelihood | Impact | Mitigation Status |
 |------|------------|--------|-------------------|
-| Agent API spec delay | High | Critical | ⚠️ Needs immediate attention |
-| Legal compliance gaps | Medium | Critical | 🔴 Blocking pilot launch |
+| Agent API spec delay | High | Critical | ⚠️ Needs immediate attention — Bland webhook nodes need Bond API endpoints |
+| Legal compliance gaps | Medium | Critical | 🔴 Blocking pilot launch — Bland demo did not self-identify as AI |
 | Baseline competitive threat | Confirmed | High | 🔴 Baseline live with EmbedReach voice AI in Bond's ICP — differentiate on depth |
-| Mass update failure | Medium | High | ⚠️ Needs technical design |
-| Monitoring/incident response gap | Medium | Medium | ⚠️ Needs runbook + ownership |
+| Mass update failure | Low | High | ✅ Largely resolved — Bland's modular pathway config demonstrated |
+| Cost economics with Bland pricing | Medium-High | High | ⚠️ $150K/yr minimum + $0.30/min — need 32+ facilities to cover platform costs |
+| Email channel gap | Confirmed | Medium | ⚠️ Bland doesn't support email (Bond's #2 channel) — need separate solution |
+| Bland vendor dependency | Medium | Medium | ⚠️ Proprietary Conversational Pathways — architect Bond layer as vendor-agnostic |
+| Monitoring/incident response gap | Medium | Medium | ⚠️ Bland provides metrics; Bond needs own monitoring layer |
 | Pilot success gate too aggressive | Medium | Medium | ⚠️ Consider phased criteria |
 
 ---
@@ -150,11 +201,14 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 The PRD provides an excellent strategic foundation, but execution readiness requires completion of critical path items. Recommend proceeding with stakeholder review and parallel work on critical items.
 
 **Conditions for Pilot Launch:**
-- [ ] Agent API v1 specification complete
-- [ ] Legal/compliance signoff obtained
-- [ ] Mass update system designed
+- [ ] Agent API v1 specification complete (Bland webhook endpoints defined)
+- [ ] Legal/compliance signoff obtained (including AI disclosure policy)
+- [x] Mass update system designed (Bland modular pathways validated Feb 19)
 - [ ] Onboarding playbook created
-- [ ] Cost economics model validated
+- [ ] Cost economics model validated (with actual Bland enterprise pricing)
+- [ ] Bland commercial terms agreed ($150K+ negotiation)
+- [ ] Email channel strategy decided (defer, integrate, or separate provider)
+- [ ] White-label data access model scoped (API embedding for facility customers)
 
 ---
 

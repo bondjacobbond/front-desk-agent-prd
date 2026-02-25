@@ -460,10 +460,15 @@ The Agent API is the critical technical investment. It provides the AI agent wit
 
 **Endpoints (readable contract):**
 
+*Phase 1 — Read-only (schedules, programs, customers, policies):*
+
 - `GET /organizations/{id}/schedules?start=...&end=...` — returns events linked to programs, sessions, capacity, waitlist count, lastUpdated timestamp. **SLA: data freshness ≤ 60s.**
 - `GET /programs/{id}` — returns description, age ranges, prerequisites, priceId, instructor, richer metadata.
-- `GET /customers?phone={E164}` — returns canonical customer record, family members, active registrations, outstanding balance, tags (VIP), opt-ins. **PII: masked for unknown callers.**
+- `GET /customers` — query by `phone={E164}`, `email={email}`, or `firstName={}&lastName={}` (at least one required). Returns canonical customer record, family members, active registrations, outstanding balance, tags (VIP), opt-ins. Email and name lookup support cases where phone isn't on file. **PII: masked for unknown callers.**
 - `GET /policies/{category}` — structured policy objects (cancellationWindowHours, refundRules, exceptions) with `policyId`.
+
+*Phase 2 — Write operations (registrations, cancellations):*
+
 - `POST /registrations` — create registration. Requires `agentToken` + `confirmationFlow`. Returns `registrationId`, `status`, `amountCharged`. **All writes logged with `actor=agent`.**
 - `POST /cancellations` — accepts `registrationId`, `reasonCode`, `requestedBy`. Returns `refundApplied`, `creditIssued` plus explanation.
 
@@ -1089,49 +1094,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 
 ---
 
-### Vendor 7: Blank Metal (AI Engineering Consultancy)
-
-**Category:** Applied AI Engineering Firm (Build Accelerator)
-
-**Overview:** Blank Metal is an AI-native engineering company that raised $3M in seed funding (June 2025) from Rally Ventures, Traction Capital, and Pure Play Partners. They position themselves as an "anti-consultancy" — small senior teams that ship production AI in 90 days, not 18-month strategy projects. Formal partners with Anthropic and Vercel. Their model: embed with your team, help you build it, then you take over. Key team members are veterans of GoKart Labs with multiple startup exits.
-
-**Engagement Model:** AI strategist (half-time) + AI engineer (full-time), sold by sprint ($30–50K per sprint). Not a long-term vendor dependency.
-
-**Strengths:**
-- Expert guidance on agent architecture, eval systems, and production AI patterns
-- 90-day production guarantee addresses Bond's timeline concerns with the "Build" option
-- Embed model means knowledge transfer to Bond's team — not a permanent dependency
-- Formal Anthropic partner; deep expertise with Claude and frontier models
-- Referenced similar multi-tenant work: Parallax (pricing/resourcing agent), Total Expert (voice work for mortgage lenders)
-- Key insight: "The really cool problems are applied AI problems — how do you apply technology from ElevenLabs and Anthropic into a custom solution that sits on a well-defined dataset."
-- Small, senior team — not an offshore body shop
-
-**Weaknesses:**
-- Not a product; an engagement. Bond still needs to staff and maintain the solution long-term.
-- $30–50K per sprint adds up (likely 3–5 sprints for MVP = $90–250K)
-- Resource availability may be constrained; small team
-- Bond needs to have engineering resources ready to absorb the handoff
-
-**Bond Fit Score (as build accelerator, not standalone):**
-
-| Criterion | Score (1–5) | Notes |
-| --- | --- | --- |
-| Voice-First Capability | N/A | They build using ElevenLabs/Anthropic; quality depends on implementation |
-| Multi-Tenancy at Scale | 4 | Have done similar multi-tenant AI work; can architect this properly |
-| Bond Data Integration | 5 | Custom-built on Bond's Agent API; deepest possible integration |
-| Action-Taking | 5 | Full control via Bond's own APIs |
-| Mass Update & Config Management | 5 | Bond designs and owns this layer entirely |
-| Time to Production | 3 | 90-day guarantee, but realistic MVP may take 4–6 months |
-| Cost Model & Scalability | 3 | Upfront sprint cost ($90–250K), but no ongoing vendor fees |
-| Strategic Control & Lock-in Risk | 5 | Bond owns 100% of IP; Blank Metal transfers knowledge and exits |
-
-**Weighted Score: 4.25 / 5** (as a build accelerator for the "Build" option)
-
-**Verdict:** Not a vendor alternative — a build accelerator. If Bond commits to building the orchestration layer (or wants to accelerate the Agent API development), Blank Metal is the strongest option for getting expert guidance without creating a long-term dependency. Their 90-day production model, Anthropic partnership, and embed-then-exit approach directly address the risk of underestimating complexity in the "Build" option.
-
----
-
-### Option 8: Build In-House (ElevenLabs + LLM APIs + Bond Engineering)
+### Option 7: Build In-House (ElevenLabs + LLM APIs + Bond Engineering)
 
 **Category:** Full in-house development using best-in-class infrastructure components
 
@@ -1146,6 +1109,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 - Multi-tenancy designed from day one for Bond's exact needs
 - Mass update capability is fully in Bond's control
 - Aligns with Phase 4 vision (Bond Agents ecosystem) — the orchestration layer can power all future agent types
+- **Blank Metal (consultancy) can accelerate build —** sprint-based engagement ($30–50K/sprint) for expert guidance on agent architecture and eval systems; 90-day production guarantee; embed model means knowledge transfer to Bond's team, not a long-term dependency. Consider for initial sprint to accelerate architecture decisions.
 
 **Weaknesses:**
 - **Significant engineering investment:** 2–3 engineers for 3–6 months for MVP; ongoing 1–2 engineers for maintenance
@@ -1170,7 +1134,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 
 **Weighted Score: 4.20 / 5** (long-term) / **3.50 / 5** (near-term, penalized for timeline risk)
 
-**Verdict:** The best long-term option for strategic control, unit economics, and alignment with the Bond Agents vision. The primary risk is timeline — it takes 3–6 months to get to a pilot and much longer to production-harden voice AI. This is why the hybrid approach (pilot with Bland while building in parallel) is recommended.
+**Verdict:** The best long-term option for strategic control, unit economics, and alignment with the Bond Agents vision. The primary risk is timeline — it takes 3–6 months to get to a pilot and much longer to production-harden voice AI. Consider Blank Metal for an initial sprint to accelerate architecture decisions and get expert guidance; hand off to Bond team for ongoing development. Hybrid approach (pilot with Bland while building in parallel) remains recommended.
 
 ---
 
@@ -1184,8 +1148,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 | **Intercom (Fin)** | 3 | 1 | 3 | 2 | 1 | 2 | 2 | 3 | **2.10** |
 | **EmbedReach** | 3 | 3 | 4 | 3 | 3 | 4 | 4 | 3 | **3.35** |
 | **ElevenLabs** (infra) | 5 | 1 | 2 | 2 | 1 | 2 | 5 | 4 | **2.75** |
-| **Blank Metal** (accelerator) | — | 4 | 5 | 5 | 5 | 3 | 3 | 5 | **4.25** |
-| **Build In-House** | 4 | 5 | 5 | 5 | 5 | 2 | 3 | 5 | **4.20** |
+| **Build In-House** (incl. Blank Metal as accelerator) | 4 | 5 | 5 | 5 | 5 | 2 | 3 | 5 | **4.20** |
 
 ---
 

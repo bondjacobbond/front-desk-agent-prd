@@ -13,9 +13,12 @@ import { vendors, evaluationCriteria } from "@/lib/prd-data";
 import { Check, X, AlertCircle, Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const tierColors = {
+const tierColors: Record<string, string> = {
   "Tier 1 - Recommended for Pilot": "bg-green-50 text-green-700 border-green-200",
+  "Tier 1 - Recommended for Pilot (Demo Validated)": "bg-green-50 text-green-700 border-green-200",
+  "Tier 1 - Viable Alternative (ElevenLabs approach)": "bg-blue-50 text-blue-700 border-blue-200",
   "Tier 1 - Long-term Best Option": "bg-blue-50 text-blue-700 border-blue-200",
+  "Foundation for Build In-House (Reassessed Feb 2026)": "bg-blue-50 text-blue-700 border-blue-200",
   "Tier 2 - Monitor": "bg-yellow-50 text-yellow-700 border-yellow-200",
   "Tier 3 - Not Recommended": "bg-red-50 text-red-700 border-red-200",
   "Infrastructure Component": "bg-purple-50 text-purple-700 border-purple-200",
@@ -312,7 +315,7 @@ function VendorCard({ vendor, index }: { vendor: typeof vendors[0]; index: numbe
             <div className="flex flex-col items-end gap-2">
               <Badge
                 variant="outline"
-                className={`rounded-full text-[10px] font-semibold ${tierColors[vendor.tier as keyof typeof tierColors]}`}
+                className={`rounded-full text-[10px] font-semibold ${tierColors[vendor.tier] ?? "bg-gray-50 text-gray-700 border-gray-200"}`}
               >
                 {vendor.tier}
               </Badge>
