@@ -1859,6 +1859,7 @@ export const evaluationCriteria = [
 export const demoAgent = {
   agentId: "agent_2101kfp8tgwwenfbkex889h3kssv",
   name: "Ashley",
+  photoUrl: "/ashley.png",
   facility: "Palm Beach Skate Zone",
   location: "Lake Worth, Florida",
   systemPrompt: `You are Ashley, the front desk receptionist at Palm Beach Skate Zone in Lake Worth, Florida.

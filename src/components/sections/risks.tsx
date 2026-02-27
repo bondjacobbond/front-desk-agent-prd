@@ -54,23 +54,33 @@ export function RisksSection() {
                       {r.mitigation}
                     </p>
                   </div>
-                  <div className="flex shrink-0 items-center gap-2">
-                    <span
-                      className={cn(
-                        "rounded-full px-2.5 py-1 text-[10px] font-bold",
-                        likelihoodColors[r.likelihood],
-                      )}
-                    >
-                      {r.likelihood}
-                    </span>
-                    <span
-                      className={cn(
-                        "rounded-full px-2.5 py-1 text-[10px] font-bold",
-                        impactColors[r.impact],
-                      )}
-                    >
-                      {r.impact}
-                    </span>
+                  <div className="flex shrink-0 flex-col items-end gap-1.5 sm:flex-row sm:items-center sm:gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-medium text-muted-foreground">
+                        Likelihood
+                      </span>
+                      <span
+                        className={cn(
+                          "rounded-full px-2.5 py-1 text-[10px] font-bold",
+                          likelihoodColors[r.likelihood],
+                        )}
+                      >
+                        {r.likelihood}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-medium text-muted-foreground">
+                        Impact
+                      </span>
+                      <span
+                        className={cn(
+                          "rounded-full px-2.5 py-1 text-[10px] font-bold",
+                          impactColors[r.impact],
+                        )}
+                      >
+                        {r.impact}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -81,7 +91,7 @@ export function RisksSection() {
 
       {/* Legend */}
       <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-        <span className="font-medium">Legend:</span>
+        <span className="font-medium">Severity scale:</span>
         <div className="flex items-center gap-1.5">
           <span className="rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-bold text-green-700">
             Low
@@ -96,9 +106,6 @@ export function RisksSection() {
             Critical
           </span>
         </div>
-        <span className="text-muted-foreground/60">
-          First badge = likelihood, second = impact
-        </span>
       </div>
     </SectionWrapper>
   );

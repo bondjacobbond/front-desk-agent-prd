@@ -29,6 +29,7 @@ const VENDOR_DEFAULTS: Record<
     platformCostPerYear: number;
     setupCost: number;
     label: string;
+    engFte: [number, number, number];
   }
 > = {
   elevenlabs: {
@@ -36,12 +37,14 @@ const VENDOR_DEFAULTS: Record<
     platformCostPerYear: 0,
     setupCost: 0,
     label: "ElevenLabs",
+    engFte: [1.5, 1, 0.5],
   },
   bland: {
     aiCostPerMinute: 0.3,
     platformCostPerYear: 100_000,
     setupCost: 50_000,
     label: "Bland AI",
+    engFte: [0.5, 0.25, 0.25],
   },
 };
 
@@ -163,6 +166,17 @@ export function PricingSection() {
   const [perResolution, setPerResolution] = useState(INITIAL.perResolution);
   const [perMinute, setPerMinute] = useState(INITIAL.perMinute);
 
+  const [engCostPerYear, setEngCostPerYear] = useState(200_000);
+  const [engFteY1, setEngFteY1] = useState(
+    VENDOR_DEFAULTS.elevenlabs.engFte[0],
+  );
+  const [engFteY2, setEngFteY2] = useState(
+    VENDOR_DEFAULTS.elevenlabs.engFte[1],
+  );
+  const [engFteY3, setEngFteY3] = useState(
+    VENDOR_DEFAULTS.elevenlabs.engFte[2],
+  );
+
   const [callMinutes, setCallMinutes] = useState(INITIAL.callMinutes);
   const [resolutionRate, setResolutionRate] = useState(INITIAL.resolutionRate);
   const [y1Facilities, setY1Facilities] = useState(INITIAL.facilities[0]);
@@ -174,6 +188,9 @@ export function PricingSection() {
   const handleVendorSwitch = (v: VendorPath) => {
     setVendorPath(v);
     setAiCostPerMinute(VENDOR_DEFAULTS[v].aiCostPerMinute);
+    setEngFteY1(VENDOR_DEFAULTS[v].engFte[0]);
+    setEngFteY2(VENDOR_DEFAULTS[v].engFte[1]);
+    setEngFteY3(VENDOR_DEFAULTS[v].engFte[2]);
   };
 
   const applyPreset = (p: PricingPreset) => {
@@ -193,12 +210,30 @@ export function PricingSection() {
     const avgDuration = INITIAL.avgCallDuration;
     const calls = Math.round(callMinutes / avgDuration);
     const resolutions = Math.round(calls * resolutionRate);
-    const aiCostPerFacility = callMinutes * aiCostPerMinute;
+    const usageCostPerFacility = callMinutes * aiCostPerMinute;
 
     const revenuePerFacility =
       baseFee + resolutions * perResolution + callMinutes * perMinute;
 
     const facilities = [y1Facilities, y2Facilities, y3Facilities];
+    const engFtes = [engFteY1, engFteY2, engFteY3];
+
+    const platformPerMonth =
+      vendorPath === "bland" ? blandPlatformCost / 12 : 0;
+    const setupAmortized =
+      vendorPath === "bland" ? blandSetupCost / 12 : 0;
+    const engPerMonth1 = (engFteY1 * engCostPerYear) / 12;
+
+    const allInCostPerFacility = (fac: number, includeSetup: boolean) => {
+      if (fac === 0) return usageCostPerFacility;
+      const platformShare = platformPerMonth / fac;
+      const setupShare = includeSetup ? setupAmortized / fac : 0;
+      const engShare = engPerMonth1 / fac;
+      return usageCostPerFacility + platformShare + setupShare + engShare;
+    };
+
+    const y1AllIn = allInCostPerFacility(y1Facilities, true);
+    const marginPerFacility = revenuePerFacility - y1AllIn;
 
     const years = rampModel.years.map((y, i) => {
       const fac = facilities[i];
@@ -206,7 +241,7 @@ export function PricingSection() {
       const adoptionPct = Math.round((fac / totalBase) * 100);
       const arr = fac * revenuePerFacility * 12;
 
-      const usageAiCost = fac * aiCostPerFacility * 12;
+      const usageAiCost = fac * usageCostPerFacility * 12;
       const vendorPlatformCost =
         vendorPath === "bland" ? blandPlatformCost : 0;
       const vendorSetupCost =
@@ -214,7 +249,9 @@ export function PricingSection() {
       const totalVendorCost =
         usageAiCost + vendorPlatformCost + vendorSetupCost;
 
-      const grossMargin = arr - totalVendorCost;
+      const engCost = engFtes[i] * engCostPerYear;
+      const totalCost = totalVendorCost + engCost;
+      const grossMargin = arr - totalCost;
 
       return {
         ...y,
@@ -225,6 +262,8 @@ export function PricingSection() {
         vendorPlatformCost,
         vendorSetupCost,
         totalVendorCost,
+        engCost,
+        totalCost,
         grossMargin,
       };
     });
@@ -234,8 +273,10 @@ export function PricingSection() {
     return {
       calls,
       resolutions,
-      aiCostPerFacility,
+      usageCostPerFacility,
+      allInCostPerFacility: y1AllIn,
       revenuePerFacility,
+      marginPerFacility,
       years,
       maxArr,
     };
@@ -252,6 +293,10 @@ export function PricingSection() {
     vendorPath,
     blandPlatformCost,
     blandSetupCost,
+    engCostPerYear,
+    engFteY1,
+    engFteY2,
+    engFteY3,
   ]);
 
   const isModified =
@@ -266,7 +311,11 @@ export function PricingSection() {
     aiCostPerMinute !== VENDOR_DEFAULTS[vendorPath].aiCostPerMinute ||
     vendorPath !== "elevenlabs" ||
     blandPlatformCost !== VENDOR_DEFAULTS.bland.platformCostPerYear ||
-    blandSetupCost !== VENDOR_DEFAULTS.bland.setupCost;
+    blandSetupCost !== VENDOR_DEFAULTS.bland.setupCost ||
+    engCostPerYear !== 200_000 ||
+    engFteY1 !== VENDOR_DEFAULTS[vendorPath].engFte[0] ||
+    engFteY2 !== VENDOR_DEFAULTS[vendorPath].engFte[1] ||
+    engFteY3 !== VENDOR_DEFAULTS[vendorPath].engFte[2];
 
   const handleReset = () => {
     setVendorPath("elevenlabs");
@@ -281,6 +330,10 @@ export function PricingSection() {
     setY1Facilities(INITIAL.facilities[0]);
     setY2Facilities(INITIAL.facilities[1]);
     setY3Facilities(INITIAL.facilities[2]);
+    setEngCostPerYear(200_000);
+    setEngFteY1(VENDOR_DEFAULTS.elevenlabs.engFte[0]);
+    setEngFteY2(VENDOR_DEFAULTS.elevenlabs.engFte[1]);
+    setEngFteY3(VENDOR_DEFAULTS.elevenlabs.engFte[2]);
   };
 
   const priceLabel = buildPriceLabel(baseFee, perResolution, perMinute);
@@ -510,6 +563,72 @@ export function PricingSection() {
                       </div>
                     </div>
 
+                    {/* ── Bond Engineering ── */}
+                    <div className="mb-6">
+                      <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                        Bond Engineering Investment
+                      </p>
+                      <p className="text-[10px] text-muted-foreground mb-3">
+                        {vendorPath === "elevenlabs"
+                          ? "Build in-house requires more engineering for agent development, prompt tuning, and integrations."
+                          : "Managed service reduces engineering burden — mostly integration and light maintenance."}
+                      </p>
+                      <div className="grid gap-5 sm:grid-cols-4">
+                        <SliderInput
+                          label="Fully loaded ($/yr)"
+                          value={engCostPerYear}
+                          min={100_000}
+                          max={350_000}
+                          step={10_000}
+                          format={(v) => `$${(v / 1000).toFixed(0)}K`}
+                          onChange={setEngCostPerYear}
+                        />
+                        <SliderInput
+                          label="Year 1 FTE"
+                          value={engFteY1}
+                          min={0}
+                          max={3}
+                          step={0.25}
+                          format={(v) => `${v}`}
+                          onChange={setEngFteY1}
+                        />
+                        <SliderInput
+                          label="Year 2 FTE"
+                          value={engFteY2}
+                          min={0}
+                          max={3}
+                          step={0.25}
+                          format={(v) => `${v}`}
+                          onChange={setEngFteY2}
+                        />
+                        <SliderInput
+                          label="Year 3 FTE"
+                          value={engFteY3}
+                          min={0}
+                          max={3}
+                          step={0.25}
+                          format={(v) => `${v}`}
+                          onChange={setEngFteY3}
+                        />
+                      </div>
+                      <div className="mt-2 rounded-lg bg-bond-navy/[0.04] border border-bond-navy/10 px-3 py-2">
+                        <p className="text-[11px] text-bond-navy font-medium">
+                          3-year engineering cost:{" "}
+                          <span className="font-bold">
+                            {formatCurrency(
+                              engFteY1 * engCostPerYear +
+                                engFteY2 * engCostPerYear +
+                                engFteY3 * engCostPerYear,
+                            )}
+                          </span>
+                          <span className="text-bond-navy/50 ml-1.5">
+                            ({engFteY1 + engFteY2 + engFteY3} FTE-years at{" "}
+                            {formatCurrency(engCostPerYear)}/yr)
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+
                     {/* ── Per-Facility Usage ── */}
                     <div className="mb-6">
                       <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">
@@ -576,9 +695,14 @@ export function PricingSection() {
                     {/* ── Unit Economics ── */}
                     <div className="mt-6 pt-5 border-t border-bond-navy/10">
                       <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-                        Unit Economics (per facility / month)
+                        Unit Economics — per facility / month
+                        {vendorPath === "bland" && (
+                          <span className="normal-case tracking-normal font-normal ml-1 text-muted-foreground/60">
+                            (platform costs amortized across Y1 facilities)
+                          </span>
+                        )}
                       </p>
-                      <div className="grid gap-2 grid-cols-2 sm:grid-cols-4">
+                      <div className="grid gap-2 grid-cols-2 sm:grid-cols-5">
                         <div className="rounded-lg border border-border/50 bg-white p-2.5">
                           <p className="text-[10px] text-muted-foreground">
                             Calls
@@ -597,11 +721,16 @@ export function PricingSection() {
                         </div>
                         <div className="rounded-lg border border-border/50 bg-white p-2.5">
                           <p className="text-[10px] text-muted-foreground">
-                            AI cost
+                            All-in vendor cost
                           </p>
                           <p className="font-display text-base font-bold text-bond-navy">
-                            ${derived.aiCostPerFacility.toFixed(0)}
+                            ${derived.allInCostPerFacility.toFixed(0)}
                           </p>
+                          {vendorPath === "bland" && (
+                            <p className="text-[9px] text-muted-foreground/70 mt-0.5">
+                              ${derived.usageCostPerFacility.toFixed(0)} usage + ${Math.round(derived.allInCostPerFacility - derived.usageCostPerFacility)} fixed
+                            </p>
+                          )}
                         </div>
                         <div className="rounded-lg border border-border/50 bg-white p-2.5">
                           <p className="text-[10px] text-muted-foreground">
@@ -611,23 +740,29 @@ export function PricingSection() {
                             ${derived.revenuePerFacility.toFixed(0)}
                           </p>
                         </div>
-                      </div>
-                      {vendorPath === "bland" && (
-                        <div className="mt-2 rounded-lg border border-orange-200/60 bg-orange-50/40 p-2.5 space-y-0.5">
-                          <p className="text-[10px] font-medium text-orange-800">
-                            +{" "}
-                            {formatCurrency(blandPlatformCost)}
-                            /yr platform fee (fixed, regardless of facility
-                            count)
-                          </p>
-                          {blandSetupCost > 0 && (
-                            <p className="text-[10px] font-medium text-orange-800">
-                              + {formatCurrency(blandSetupCost)} one-time
-                              managed services setup (Year 1 only)
-                            </p>
+                        <div
+                          className={cn(
+                            "rounded-lg border p-2.5",
+                            derived.marginPerFacility >= 0
+                              ? "border-green-200/60 bg-green-50/40"
+                              : "border-red-200/60 bg-red-50/40",
                           )}
+                        >
+                          <p className="text-[10px] text-muted-foreground">
+                            Margin / facility
+                          </p>
+                          <p
+                            className={cn(
+                              "font-display text-base font-bold",
+                              derived.marginPerFacility >= 0
+                                ? "text-green-700"
+                                : "text-red-600",
+                            )}
+                          >
+                            ${derived.marginPerFacility.toFixed(0)}
+                          </p>
                         </div>
-                      )}
+                      </div>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -667,7 +802,7 @@ export function PricingSection() {
                     </div>
                   </div>
 
-                  <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                  <div className="mt-4 grid gap-3 grid-cols-2 sm:grid-cols-4">
                     <div className="rounded-lg bg-bond-navy/[0.03] border border-bond-navy/10 p-3">
                       <p className="text-[11px] font-medium text-muted-foreground">
                         Bond Revenue
@@ -681,15 +816,27 @@ export function PricingSection() {
                     </div>
                     <div className="rounded-lg bg-muted/40 border border-border/50 p-3">
                       <p className="text-[11px] font-medium text-muted-foreground">
-                        Vendor cost ({vendorConfig.label})
+                        Vendor cost
                       </p>
                       <p className="font-display text-xl font-bold text-foreground">
                         {formatCurrency(year.totalVendorCost)}
                       </p>
                       <p className="text-[11px] text-muted-foreground">
                         {vendorPath === "bland"
-                          ? `${formatCurrency(year.usageAiCost)} usage + ${formatCurrency(year.vendorPlatformCost)} platform${year.vendorSetupCost > 0 ? ` + ${formatCurrency(year.vendorSetupCost)} setup` : ""}`
-                          : `at $${aiCostPerMinute.toFixed(2)}/min`}
+                          ? `${formatCurrency(year.usageAiCost)} usage + ${formatCurrency(year.vendorPlatformCost)} plat.${year.vendorSetupCost > 0 ? ` + ${formatCurrency(year.vendorSetupCost)} setup` : ""}`
+                          : `${vendorConfig.label} at $${aiCostPerMinute.toFixed(2)}/min`}
+                      </p>
+                    </div>
+                    <div className="rounded-lg bg-muted/40 border border-border/50 p-3">
+                      <p className="text-[11px] font-medium text-muted-foreground">
+                        Engineering
+                      </p>
+                      <p className="font-display text-xl font-bold text-foreground">
+                        {formatCurrency(year.engCost)}
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">
+                        {[engFteY1, engFteY2, engFteY3][i]} FTE at{" "}
+                        {formatCurrency(engCostPerYear)}/yr
                       </p>
                     </div>
                     <div

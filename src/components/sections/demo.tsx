@@ -11,6 +11,7 @@ import {
 } from "@/components/section-wrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { demoAgent } from "@/lib/prd-data";
+import Image from "next/image";
 import {
   Mic,
   MicOff,
@@ -118,14 +119,37 @@ function AgentWidget() {
       <div className="relative">
         <div
           className={cn(
-            "relative flex h-28 w-28 items-center justify-center rounded-full transition-all duration-500",
+            "relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full transition-all duration-500",
             isConnected
-              ? "bg-gradient-to-br from-green-400 to-green-600 shadow-lg shadow-green-500/30"
+              ? "bg-gradient-to-br from-green-400 to-green-600 shadow-lg shadow-green-500/30 ring-4 ring-green-400/30"
               : "bg-gradient-to-br from-bond-navy to-bond-navy-dark shadow-lg shadow-bond-navy/30",
           )}
         >
           <PulseRing active={isConnected && conversation.isSpeaking} />
-          {isConnected ? (
+          {demoAgent.photoUrl ? (
+            <>
+              <Image
+                src={demoAgent.photoUrl}
+                alt={demoAgent.name}
+                width={112}
+                height={112}
+                className={cn(
+                  "absolute inset-0 h-full w-full object-cover",
+                  isConnected && "opacity-80",
+                )}
+              />
+              {isConnected && (
+                <div className="absolute inset-0 flex items-center justify-center bg-green-500/20">
+                  <Volume2
+                    className={cn(
+                      "h-10 w-10 text-white drop-shadow-lg transition-transform",
+                      conversation.isSpeaking && "scale-110",
+                    )}
+                  />
+                </div>
+              )}
+            </>
+          ) : isConnected ? (
             <Volume2
               className={cn(
                 "h-10 w-10 text-white transition-transform",
