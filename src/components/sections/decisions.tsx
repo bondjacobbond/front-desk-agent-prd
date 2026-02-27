@@ -77,33 +77,14 @@ export function DecisionsSection() {
         ))}
       </div>
 
-      {/* Footer / next steps */}
-      <div className="mt-16 rounded-2xl bg-bond-navy-dark p-8 text-center text-white md:p-10">
-        <h3 className="font-display text-2xl font-bold md:text-3xl">
-          Next Steps
-        </h3>
-        <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/70">
-          Negotiate with Bland. Start FAQ knowledge base build (can begin
-          immediately). Connect existing program APIs. Define AI disclosure
-          policy. Lock pilot facility list. Book 60-day pilot review gate.
+      {/* Bottom-of-PRD easter egg */}
+      <div className="mt-16 rounded-2xl border border-dashed border-bond-navy/20 bg-bond-soft-bg/50 p-8 text-center md:p-10">
+        <p className="font-display text-xl font-semibold text-bond-navy md:text-2xl">
+          Hey, you made it to the bottom!
         </p>
-        <div className="mx-auto mt-6 flex max-w-md flex-wrap justify-center gap-2">
-          {[
-            "Bland Negotiation",
-            "FAQ Knowledge Base",
-            "Connect Program APIs",
-            "Legal Disclosure",
-            "Lock Pilot Facilities",
-            "60-Day Review Gate",
-          ].map((item) => (
-            <span
-              key={item}
-              className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
+        <p className="mt-2 text-sm text-muted-foreground">
+          You read the whole PRD. The AI front desk agent would be proud.
+        </p>
       </div>
     </SectionWrapper>
   );
