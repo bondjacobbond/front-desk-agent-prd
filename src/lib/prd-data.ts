@@ -1,7 +1,7 @@
 export const kpiPhases = [
   {
     phase: "Phase 1",
-    label: "Pilot",
+    label: "FAQ MVP",
     timeline: "Months 1-3",
     metrics: [
       {
@@ -10,9 +10,9 @@ export const kpiPhases = [
         how: "Track activations in Bond admin; target early adopters from Chelsea Piers, Toca, Palm Beach Skate Zone",
       },
       {
-        metric: "End-to-end resolution",
-        target: "80%+",
-        how: "Monitor escalation rate; track resolution classification and post-call surveys. Min 300 AI-handled calls across 3 facilities.",
+        metric: "FAQ resolution rate",
+        target: "70%+",
+        how: "Calls resolved without transfer to staff. Track resolution vs. transfer rate across FAQ categories.",
       },
       {
         metric: "Call answer time",
@@ -25,16 +25,16 @@ export const kpiPhases = [
         how: "Post-pilot survey at 30 and 60 days",
       },
       {
-        metric: "Critical errors",
-        target: "Zero",
-        how: "QA review of all agent interactions; automated edge case flagging",
+        metric: "Factual accuracy",
+        target: "Zero complaints",
+        how: "QA review of all agent interactions; validate answers against facility knowledge base",
       },
     ],
   },
   {
     phase: "Phase 2",
-    label: "Scale",
-    timeline: "Months 3-9",
+    label: "Data + Scale",
+    timeline: "Months 4-8",
     metrics: [
       {
         metric: "Active facilities",
@@ -270,6 +270,14 @@ export type PhaseDemo = {
   steps: DemoStep[];
 };
 
+export type PhaseApi = {
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  path: string;
+  desc: string;
+  params?: string[];
+  note?: string;
+};
+
 export const featurePhases: Array<{
   phase: string;
   title: string;
@@ -281,6 +289,7 @@ export const featurePhases: Array<{
     priority: string;
     size: string;
   }>;
+  apis?: PhaseApi[];
   demo: PhaseDemo;
 }> = [
   {
@@ -324,6 +333,64 @@ export const featurePhases: Array<{
         desc: "All AI conversations: transcripts, outcomes, escalation reasons, sentiment, volume patterns.",
         priority: "P1",
         size: "M",
+      },
+    ],
+    apis: [
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/programs",
+        desc: "Paginated list of programs with up to 10 sessions each.",
+        params: [
+          "programTypes",
+          "sports",
+          "gender",
+          "levels",
+          "search",
+          "includePast",
+          "startDate",
+          "endDate",
+          "expand (e.g. accountingCodes)",
+          "page",
+          "itemsPerPage",
+          "offset",
+        ],
+      },
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/programs/{programId}/sessions",
+        desc: "All sessions for a specific program including dates, registration windows, facilities, products, and participant limits.",
+        params: [
+          "gender",
+          "levels",
+          "search",
+          "includePast",
+          "startDate",
+          "endDate",
+          "searchByProgram",
+          "expand (e.g. accountingCodes)",
+        ],
+      },
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/programs/{programId}/sessions/{sessionId}/products",
+        desc: "Products (pricing tiers and membership gating) for a session.",
+      },
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/programs/{programId}/sessions/{sessionId}/segments",
+        desc: "Segments of a session (schedule blocks within a session).",
+      },
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/programs/{programId}/sessions/{sessionId}/segments/{segmentId}/events",
+        desc: "Individual events within a segment (specific occurrences on the calendar).",
+      },
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/schedule",
+        desc: "Facility-wide event schedule. Returns events across all programs for a date range — the primary endpoint the agent uses to answer 'what's happening today/this week' questions.",
+        params: ["startDate", "endDate", "facilityId", "sportId"],
+        note: "Needed — not yet available in public API",
       },
     ],
     demo: {
@@ -454,6 +521,46 @@ export const featurePhases: Array<{
         size: "S",
       },
     ],
+    apis: [
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/customers/{customerId}",
+        desc: "Full customer profile — name, contact info, family members, preferences, and account status.",
+        note: "New public customer endpoint — required for agent recognition",
+      },
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/customers/lookup",
+        desc: "Look up a customer by phone number, email, or name. Powers caller-ID recognition when an inbound call arrives.",
+        params: ["phone", "email", "name"],
+        note: "New public customer endpoint",
+      },
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/customers/{customerId}/registrations",
+        desc: "Active and past registrations for a customer. The agent uses this for context ('I see Lucas finished Learn to Skate last fall').",
+        params: ["status", "includePast", "startDate", "endDate"],
+        note: "New public customer endpoint",
+      },
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/customers/{customerId}/memberships",
+        desc: "Active memberships, freeze status, and renewal dates for a customer.",
+        note: "New public customer endpoint",
+      },
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/customers/{customerId}/balance",
+        desc: "Outstanding balance, payment methods on file, and recent transaction history.",
+        note: "New public customer endpoint",
+      },
+      {
+        method: "GET",
+        path: "/v4/api/organization/{organizationId}/customers/{customerId}/family",
+        desc: "Family members linked to the account — names, ages, and individual registration/membership data.",
+        note: "New public customer endpoint",
+      },
+    ],
     demo: {
       title: "Returning Customer Inquiry",
       context:
@@ -561,6 +668,44 @@ export const featurePhases: Array<{
         desc: "Post-action confirmation emails/SMS with details, calendar invites, reminders.",
         priority: "P1",
         size: "S",
+      },
+    ],
+    apis: [
+      {
+        method: "POST",
+        path: "/v4/api/organization/{organizationId}/programs/{programId}/sessions/{sessionId}/register",
+        desc: "Register a participant for a session. Checks prerequisites, conflicts, and capacity. Returns confirmation with payment details.",
+        note: "New write endpoint — requires PCI-scoped auth",
+      },
+      {
+        method: "POST",
+        path: "/v4/api/organization/{organizationId}/programs/{programId}/sessions/{sessionId}/waitlist",
+        desc: "Add a participant to the waitlist for a full session. Triggers automatic notification when a spot opens.",
+        note: "New write endpoint",
+      },
+      {
+        method: "POST",
+        path: "/v4/api/organization/{organizationId}/registrations/{registrationId}/cancel",
+        desc: "Cancel a registration. Applies cancellation policy (fees, credits, refunds) based on facility rules and timing.",
+        note: "New write endpoint",
+      },
+      {
+        method: "PATCH",
+        path: "/v4/api/organization/{organizationId}/memberships/{membershipId}",
+        desc: "Modify a membership — freeze, unfreeze, or initiate cancellation with notice period enforcement.",
+        note: "New write endpoint",
+      },
+      {
+        method: "POST",
+        path: "/v4/api/organization/{organizationId}/payments",
+        desc: "Process a payment against an outstanding balance or new registration. Uses payment method on file or collects new card via PCI-compliant flow.",
+        note: "New write endpoint — requires PCI-scoped auth",
+      },
+      {
+        method: "POST",
+        path: "/v4/api/organization/{organizationId}/notifications/send",
+        desc: "Send a confirmation email or SMS to a customer with registration details, calendar invites, or credit summaries.",
+        note: "New write endpoint",
       },
     ],
     demo: {
@@ -859,115 +1004,152 @@ export const featurePhases: Array<{
 export const architectureLayers = [
   {
     layer: 1,
-    name: "Communication Infrastructure",
-    decision: "ElevenLabs + Twilio",
-    desc: "ElevenLabs provides voice and native text chat (Chat Mode, Feb 2026) with embeddable widget. Twilio for telephony and SMS. Bond orchestration layer handles email. Full omni-channel coverage without Bland's email gap.",
-    tech: "ElevenLabs (voice + text chat) + Twilio (telephony/SMS)",
+    name: "Bond Admin Portal",
+    owner: "Bond" as const,
+    desc: "Facility-facing configuration (agent personality, hours, special instructions), conversation monitoring, call analytics, and performance dashboards. Facilities manage their agent here — not in a vendor dashboard.",
+    tech: "Bond Admin Portal + Vendor API integration",
   },
   {
     layer: 2,
-    name: "Speech & Language Processing",
-    decision: "ElevenLabs (voice + text) + BYO LLM",
-    desc: "ElevenLabs Conversational AI: best-in-class TTS with Expressive Mode, STT, Chat Mode (text agents), and integrated workflow engine. BYO LLM (Gemini 2.5 Flash tested, model-agnostic). $0.09-0.10/min with no platform fee. Bland's proprietary voice LLM remains a fallback if quality gaps emerge.",
-    tech: "ElevenLabs (voice + chat) + Gemini 2.5 Flash (swappable)",
+    name: "Bond Data & Actions API",
+    owner: "Bond" as const,
+    desc: "The moat. Bond is the system of record — schedules, customers, pricing, memberships, registrations, policies. The voice platform calls Bond's API to look up data and execute actions (book, cancel, reschedule, check balances). No AI platform is useful without this.",
+    tech: "Bond Agent API (read + write endpoints)",
   },
   {
     layer: 3,
-    name: "Agentic Orchestration",
-    decision: "Build on ElevenLabs",
-    desc: "Bond builds orchestration on ElevenLabs' workflow builder, knowledge base RAG, and custom tools. Bond owns conversation flows, multi-location config, facility-specific knowledge bases, and escalation logic. ElevenLabs provides the runtime; Bond provides the intelligence. If production quality walls are hit, Bland's managed Conversational Pathways are the escalation option.",
-    tech: "ElevenLabs Workflows + Bond Orchestration Layer",
+    name: "Voice Platform + Orchestration",
+    owner: "Vendor" as const,
+    desc: "Conversation flows, workflow logic, voice/language processing, knowledge bases, and escalation rules. This lives inside the vendor's platform (ElevenLabs workflows or Bland Conversational Pathways). Bond configures it, may work with vendor's forward-deployed engineers, but the runtime is the vendor's.",
+    tech: "ElevenLabs or Bland (swappable)",
   },
   {
     layer: 4,
-    name: "Bond Intelligence Layer",
-    decision: "Build",
-    desc: "Agent API, policy engine, confidence scoring, and structured access to Bond platform data. This is the moat — Bond is the system of record. ElevenLabs custom tools connect to Bond's API for real-time data, scheduling, and transactions.",
-    tech: "Bond Agent API + Policy Engine",
+    name: "Communication Infrastructure",
+    owner: "Vendor" as const,
+    desc: "Telephony, SMS, and email routing. Standard infrastructure — not a differentiator.",
+    tech: "Twilio (telephony/SMS) + Bond (email)",
   },
 ];
 
 export const timeline = [
   {
     phase: "Phase 1",
-    title: "ElevenLabs Pilot",
-    months: "Months 1-4",
+    title: "FAQ Agent MVP — 3 Facilities",
+    months: "Months 1-3",
     objective:
-      "Ship a working voice agent to 3 pilot facilities on ElevenLabs, answering questions using real Bond data. Prove product-market fit at near-zero platform cost.",
+      "Ship the simplest valuable product: a voice agent that answers FAQs (hours, pricing, programs, directions) and transfers to staff for anything else. Prove product-market fit before adding complexity.",
     milestones: [
       {
         time: "Month 1, Wk 1-2",
-        name: "Prototype → Production Architecture",
-        desc: "Extend Palm Beach Skate Zone ElevenLabs prototype into production architecture. Define Agent API v1 endpoints for ElevenLabs custom tools. Optional: Blank Metal sprint kickoff for architecture guidance.",
+        name: "FAQ Knowledge Base + Voice Setup",
+        desc: "Configure voice agent with each facility's FAQ content: hours, holiday schedules, pricing, program descriptions, location/directions, basic policies. This is the fastest path to a working product — no API integration needed.",
+        successCriteria: [
+          "All 3 pilot facility knowledge bases populated and reviewed by facility staff",
+          "Agent correctly answers hours, pricing, programs, and directions for each facility",
+          "Voice quality and response latency within acceptable range (<1s first response)",
+        ],
+      },
+      {
+        time: "Month 1, Wk 2-3",
+        name: "Existing Program APIs (parallel)",
+        desc: "Connect Bond's existing program/schedule API endpoints to the voice platform. Gives the agent real-time program info and schedules instead of static FAQ content.",
+        successCriteria: [
+          "Agent returning real-time schedule and program data from Bond's existing APIs",
+          "Data refresh latency < 60 seconds",
+          "Agent handles schedule changes without manual knowledge base updates",
+        ],
       },
       {
         time: "Month 1, Wk 3-4",
-        name: "Agent API v1 + Knowledge Bases",
-        desc: "Build read-access API layer for Bond data (schedules, pricing, policies). Populate knowledge bases for 3 pilot facilities. Configure multi-location variable system.",
+        name: "Transfer Logic + Call Routing",
+        desc: "Set up intelligent transfers: the agent answers what it can and routes everything else to the right staff member. Configure per-facility transfer numbers, business hours routing, and after-hours behavior.",
+        successCriteria: [
+          "Transfers routing to correct staff member per facility",
+          "After-hours behavior configured (voicemail, emergency routing)",
+          "Transfer accuracy ≥ 95% in test calls",
+        ],
       },
       {
         time: "Month 2, Wk 1-2",
-        name: "Orchestration Layer v1",
-        desc: "Build Bond orchestration on ElevenLabs: conversation workflows, facility-specific routing, escalation flows. Connect custom tools to Agent API.",
+        name: "Admin Portal + Monitoring",
+        desc: "Call log/transcript dashboard in Bond admin. Facility-facing config for agent personality, hours, FAQ overrides. Surface call analytics from vendor API.",
+        successCriteria: [
+          "Call logs and full transcripts visible in Bond admin",
+          "Facility managers can update FAQ overrides and business hours",
+          "Basic call analytics (volume, duration, resolution rate) surfacing from vendor API",
+        ],
       },
       {
-        time: "Month 2, Wk 3-4",
-        name: "Dashboard + Monitoring",
-        desc: "Build call log/transcript dashboard in Bond admin. Set up QA monitoring practice: who reviews calls, how issues are flagged, escalation thresholds.",
-      },
-      {
-        time: "Month 3, Wk 1-2",
-        name: "QA & Testing",
-        desc: "Comprehensive scenario testing. Stress-test voice quality, latency, and edge cases. Tune conversation flows based on test calls. Legal signoff on AI disclosure.",
+        time: "Month 2, Wk 3 – Month 3, Wk 2",
+        name: "QA, Testing & Legal",
+        desc: "Scenario testing with real facility data. Stress-test FAQ accuracy, voice quality, transfer reliability. Tune knowledge bases. Legal signoff on AI disclosure.",
+        successCriteria: [
+          "50+ test scenarios passed per facility",
+          "Legal AI disclosure policy signed off",
+          "Edge case handling (unknown questions, angry callers, hold requests) validated",
+        ],
       },
       {
         time: "Month 3, Wk 3-4",
         name: "Pilot Launch",
-        desc: "Deploy to 3 select facilities with active call monitoring. Manual QA review of early calls. Iterate daily on conversation flows and knowledge bases.",
-      },
-      {
-        time: "Month 4",
-        name: "Pilot Evaluation + Decision Point",
-        desc: "Analyze pilot data: resolution rate, voice quality, customer feedback, edge case handling. Decision: scale on ElevenLabs or bring in Bland for managed production-hardening.",
+        desc: "Deploy to 3 facilities. Active call monitoring, manual QA of early calls. Iterate daily on knowledge base and transfer rules.",
+        successCriteria: [
+          "3 facilities live and handling real calls",
+          "70%+ FAQ calls resolved without transfer",
+          "NPS ≥ 7 among facility operators",
+          "Zero factual accuracy complaints in first 2 weeks",
+        ],
       },
     ],
   },
   {
     phase: "Phase 2",
-    title: "Customer Recognition & Scale",
-    months: "Months 5-9",
+    title: "Data-Connected Agent & Scale",
+    months: "Months 4-8",
     objective:
-      "Add customer recognition and action-taking. Scale to 50+ facilities. Extend to email and SMS channels using Bond's own orchestration layer.",
+      "Enrich the agent with real-time Bond data (customer lookup, account info). Add action-taking (book, cancel, reschedule). Scale to 50+ facilities.",
     milestones: [
       {
+        time: "Month 4",
+        name: "Bond Data API v1 — Read Operations",
+        desc: "Build dedicated read API endpoints: customer lookup by phone, account balances, membership status, booking availability. Agent goes from FAQ bot to personalized assistant.",
+        successCriteria: [
+          "Customer lookup by phone number returning correct account data",
+          "Account balances, membership status, and booking availability live",
+          "Agent greeting callers by name when recognized",
+        ],
+      },
+      {
         time: "Month 5",
-        name: "Agent API v2 + Customer Recognition",
-        desc: "Write operations (registration, cancellation, waitlist). Customer lookup by phone number with history and account context.",
+        name: "Bond Data API v2 — Write Operations",
+        desc: "Add write endpoints: registration, cancellation, waitlist management. Confirmation flows, exception handling, undo capabilities — all calling Bond's write API.",
+        successCriteria: [
+          "Registration, cancellation, and waitlist write endpoints live",
+          "Confirmation flows tested end-to-end (voice confirmation + Bond system update)",
+          "Undo/rollback working within 5-minute window",
+        ],
       },
       {
-        time: "Month 6",
-        name: "Action-Taking Intelligence",
-        desc: "Build confirmation flows, policy enforcement logic, exception handling, and undo/correction capabilities. Payment collection integration.",
+        time: "Month 5-6",
+        name: "Action Workflows + SMS",
+        desc: "Configure booking, cancellation, and payment workflows in the vendor's platform. Add SMS channel using same knowledge base. Roll out to 20+ facilities.",
+        successCriteria: [
+          "Booking and cancellation workflows completing successfully in ≥ 95% of attempts",
+          "SMS channel live and handling text inquiries",
+          "20+ facilities onboarded and active",
+        ],
       },
       {
-        time: "Month 6-7",
-        name: "Email & SMS Channels",
-        desc: "Extend Bond orchestration layer to handle inbound emails and text messages — same knowledge base, same Agent API, different input/output modality. ElevenLabs widget enables web chat.",
-      },
-      {
-        time: "Month 7",
-        name: "Admin Portal + Dashboard v2",
-        desc: "Facility configuration interface. Enhanced analytics: conversion tracking, revenue attribution, sentiment trends.",
-      },
-      {
-        time: "Month 8",
-        name: "Scaled Rollout",
-        desc: "50+ facilities with onboarding playbook and CS training. Mass update system for policy changes across all facilities.",
-      },
-      {
-        time: "Month 9",
-        name: "Phase 2 Evaluation",
-        desc: "Comprehensive review of scaled deployment. Unit economics validation at scale.",
+        time: "Month 7-8",
+        name: "Admin Portal v2 + Scaled Rollout",
+        desc: "Enhanced facility config, conversion tracking, onboarding playbook. Roll out to 50+ facilities with CS training. Phase 2 evaluation: unit economics at scale.",
+        successCriteria: [
+          "50+ facilities live",
+          "Conversion tracking showing booking uplift per facility",
+          "Unit economics validated: TCO ≤ 50% of subscription price",
+          "80%+ end-to-end resolution rate across all facilities",
+        ],
       },
     ],
   },
@@ -981,71 +1163,88 @@ export const timeline = [
       {
         time: "Month 10-11",
         name: "Second Chance Leads",
-        desc: "AI reviews unresolved inquiries and surfaces high-value follow-ups",
+        desc: "AI reviews unresolved inquiries and surfaces high-value follow-ups.",
+        successCriteria: [
+          "Unresolved inquiry review pipeline live",
+          "20%+ conversion rate on AI-surfaced follow-ups",
+        ],
       },
       {
         time: "Month 11-12",
         name: "Retention & Save Flows",
-        desc: "Cancellation save flows with retention playbooks. Proactive at-risk member outreach.",
+        desc: "Cancellation save workflows with retention playbooks. Proactive at-risk member outreach.",
+        successCriteria: [
+          "10%+ cancellation save rate",
+          "At-risk member outreach triggering automatically",
+        ],
       },
       {
         time: "Month 12-13",
         name: "Proactive Outreach",
-        desc: "Outbound for waitlist openings, schedule changes, registration reminders, lapsed customer re-engagement",
+        desc: "Outbound for waitlist openings, schedule changes, registration reminders, lapsed customer re-engagement.",
+        successCriteria: [
+          "Outbound campaigns for waitlist and schedule changes live",
+          "Registration reminder and re-engagement flows active",
+          "Measurable revenue attribution from outbound interactions",
+        ],
       },
       {
-        time: "Month 13-14",
-        name: "Cross-Sell Engine",
-        desc: "Recommend programs based on customer profile and history during conversations",
-      },
-      {
-        time: "Month 14-15",
-        name: "Multi-Language & Analytics",
-        desc: "Spanish support. Advanced analytics: conversion funnels, peak patterns, revenue attribution.",
+        time: "Month 13-15",
+        name: "Cross-Sell & Multi-Language",
+        desc: "Program recommendations based on customer profile. Spanish support. Advanced analytics: conversion funnels, peak patterns, revenue attribution.",
+        successCriteria: [
+          "Program recommendations driving measurable cross-sell revenue",
+          "Spanish language support live at 10+ facilities",
+          "Conversion funnel and revenue attribution dashboards active",
+        ],
       },
     ],
   },
   {
     phase: "Phase 4",
-    title: "Bond Agents",
+    title: "Bond Agents Platform",
     months: "Months 15-24",
     objective:
       "Expand to a managed ecosystem of role-specific AI agents with a command center where operators direct their AI team.",
     milestones: [
       {
-        time: "Month 15-16",
+        time: "Month 15-17",
         name: "Agent Command Center",
-        desc: "Unified operator dashboard for all agents: activity, decisions, escalations, performance",
+        desc: "Unified operator dashboard for all agents: activity, decisions, escalations, performance. Natural language interface for operators.",
+        successCriteria: [
+          "Unified dashboard live with all agent types visible",
+          "Operators issuing directives via natural language interface",
+          "Weekly active use by ≥ 50% of facility operators",
+        ],
       },
       {
-        time: "Month 16-17",
-        name: "Operator ↔ Agent Chat",
-        desc: "Natural language interface for operators to direct, query, and supervise their agents",
+        time: "Month 17-19",
+        name: "Collections & Program Agents",
+        desc: "Payment follow-up and balance recovery agent. Program coordinator agent for enrollment, instructor subs, schedule changes.",
+        successCriteria: [
+          "Collections agent recovering 15%+ of outstanding balances",
+          "Program coordinator handling enrollment and instructor subs autonomously",
+        ],
       },
       {
-        time: "Month 17-18",
-        name: "Collections & AR Agent",
-        desc: "Automated payment follow-up, balance recovery, payment plan negotiation",
-      },
-      {
-        time: "Month 18-19",
-        name: "Program Coordinator Agent",
-        desc: "Fill underenrolled programs, instructor sub notifications, cascading schedule changes",
-      },
-      {
-        time: "Month 19-20",
-        name: "Agent-to-Agent Handoffs",
-        desc: "Agents coordinate through shared data layer: cross-agent visibility and warm handoffs",
-      },
-      {
-        time: "Month 20-22",
-        name: "Events & Rental Agents",
-        desc: "End-to-end party/event booking and facility rental coordination agents",
+        time: "Month 19-22",
+        name: "Events, Rentals & Handoffs",
+        desc: "End-to-end party/event booking and facility rental agents. Agent-to-agent coordination through shared data layer.",
+        successCriteria: [
+          "Party/event booking agent completing end-to-end bookings",
+          "Agent-to-agent handoffs working seamlessly",
+          "Facility rental inquiries handled without staff intervention",
+        ],
       },
       {
         time: "Month 22-24",
         name: "Back Office Intelligence",
-        desc: "Demand prediction, compliance monitoring, automated operational reporting",
+        desc: "Demand prediction, compliance monitoring, automated operational reporting.",
+        successCriteria: [
+          "Demand prediction reports generating weekly",
+          "Compliance monitoring flagging issues automatically",
+          "Operational reports replacing manual processes at ≥ 50% of facilities",
+        ],
       },
     ],
   },
@@ -1053,24 +1252,61 @@ export const timeline = [
 
 export const pricingModel = {
   name: "Bond AI Front Desk Agent",
-  price: "$399",
-  period: "/month per facility",
-  target: "Simple flat pricing for all facilities",
+  status: "Assumption — launch pricing TBD" as const,
   features: [
-    "Voice + SMS (email TBD — Bland gap)",
+    "Voice + SMS (email Phase 2)",
     "Action-taking (book/cancel/reschedule)",
     "Facility-specific knowledge and policies",
     "Dashboard with call transcripts and outcomes",
     "Standard onboarding and support included",
   ],
-  notes: [
-    "No feature-based tiers during pilot and early rollout",
-    "Usage guardrails are managed in contract terms, not package complexity",
-    "ElevenLabs-first approach: no platform fee. Usage costs ~$0.09-0.10/min. At ~200 call-minutes/facility/month, cost is ~$18-20/facility/month — $399 price point has strong margins from day one",
-    "Matt prefers flat rate for customers (simplicity) — viable with ElevenLabs cost structure. No need for usage-based pass-through at current price points",
-    "Engineering investment ($300-500K over 6-9 months) amortizes across facility base. At 50 facilities, ~$500/facility one-time; at 150 facilities, ~$170/facility",
-    "If Bland is brought in later for scale/quality, $150K/yr + $0.30/min changes the math — but only justified with proven demand and 50+ facilities",
-  ],
+  models: {
+    fixed: {
+      label: "Flat Rate",
+      price: "$399",
+      period: "/month per facility",
+      rationale:
+        "Simple, predictable. Momence validated $399/mo for text-only AI. Matt prefers flat rate for customer simplicity.",
+      pros: [
+        "Easy for sales to sell, easy for customers to budget",
+        "Predictable revenue for Bond — simplifies forecasting",
+        "Strong margin at current AI cost structure (~$18-20/facility in usage)",
+      ],
+      cons: [
+        "Same price for a 50-call/month facility and a 500-call/month facility",
+        "Doesn't scale with value delivered — a high-resolution facility pays the same",
+        "Harder to justify for low-volume facilities during early adoption",
+      ],
+    },
+    usage: {
+      label: "Platform + Per Resolution",
+      price: "$149",
+      period: "/mo + $1/resolution",
+      platformFee: 149,
+      perResolution: 1,
+      rationale:
+        "Platform fee covers base access and support. Per-resolution fee aligns cost with value — Bond earns more when the agent resolves more.",
+      pros: [
+        "Aligns cost with value — the more the agent helps, the more Bond earns",
+        "Lower entry point than flat rate — $149 base vs $399 flat",
+        "Guaranteed revenue floor per facility ($149/mo) while keeping upside",
+      ],
+      cons: [
+        "More complex to explain than a single flat rate",
+        "Requires clear definition of what counts as a 'resolution'",
+        "Revenue still less predictable than flat — varies with call volume",
+      ],
+    },
+  },
+  assumptions: {
+    callMinutesPerFacility: 200,
+    avgCallDuration: 3.5,
+    callsPerFacility: 57,
+    resolutionRate: 0.75,
+    resolutionsPerFacility: 43,
+    aiCostPerMinute: 0.09,
+    aiCostPerFacility: 18,
+  },
 };
 
 export const risks = [
@@ -1164,76 +1400,111 @@ export const performanceTargets = [
   { metric: "Appropriate escalation rate", target: "15-25%" },
 ];
 
-export const revenueProjections = [
-  { year: "Year 1", facilities: 50, avgPrice: 350, arr: 210 },
-  { year: "Year 2", facilities: 150, avgPrice: 400, arr: 720 },
-  { year: "Year 3", facilities: 250, avgPrice: 450, arr: 1350 },
-];
+export const rampModel = {
+  note: "Assumes Bond facility base grows ~2x/year (300 → 600 → 1200). AI agent adoption ramps independently.",
+  years: [
+    {
+      year: "Year 1",
+      totalBase: 300,
+      agentFacilities: 25,
+      adoptionPct: 8,
+      phase: "Pilot → early adopters",
+    },
+    {
+      year: "Year 2",
+      totalBase: 600,
+      agentFacilities: 100,
+      adoptionPct: 17,
+      phase: "Growth — proven product",
+    },
+    {
+      year: "Year 3",
+      totalBase: 1200,
+      agentFacilities: 400,
+      adoptionPct: 33,
+      phase: "Scale — default for new customers",
+    },
+  ],
+};
 
 export const openDecisions = [
   {
     issue: "Voice platform for pilot",
     status: "Needs Decision",
-    owners: "PM, Engineering Lead, CEO",
-    desc: "PRD recommends ElevenLabs for pilot: usage-based ($0.09-0.10/min), no minimum commitment, prototype already built (Palm Beach Skate Zone). Bland validated in demo but requires $150K minimum — not viable as a trial. Bland would serve as escalation path if ElevenLabs pilot hits production quality walls. Needs stakeholder alignment on build-on-ElevenLabs vs. commit-to-Bland.",
+    owners: "Matt (CEO), Jacob (PM)",
+    desc: "Two pilot options: (A) Bland for speed to market — production-quality voice, managed services, $150K+ but negotiable; (B) ElevenLabs for cost efficiency — prototype exists, $0.09/min usage-only. Either way, Phase 1 MVP is FAQ + transfers — no custom API needed to launch. Next step: negotiate with Bland while continuing ElevenLabs prototype.",
   },
   {
-    issue: "LLM provider strategy",
+    issue: "Bland negotiation",
+    status: "Action Required",
+    owners: "Matt (CEO)",
+    desc: "Bland offered $150K minimum ($100K platform + $50K managed services + $0.30/min). Matt believes this is negotiable. Need a counter-proposal — e.g. reduced pilot deal for 3 facilities, lower platform fee, or performance-based structure. Outcome determines whether Path A is viable.",
+  },
+  {
+    issue: "Launch pricing model",
     status: "Needs Decision",
-    owners: "PM, Engineering Lead",
-    desc: "If ElevenLabs path: BYO LLM with model flexibility — Gemini 2.5 Flash tested in prototype, GPT and Claude also available. Recommend starting with Gemini Flash for cost/speed balance, architect as model-agnostic. If Bland path: their proprietary voice LLM is included. Decision depends on voice platform choice.",
+    owners: "Matt (CEO), Jacob (PM)",
+    desc: "Two models under consideration: (A) $399/mo flat per facility — simple, predictable, strong margin; (B) $149/mo platform + $1/resolution — lower entry, value-aligned, but ~48% of flat-rate revenue at current volume assumptions. Matt prefers flat rate for simplicity. Need to validate call volume and resolution rate assumptions with pilot data before committing.",
   },
   {
     issue: "AI disclosure requirements",
-    status: "Open — Blocking Pilot",
-    owners: "PM, Legal",
-    desc: "State-by-state requirements for AI and call recording disclosure. PRD recommends always disclosing with option to transfer to human. Note: Bland demo agent did not self-identify as AI — customers sometimes think it's human. Legal must define Bond's disclosure policy before any pilot goes live.",
+    status: "Blocking — Pre-Pilot",
+    owners: "Marc (Legal), Jacob (PM)",
+    desc: "State-by-state requirements for AI and call recording disclosure. Bond must define disclosure policy before any pilot goes live. Recommendation: always disclose, always offer human transfer.",
   },
   {
-    issue: "Pricing model",
-    status: "Needs Modeling",
-    owners: "PM, CEO, Finance",
-    desc: "ElevenLabs approach simplifies unit economics (no $150K floor, usage-only at $0.09-0.10/min), but model still needs validation. Must determine: (1) estimated call minutes per facility per month, (2) fully loaded per-minute cost (ElevenLabs + LLM inference), (3) engineering investment amortization, (4) flat fee vs. usage-based pass-through to customers, (5) whether AI agent is an add-on or included in base Bond package. Matt prefers flat rate for customers.",
+    issue: "Monitoring and QA plan",
+    status: "Blocking — Pre-Pilot",
+    owners: "Jacob (PM), Engineering",
+    desc: "Must define before pilot: who reviews calls, how issues are flagged, alert thresholds, rollback triggers, on-call ownership. If Bland: their managed services team handles initial tuning. If ElevenLabs: Bond builds this from scratch. Either way, Bond needs its own monitoring in the admin portal.",
   },
   {
-    issue: "Monitoring and incident response plan",
-    status: "Open — High Priority",
-    owners: "Engineering, CS",
-    desc: "Must define production telemetry, alert thresholds, on-call ownership, and rollback triggers before pilot. If building on ElevenLabs, Bond must build its own QA/monitoring practice (no Bland managed services team). If Bland, their team handles initial monitoring. Either way, Bond needs its own layer.",
+    issue: "Phase 1 MVP scope",
+    status: "Ready to Start",
+    owners: "Jacob (PM), Engineering",
+    desc: "Phase 1 is FAQ + transfer agent — no custom API build needed. Wire up facility knowledge bases (hours, pricing, programs, policies) and intelligent transfer routing. Connect existing program/schedule APIs in parallel for real-time data enrichment. Full Data API build moves to Phase 2.",
   },
   {
-    issue: "Email channel strategy",
-    status: "Open",
-    owners: "PM, Engineering Lead",
-    desc: "Voice is #1 priority for pilot; email is #2 overall. If ElevenLabs build path: Bond's orchestration layer could handle email as a channel (same knowledge base, same Agent API, different modality) — but adds to build scope. If Bland path: email is not supported, would need separate solution. PRD recommends deferring email to Phase 2 regardless of platform choice.",
-  },
-  {
-    issue: "Bland commercial relationship",
-    status: "Open — Pending Platform Decision",
-    owners: "CEO, PM",
-    desc: "Bland offered $150K minimum ($100K platform + $50K managed services + $0.30/min). PRD recommends keeping relationship warm but deferring commitment until pilot data exists. If ElevenLabs pilot succeeds, Bland may not be needed. If quality gaps emerge, pilot data gives Bond better negotiating leverage. Bland's value is clearest at scale (50+ facilities).",
-  },
-  {
-    issue: "White-label data access for facility customers",
-    status: "Open",
-    owners: "PM, Engineering Lead",
-    desc: "How do Bond's facility customers access call logs, transcripts, and analytics? If ElevenLabs build path: Bond owns the data layer and builds visibility directly into its admin portal. If Bland path: must embed via Bland's API (white-label login not supported). Scope depends on platform decision.",
+    issue: "Email channel — Phase 2",
+    status: "Deferred",
+    owners: "Jacob (PM), Engineering",
+    desc: "Voice is the priority for pilot. Email deferred to Phase 2 — will depend on vendor platform capabilities and Bond routing. Not blocking.",
   },
 ];
 
 export const vendors = [
   {
     name: "Build In-House",
-    category: "ElevenLabs Platform + Bond Orchestration",
+    category: "ElevenLabs Platform + Bond API",
     score: 4.1,
-    tier: "Tier 1 - Recommended for Pilot",
+    tier: "Tier 1 - Pilot Option (Cost Efficiency)",
     pricing: {
       model: "Engineering time + ElevenLabs usage",
       plans: [
-        { name: "MVP Build", price: "2-3 engineers × 4-6 months", rate: "ElevenLabs $0.09-0.10/min (voice infra)", concurrency: "N/A" },
-        { name: "Production Hardening", price: "1-2 engineers × 3+ months", rate: "Tuning with real call data", concurrency: "N/A" },
-        { name: "Ongoing", price: "1-2 engineers dedicated", rate: "ElevenLabs + LLM inference costs", concurrency: "N/A" },
-        { name: "Accelerator (optional)", price: "Blank Metal: $30-50K/sprint", rate: "AI strategist + engineer", concurrency: "90-day production guarantee" },
+        {
+          name: "MVP Build",
+          price: "2-3 engineers × 4-6 months",
+          rate: "ElevenLabs $0.09-0.10/min (voice infra)",
+          concurrency: "N/A",
+        },
+        {
+          name: "Production Hardening",
+          price: "1-2 engineers × 3+ months",
+          rate: "Tuning with real call data",
+          concurrency: "N/A",
+        },
+        {
+          name: "Ongoing",
+          price: "1-2 engineers dedicated",
+          rate: "ElevenLabs + LLM inference costs",
+          concurrency: "N/A",
+        },
+        {
+          name: "Accelerator (optional)",
+          price: "Blank Metal: $30-50K/sprint",
+          rate: "AI strategist + engineer",
+          concurrency: "90-day production guarantee",
+        },
       ],
     },
     strengths: [
@@ -1259,7 +1530,8 @@ export const vendors = [
       "Risk of underestimating production complexity: the gap between 'demo that works' and 'production agent that handles edge cases at scale' is significant. Bland's managed services exist for a reason.",
       "Blank Metal adds $90-250K if multiple sprints needed, though a focused 1-sprint engagement ($30-50K) may suffice for architecture and initial build guidance",
     ],
-    verdict: "Recommended pilot path. Bland's $150K minimum makes it an enterprise commitment, not a trial — Bond would be locked in before proving demand or validating the product with real facilities. ElevenLabs is usage-based from day one with no minimum, and the Palm Beach Skate Zone prototype already validates feasibility. Pilot with 3 facilities on ElevenLabs for near-zero platform cost while building the Bond orchestration layer. If the pilot reveals production quality gaps that Bond can't close (latency, turn-taking, edge case handling), that's real data to justify Bland's $150K — and Bond will have better negotiating leverage with proven call volumes and use cases. Either way, Bond builds the Agent API and domain expertise that is the real moat. Blank Metal optional for architecture acceleration.",
+    verdict:
+      "Pilot option B — cost efficiency path. ElevenLabs is usage-based ($0.09/min) with no minimum commitment. Palm Beach Skate Zone prototype already validates feasibility. Lower barrier to entry, but Bond handles more of the production hardening and QA. Bond builds the same Data API and admin portal either way — the voice platform is what differs.",
     scores: {
       voice: 4,
       email: 4,
@@ -1277,14 +1549,34 @@ export const vendors = [
     name: "Bland AI",
     category: "Voice AI Platform",
     score: 3.9,
-    tier: "Tier 1 - Escalation Path / Scale Option (Demo Validated)",
+    tier: "Tier 1 - Pilot Option (Speed to Market)",
     pricing: {
       model: "Enterprise: platform fee + managed services + usage",
       plans: [
-        { name: "Platform Fee", price: "$100K/yr", rate: "Required", concurrency: "Single-tenant" },
-        { name: "Managed Services", price: "$50K", rate: "Required for production", concurrency: "~2 months to production" },
-        { name: "Usage", price: "$0.30/min", rate: "Talk time", concurrency: "Negotiable with commitment" },
-        { name: "Minimum Barrier", price: "$150K", rate: "Year 1 floor", concurrency: "Concessions possible" },
+        {
+          name: "Platform Fee",
+          price: "$100K/yr",
+          rate: "Required",
+          concurrency: "Single-tenant",
+        },
+        {
+          name: "Managed Services",
+          price: "$50K",
+          rate: "Required for production",
+          concurrency: "~2 months to production",
+        },
+        {
+          name: "Usage",
+          price: "$0.30/min",
+          rate: "Talk time",
+          concurrency: "Negotiable with commitment",
+        },
+        {
+          name: "Minimum Barrier",
+          price: "$150K",
+          rate: "Year 1 floor",
+          concurrency: "Concessions possible",
+        },
       ],
     },
     strengths: [
@@ -1312,7 +1604,8 @@ export const vendors = [
       "$0.30/min usage is 2-3x self-serve rates — enterprise pricing reflects managed services and SLAs",
       "~2 months of managed services to reach production quality — not instant deployment",
     ],
-    verdict: "Demo validated (Feb 19, 2026) — impressive voice quality, orchestration, and multi-location capabilities. However, $150K minimum makes Bland an enterprise commitment, not a trial. Bond cannot validate product-market fit at that price point without proven demand. New role: escalation path and scale option. If the ElevenLabs pilot at 3 facilities reveals production quality gaps Bond can't close (voice latency, conversation naturalness, edge case handling), Bland's managed services become the answer — and Bond will have real call data to justify the $150K and negotiate better terms. At scale (50+ facilities), Bland's managed services may also become cost-effective if Bond's own QA/monitoring costs approach similar levels. Keep relationship warm and continue commercial dialogue, but don't commit $150K before proving demand.",
+    verdict:
+      "Pilot option A — speed to market path. Demo validated (Feb 19, 2026) — impressive voice quality, orchestration, and multi-location capabilities. Conversational Pathways provide fastest time to a polished product. $150K minimum is a real commitment, but Matt's thesis is that speed-to-market advantage justifies Year 1 cost premium if it puts Bond ahead of competitors. Needs active negotiation on terms.",
     scores: {
       voice: 5,
       email: 1,
@@ -1333,7 +1626,14 @@ export const vendors = [
     tier: "Tier 2 - Monitor",
     pricing: {
       model: "Embedded model (Bond monetizes as add-on)",
-      plans: [{ name: "Embedded Partnership", price: "Contact", rate: "Bond resells to facilities", concurrency: "N/A" }],
+      plans: [
+        {
+          name: "Embedded Partnership",
+          price: "Contact",
+          rate: "Bond resells to facilities",
+          concurrency: "N/A",
+        },
+      ],
     },
     strengths: [
       "Voice AI Receptionist is live and production-proven — Baseline (direct Bond competitor) deployed it across their platform",
@@ -1355,7 +1655,8 @@ export const vendors = [
       "Voice AI sends links rather than completing transactions — no in-call booking or payment processing",
       "Embedded model means Bond resells to facilities — need to structure pricing appropriately",
     ],
-    verdict: "Upgraded threat assessment after Baseline deployment. EmbedReach's Voice AI Receptionist is production-ready and already live in the sports facility vertical via Baseline — a direct Bond competitor. The Baseline demo validates the product for the exact ICP Bond targets: facility-specific AI, per-location phone numbers, knowledge base FAQ, lesson link delivery, and staff handoff. However, the agent operates at FAQ + link-sending level, not deep system integration — Bond's moat (Agent API with real-time data, in-call booking, customer recognition) goes significantly beyond what EmbedReach currently enables. Key risk: Baseline already has this live while Bond is still in planning. Speed to market is critical.",
+    verdict:
+      "Upgraded threat assessment after Baseline deployment. EmbedReach's Voice AI Receptionist is production-ready and already live in the sports facility vertical via Baseline — a direct Bond competitor. The Baseline demo validates the product for the exact ICP Bond targets: facility-specific AI, per-location phone numbers, knowledge base FAQ, lesson link delivery, and staff handoff. However, the agent operates at FAQ + link-sending level, not deep system integration — Bond's moat (Agent API with real-time data, in-call booking, customer recognition) goes significantly beyond what EmbedReach currently enables. Key risk: Baseline already has this live while Bond is still in planning. Speed to market is critical.",
     scores: {
       voice: 4,
       email: 2,
@@ -1377,9 +1678,24 @@ export const vendors = [
     pricing: {
       model: "Per-location monthly",
       plans: [
-        { name: "Base", price: "$320/mo", rate: "5,000 tokens", concurrency: "1 agent" },
-        { name: "Premium", price: "$720/mo", rate: "25,000 tokens", concurrency: "4 agents" },
-        { name: "Enterprise", price: "Custom", rate: "75,000 tokens", concurrency: "Unlimited" },
+        {
+          name: "Base",
+          price: "$320/mo",
+          rate: "5,000 tokens",
+          concurrency: "1 agent",
+        },
+        {
+          name: "Premium",
+          price: "$720/mo",
+          rate: "25,000 tokens",
+          concurrency: "4 agents",
+        },
+        {
+          name: "Enterprise",
+          price: "Custom",
+          rate: "75,000 tokens",
+          concurrency: "Unlimited",
+        },
       ],
     },
     strengths: [
@@ -1394,7 +1710,8 @@ export const vendors = [
       "Would need full Bond integration build",
       "Token-based pricing creates cost ambiguity",
     ],
-    verdict: "Strong ICP fit and right business model, but voice immaturity makes it unusable for Phase 1. Monitor for Phase 2+ text channels or revisit once voice matures.",
+    verdict:
+      "Strong ICP fit and right business model, but voice immaturity makes it unusable for Phase 1. Monitor for Phase 2+ text channels or revisit once voice matures.",
     scores: {
       voice: 1,
       email: 3,
@@ -1415,7 +1732,14 @@ export const vendors = [
     tier: "Tier 3 - Not Recommended",
     pricing: {
       model: "Per-resolution (custom)",
-      plans: [{ name: "Enterprise", price: "Custom", rate: "Contact Account Manager", concurrency: "N/A" }],
+      plans: [
+        {
+          name: "Enterprise",
+          price: "Custom",
+          rate: "Contact Account Manager",
+          concurrency: "N/A",
+        },
+      ],
     },
     strengths: [
       "Bond already uses Intercom for B2B support",
@@ -1429,7 +1753,8 @@ export const vendors = [
       "Voice Procedures in closed beta",
       "Per-workspace costs compound at 300+ facilities",
     ],
-    verdict: "Multi-tenancy gap remains deal-breaker. Architecture designed for B2B (one workspace per company), not B2B2C. Continue using for Bond's own B2B support.",
+    verdict:
+      "Multi-tenancy gap remains deal-breaker. Architecture designed for B2B (one workspace per company), not B2B2C. Continue using for Bond's own B2B support.",
     scores: {
       voice: 3,
       email: 4,
@@ -1450,7 +1775,14 @@ export const vendors = [
     tier: "Tier 2 - Monitor",
     pricing: {
       model: "Custom (per-conversation or per-resolution)",
-      plans: [{ name: "Enterprise", price: "Custom", rate: "Contact Sales", concurrency: "N/A" }],
+      plans: [
+        {
+          name: "Enterprise",
+          price: "Custom",
+          rate: "Contact Sales",
+          concurrency: "N/A",
+        },
+      ],
     },
     strengths: [
       "Full multi-modal: voice, chat, email",
@@ -1464,7 +1796,8 @@ export const vendors = [
       "No public pricing creates budget uncertainty",
       "Per-conversation model means paying even when AI fails",
     ],
-    verdict: "Impressive technology, wrong stage for Bond. Unsolved multi-tenancy and enterprise pricing make it poor fit today. Re-evaluate in 12-18 months if Bond's ARR and call volumes grow significantly.",
+    verdict:
+      "Impressive technology, wrong stage for Bond. Unsolved multi-tenancy and enterprise pricing make it poor fit today. Re-evaluate in 12-18 months if Bond's ARR and call volumes grow significantly.",
     scores: {
       voice: 4,
       email: 4,
@@ -1481,12 +1814,140 @@ export const vendors = [
 ];
 
 export const evaluationCriteria = [
-  { criterion: "Voice-First Capability", weight: 20, desc: "Live inbound voice quality, latency, natural conversation handling" },
-  { criterion: "Multi-Tenancy at Scale", weight: 15, desc: "Ability to manage 300+ facility configurations under one Bond account" },
-  { criterion: "Bond Data Integration", weight: 15, desc: "How naturally solution connects to Bond's Agent API for real-time data" },
-  { criterion: "Action-Taking", weight: 15, desc: "Can agent book registrations, process cancellations, modify memberships?" },
-  { criterion: "Mass Update & Config", weight: 10, desc: "Can Bond push policy changes to hundreds of facilities simultaneously?" },
-  { criterion: "Time to Production", weight: 10, desc: "Realistic timeline from contract to live calls at pilot facilities" },
-  { criterion: "Cost Model & Scalability", weight: 10, desc: "Pricing predictability at 300+ facilities; gross margin sustainability" },
-  { criterion: "Strategic Control", weight: 5, desc: "Bond's ability to migrate away, own IP, evolve independently" },
+  {
+    criterion: "Voice-First Capability",
+    weight: 20,
+    desc: "Live inbound voice quality, latency, natural conversation handling",
+  },
+  {
+    criterion: "Multi-Tenancy at Scale",
+    weight: 15,
+    desc: "Ability to manage 300+ facility configurations under one Bond account",
+  },
+  {
+    criterion: "Bond Data Integration",
+    weight: 15,
+    desc: "How naturally solution connects to Bond's Agent API for real-time data",
+  },
+  {
+    criterion: "Action-Taking",
+    weight: 15,
+    desc: "Can agent book registrations, process cancellations, modify memberships?",
+  },
+  {
+    criterion: "Mass Update & Config",
+    weight: 10,
+    desc: "Can Bond push policy changes to hundreds of facilities simultaneously?",
+  },
+  {
+    criterion: "Time to Production",
+    weight: 10,
+    desc: "Realistic timeline from contract to live calls at pilot facilities",
+  },
+  {
+    criterion: "Cost Model & Scalability",
+    weight: 10,
+    desc: "Pricing predictability at 300+ facilities; gross margin sustainability",
+  },
+  {
+    criterion: "Strategic Control",
+    weight: 5,
+    desc: "Bond's ability to migrate away, own IP, evolve independently",
+  },
 ];
+
+export const demoAgent = {
+  agentId: "agent_2101kfp8tgwwenfbkex889h3kssv",
+  name: "Ashley",
+  facility: "Palm Beach Skate Zone",
+  location: "Lake Worth, Florida",
+  systemPrompt: `You are Ashley, the front desk receptionist at Palm Beach Skate Zone in Lake Worth, Florida.
+
+# Conversation Style
+
+You are on a live phone call. Speak naturally — short sentences, casual-professional tone, like a real person at a front desk.
+- Never read bullet points or lists aloud. Convert any list into natural speech ("We've got public skating, figure skating lessons, hockey programs, and birthday parties.").
+- Use filler words sparingly but naturally ("Sure thing," "Let me see," "Great question").
+- Keep responses to 1-3 sentences. If the caller needs more detail, they'll ask.
+- Mirror the caller's energy. If they're excited about a birthday party, match that enthusiasm. If they're frustrated, be empathetic first.
+- Say "we" not "the facility" — you work here.
+
+# Greeting
+
+Answer with: "Hi, thanks for calling Palm Beach Skate Zone, this is Ashley. How can I help you?"
+If the caller asks how you're doing, respond briefly and redirect: "I'm doing great, thanks for asking! What can I help you with today?"
+
+# Follow-Up & Upsell — CRITICAL
+
+After answering any question, ALWAYS ask a helpful follow-up that moves toward a booking or next step. Never just answer and go silent. Examples:
+
+- Birthday parties: After giving info, ask "Do you have a date in mind? I can check availability for you" or "Would you like me to connect you with our party coordinator to get one booked?"
+- Public skating: "Would you like me to let you know about our season pass? It saves a lot if you come regularly."
+- Programs / Learn to Skate: "Our next session starts soon — want me to save you a spot?" or "How old is your skater? I can point you to the right class."
+- Hockey: "Are you looking for youth or adult leagues? I can connect you with our hockey coordinator to get signed up."
+- Hours: "Were you planning on coming in today? I can let you know what's happening this evening."
+- General interest: "Is there anything specific you're looking to do here — skating, lessons, parties? I can point you in the right direction."
+
+The goal is to be genuinely helpful, not pushy. Every question is an opportunity to help someone take the next step.
+
+# Knowledge Base
+
+## Hours
+- Public skating: Friday 7-10pm, Saturday 1-4pm and 7-10pm, Sunday 1-4pm
+- Stick & Puck (open hockey): Tuesday and Thursday 6-7:30pm
+- Freestyle (figure skating): Monday, Wednesday, Friday 6-7:30am
+- The rink is closed on major holidays. If unsure about a specific date, offer to check with management.
+
+## Pricing
+- Public skating admission: $15 per person, skate rental included
+- Stick & Puck: $20 per person
+- Freestyle sessions: $15 per person
+- Season passes available — mention these if someone sounds like a regular
+
+## Programs
+- Learn to Skate: Group lessons for beginners, all ages. 8-week sessions, $160.
+- Figure Skating: Private and group lessons through the Palm Beach Skating Academy.
+- Hockey: Youth hockey leagues and adult recreational leagues. Direct detailed hockey questions to the hockey coordinator.
+- Summer camps: Available June through August. Ages 5-14.
+
+## Birthday Parties
+- Party packages start at $350 for up to 15 kids
+- Includes 2 hours of ice time, skate rental, party room, and a dedicated host
+- Available Saturday and Sunday afternoons
+- Book at least 2 weeks in advance
+- For detailed party planning, offer to transfer to the birthday party coordinator
+
+## Location & Facilities
+- Address: 8125 Lake Worth Road, Lake Worth, FL 33467
+- Pro shop on-site for skate sharpening and equipment
+- Snack bar with drinks and light food
+- Free parking
+
+# Transfers
+
+When a question goes beyond what you know, or the caller wants to book/sign up, transfer to the right person. Always tell the caller who you're connecting them with and why.
+- Skate school or lesson questions beyond basics → "Let me connect you with our skating director, they can help with that."
+- Birthday party booking or custom requests → "I'll transfer you to our birthday party coordinator — they'll take great care of you."
+- Complaints, billing, or anything you can't resolve → "Let me get our manager on the line for you."
+- Hockey leagues, teams, or schedules → "Let me transfer you to our hockey coordinator."
+
+# Handling Uncertainty
+
+If someone asks something you don't know:
+- Don't guess or make up information.
+- Say something like: "That's a great question — I'm not 100% sure on that. Can I take your name and number and have someone call you back with the details?"
+- Or offer to transfer: "Let me connect you with someone who can give you the exact info on that."
+
+# Guardrails
+
+- Stay on topic. If someone asks about things unrelated to the rink, politely redirect: "I'm just the front desk here at Palm Beach Skate Zone — I can help with anything rink-related though!"
+- Never share staff personal info, schedules, or phone numbers.
+- If a caller is rude or abusive, stay calm: "I understand you're frustrated. Let me get my manager on the line." Then transfer.
+- Never commit to pricing, policies, or dates you're unsure about. Better to transfer than to be wrong.
+- You are an AI assistant. If directly asked whether you're a real person, be honest: "I'm actually an AI assistant for the front desk — but I can help with most questions, and I can always connect you with a person if you'd prefer."
+
+# Environment
+
+The current date and time is {{system__time}} in {{system__timezone}}.
+Use this to answer "Are you open right now?" or "What time does skating start today?" based on the schedule above.`,
+};

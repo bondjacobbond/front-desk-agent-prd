@@ -35,7 +35,8 @@ export function DecisionsSection() {
               <CardContent className="p-5">
                 <div className="flex items-start gap-3">
                   <div className="mt-0.5">
-                    {d.status === "High Priority" ? (
+                    {d.status.includes("Blocking") ||
+                    d.status === "Action Required" ? (
                       <AlertCircle className="h-5 w-5 text-orange-500" />
                     ) : (
                       <CircleDot className="h-5 w-5 text-bond-navy/40" />
@@ -49,9 +50,14 @@ export function DecisionsSection() {
                       <Badge
                         variant="outline"
                         className={`rounded-full text-[10px] font-bold ${
-                          d.status === "High Priority"
+                          d.status.includes("Blocking") ||
+                          d.status === "Action Required"
                             ? "border-orange-200 bg-orange-50 text-orange-700"
-                            : "border-border bg-muted text-muted-foreground"
+                            : d.status === "Ready to Start"
+                              ? "border-green-200 bg-green-50 text-green-700"
+                              : d.status === "Deferred"
+                                ? "border-border bg-muted/50 text-muted-foreground"
+                                : "border-border bg-muted text-muted-foreground"
                         }`}
                       >
                         {d.status}
@@ -71,81 +77,24 @@ export function DecisionsSection() {
         ))}
       </div>
 
-      {/* Pilot gates */}
-      <div className="mt-12">
-        <h3 className="font-display text-xl font-bold text-bond-navy-dark">
-          Pilot Success Gates
-        </h3>
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <Card className="rounded-2xl border-border/50">
-            <CardContent className="p-5">
-              <Badge className="mb-3 rounded-full bg-bond-navy px-3 py-1 text-[10px] font-bold text-white">
-                Day 30 — Functional Readiness
-              </Badge>
-              <ul className="space-y-2">
-                {[
-                  "Agent API live and stable",
-                  "Voice routing operational",
-                  "Admin UI supports 2+ templates",
-                  "50 active calls per facility per week",
-                  "Legal signoff in place",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-2 text-sm text-muted-foreground"
-                  >
-                    <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bond-navy/30" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-          <Card className="rounded-2xl border-border/50">
-            <CardContent className="p-5">
-              <Badge className="mb-3 rounded-full bg-bond-gold px-3 py-1 text-[10px] font-bold text-white">
-                Day 60 — Business Readiness
-              </Badge>
-              <ul className="space-y-2">
-                {[
-                  "80% resolved calls",
-                  "Escalation rate 15-25%",
-                  "NPS ≥ 7 among operators",
-                  "Zero critical booking/payment errors",
-                  "TCO ≤ 50% of pilot price",
-                  "Mass update ≤ 5 min for 90% of facilities",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-2 text-sm text-muted-foreground"
-                  >
-                    <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bond-gold/50" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
       {/* Footer / next steps */}
       <div className="mt-16 rounded-2xl bg-bond-navy-dark p-8 text-center text-white md:p-10">
         <h3 className="font-display text-2xl font-bold md:text-3xl">
           Next Steps
         </h3>
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/70">
-          Finalize Agent API v1 spec. Publish pilot legal approach. Run 3-day
-          engineering spike on mass-update prototype. Lock pilot facility list
-          and get signed agreements. Book 60-day vendor review.
+          Negotiate with Bland. Start FAQ knowledge base build (can begin
+          immediately). Connect existing program APIs. Define AI disclosure
+          policy. Lock pilot facility list. Book 60-day pilot review gate.
         </p>
         <div className="mx-auto mt-6 flex max-w-md flex-wrap justify-center gap-2">
           {[
-            "Agent API v1 Spec",
-            "Legal Approach",
-            "Eng Spike",
+            "Bland Negotiation",
+            "FAQ Knowledge Base",
+            "Connect Program APIs",
+            "Legal Disclosure",
             "Lock Pilot Facilities",
-            "60-Day Review",
+            "60-Day Review Gate",
           ].map((item) => (
             <span
               key={item}

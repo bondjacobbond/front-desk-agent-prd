@@ -14,6 +14,7 @@
     "check": "bun run type-check && bun run lint && bun run format:check"
   },
   "dependencies": {
+    "@elevenlabs/react": "^0.14.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.33.0",

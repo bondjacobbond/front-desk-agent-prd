@@ -13,45 +13,50 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 
 ## Review Scores by Domain
 
-| Domain | Score | Status |
-|--------|-------|--------|
-| Product Management | 8.5/10 | ✅ Strong strategic foundation |
-| Engineering | 7/10 | ⚠️ Needs Agent API specification |
-| Design/UX | 7.5/10 | ⚠️ Admin UI needs detailed spec |
-| Sales/GTM | 7/10 | ⚠️ Sales motion needs definition |
-| Legal/Compliance | 6/10 | 🔴 Critical: Legal signoff required |
-| Finance | 7.5/10 | ⚠️ Cost model needs completion |
-| Customer Success | 7/10 | ⚠️ Onboarding process needs definition |
+| Domain             | Score  | Status                                 |
+| ------------------ | ------ | -------------------------------------- |
+| Product Management | 8.5/10 | ✅ Strong strategic foundation         |
+| Engineering        | 7/10   | ⚠️ Needs Agent API specification       |
+| Design/UX          | 7.5/10 | ⚠️ Admin UI needs detailed spec        |
+| Sales/GTM          | 7/10   | ⚠️ Sales motion needs definition       |
+| Legal/Compliance   | 6/10   | 🔴 Critical: Legal signoff required    |
+| Finance            | 7.5/10 | ⚠️ Cost model needs completion         |
+| Customer Success   | 7/10   | ⚠️ Onboarding process needs definition |
 
 ---
 
 ## Critical Path Items (Block Pilot Launch)
 
 ### 1. Agent API Specification ⚠️ ENGINEERING
+
 **Issue:** Endpoint contracts lack request/response schemas, error handling, auth model  
 **Owner:** Engineering Lead  
 **Timeline:** Before Month 1, Week 3-4  
 **Risk:** Cannot commit to development timeline without full spec
 
 ### 2. Legal/Compliance Signoff 🔴 LEGAL
+
 **Issue:** Missing written policies for AI disclosure, recording consent, data retention, and vendor data processing terms  
 **Owner:** Legal Counsel  
 **Timeline:** Before pilot launch  
 **Risk:** Regulatory violations, liability exposure
 
 ### 3. Mass Update System Design ⚠️ ENGINEERING
+
 **Issue:** Critical risk acknowledged but technical design missing  
 **Owner:** Engineering Lead  
 **Timeline:** Before Month 2, Week 1-2  
 **Risk:** Cannot scale to 300+ facilities without mass update capability
 
 ### 4. Onboarding Playbook ⚠️ CUSTOMER SUCCESS
+
 **Issue:** Process, timeline, owners, and training materials undefined  
 **Owner:** CS Lead  
 **Timeline:** Before Month 3, Week 1-2  
 **Risk:** Pilot facilities will struggle without clear onboarding
 
 ### 5. Cost Economics Model ⚠️ FINANCE
+
 **Issue:** Incomplete cost breakdown (missing vendor fees, engineering overhead, support costs)  
 **Owner:** Finance Lead  
 **Timeline:** Before pilot launch  
@@ -61,10 +66,10 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 
 ## High Priority Items (Resolve Soon)
 
-6. **Admin UI Specification** (Design) — Wireframes/UX spec needed  
-7. **Incident Monitoring & Alerting Plan** (Engineering) — Define production telemetry, thresholds, and on-call ownership  
-8. **Sales Enablement Materials** (Sales) — ROI calculator, positioning guide  
-9. **Support Model Definition** (CS) — SLAs, escalation process  
+6. **Admin UI Specification** (Design) — Wireframes/UX spec needed
+7. **Incident Monitoring & Alerting Plan** (Engineering) — Define production telemetry, thresholds, and on-call ownership
+8. **Sales Enablement Materials** (Sales) — ROI calculator, positioning guide
+9. **Support Model Definition** (CS) — SLAs, escalation process
 10. **Telephony Vendor Selection** (Engineering) — Twilio vs. Vonage decision
 
 ---
@@ -72,12 +77,14 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 ## Key Consensus Points
 
 ✅ **Strengths:**
+
 - Exceptional competitive analysis (ServiceTitan, Momence, Rec Technologies, Baseline)
 - Clear strategic moat identification (Agent API + business logic)
 - Realistic phased approach with measurable KPIs
 - Well-reasoned hybrid build/buy decision
 
 🔴 **Critical Update — Baseline Competitive Intelligence (Feb 2026):**
+
 - **Baseline** (baselinepro.com), a direct Bond competitor in sports facility management, has deployed a production voice AI front desk agent powered by **EmbedReach**
 - Their agent is **live today**: per-facility AI training, dedicated phone numbers (Twilio-backed), knowledge base FAQ, lesson filtering by age, SMS booking link delivery, warm staff handoff with configurable rules
 - This invalidates the previous assumption that "no one in the private athletic facility space has a voice-first AI agent"
@@ -85,6 +92,7 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 - **Speed to market is now the #1 strategic priority** — every month of delay cedes market share to Baseline
 
 ⚠️ **Concerns:**
+
 - Agent API specification is incomplete (critical blocker)
 - Legal/compliance gates must be resolved (critical blocker)
 - Mass update capability is underspecified (critical risk)
@@ -149,6 +157,7 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 ### Key Findings
 
 **Validated (Positive):**
+
 - Voice quality, latency, and natural conversation exceeded expectations in live demo
 - Conversational Pathways architecture (node-based, per-node context) provides targeted debugging and reduces hallucination risk
 - Purpose-built proprietary voice LLM (not wrapping frontier models) — explains low latency
@@ -159,47 +168,60 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 - SMS + RCS supported; access tiers (Viewer/Prompter/Operator/Admin) available
 
 **Concerns / Gaps:**
+
 - **Email not supported** — Bond's #2 priority channel. On Bland roadmap but unavailable today.
 - **Enterprise pricing: $150K minimum** ($100K/yr platform + $50K managed services + $0.30/min) — significantly above published self-serve rates
 - **White-label login not supported** — Bond's facility customers cannot log into Bland directly. API embedding is recommended path.
 - **~2 months to production** with managed services team actively tuning agent
 - **Bland did not disclose AI identity** in demo — legal must define Bond's disclosure policy
 
+### Decision Owners (Voice Platform Pilot)
+
+| Decision                   | Owners                   |
+| -------------------------- | ------------------------ |
+| Voice platform for pilot   | Matt (CEO), Jacob (PM)   |
+| Bland negotiation          | Matt (CEO)               |
+| Launch pricing model       | Matt (CEO), Jacob (PM)   |
+| AI disclosure requirements | Marc (Legal), Jacob (PM) |
+| Monitoring and QA plan     | Jacob (PM), Engineering  |
+| Bond Data API v1 spec      | Jacob (PM), Engineering  |
+| Email channel — Phase 2    | Jacob (PM), Engineering  |
+
 ### Impact on PRD Decisions
 
-| Decision | Previous Status | Current Status |
-|----------|----------------|------------|
-| Voice provider selection | Open | **Decided — ElevenLabs for pilot** (prototype built). Bland is escalation path. |
-| LLM provider strategy | Open | **Decided — BYO Model via ElevenLabs** (Gemini 2.5 Flash tested, model-agnostic) |
-| Mass update capability | Critical risk | Bond builds to own spec (ElevenLabs approach). Bland's modular pathways validated as fallback. |
-| Pricing model | Open | **Simplified** — no $150K floor. ElevenLabs usage ~$18-20/facility/month at $0.09-0.10/min |
-| Email channel | Assumed bundled | **Solved by build path** — Bond orchestration layer handles email as a channel directly |
-| Monitoring | Open | Bond builds own monitoring (ElevenLabs provides basic analytics; Bond extends for production) |
-| Bland relationship | Recommended for pilot | **Deprioritized to escalation path** — $150K minimum not viable as trial |
+| Decision                 | Previous Status       | Current Status                                                                                 |
+| ------------------------ | --------------------- | ---------------------------------------------------------------------------------------------- |
+| Voice provider selection | Open                  | **Decided — ElevenLabs for pilot** (prototype built). Bland is escalation path.                |
+| LLM provider strategy    | Open                  | **Decided — BYO Model via ElevenLabs** (Gemini 2.5 Flash tested, model-agnostic)               |
+| Mass update capability   | Critical risk         | Bond builds to own spec (ElevenLabs approach). Bland's modular pathways validated as fallback. |
+| Pricing model            | Open                  | **Simplified** — no $150K floor. ElevenLabs usage ~$18-20/facility/month at $0.09-0.10/min     |
+| Email channel            | Assumed bundled       | **Solved by build path** — Bond orchestration layer handles email as a channel directly        |
+| Monitoring               | Open                  | Bond builds own monitoring (ElevenLabs provides basic analytics; Bond extends for production)  |
+| Bland relationship       | Recommended for pilot | **Deprioritized to escalation path** — $150K minimum not viable as trial                       |
 
 ### Updated Bland Score
 
-| Criterion | Previous | Updated | Notes |
-|-----------|----------|---------|-------|
-| Multi-Tenancy | 3/5 | 4/5 | Per-phone-number modular config demonstrated |
-| Mass Update | 2/5 | 4/5 | Global pathway changes + per-location overrides |
-| Overall | 3.55 | 3.9 | Demo validation + resolved key concerns |
+| Criterion     | Previous | Updated | Notes                                           |
+| ------------- | -------- | ------- | ----------------------------------------------- |
+| Multi-Tenancy | 3/5      | 4/5     | Per-phone-number modular config demonstrated    |
+| Mass Update   | 2/5      | 4/5     | Global pathway changes + per-location overrides |
+| Overall       | 3.55     | 3.9     | Demo validation + resolved key concerns         |
 
 ---
 
 ## Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation Status |
-|------|------------|--------|-------------------|
-| Agent API spec delay | High | Critical | ⚠️ Needs immediate attention — ElevenLabs custom tools need Bond API endpoints |
-| Legal compliance gaps | Medium | Critical | 🔴 Blocking pilot launch — must define AI disclosure policy |
-| Baseline competitive threat | Confirmed | High | 🔴 Baseline live with EmbedReach voice AI in Bond's ICP — differentiate on depth |
-| ElevenLabs production quality gap | Medium | High | ⚠️ Key risk of build path — voice latency, turn-taking, interruption handling may not match Bland without tuning. Bland is escalation path if gaps can't be closed. |
-| Production-hardening without managed services | Medium | Medium | ⚠️ Bond must build own QA/monitoring practice. No Bland team listening to first 100 calls. Mitigate: manual call review, Blank Metal guidance. |
-| Cost economics with ElevenLabs | Low | Low | ✅ Dramatically simplified — $0.09-0.10/min with no platform fee. $399/mo has strong margins from day one. |
-| Email channel gap | Low | Low | ✅ Resolved — ElevenLabs build path allows Bond to handle email as a channel in its own orchestration layer |
-| Monitoring/incident response gap | Medium | Medium | ⚠️ Bond must build production telemetry, alerting, and on-call process. ElevenLabs provides basic analytics. |
-| Pilot success gate too aggressive | Medium | Medium | ⚠️ Consider phased criteria |
+| Risk                                          | Likelihood | Impact   | Mitigation Status                                                                                                                                                   |
+| --------------------------------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Agent API spec delay                          | High       | Critical | ⚠️ Needs immediate attention — ElevenLabs custom tools need Bond API endpoints                                                                                      |
+| Legal compliance gaps                         | Medium     | Critical | 🔴 Blocking pilot launch — must define AI disclosure policy                                                                                                         |
+| Baseline competitive threat                   | Confirmed  | High     | 🔴 Baseline live with EmbedReach voice AI in Bond's ICP — differentiate on depth                                                                                    |
+| ElevenLabs production quality gap             | Medium     | High     | ⚠️ Key risk of build path — voice latency, turn-taking, interruption handling may not match Bland without tuning. Bland is escalation path if gaps can't be closed. |
+| Production-hardening without managed services | Medium     | Medium   | ⚠️ Bond must build own QA/monitoring practice. No Bland team listening to first 100 calls. Mitigate: manual call review, Blank Metal guidance.                      |
+| Cost economics with ElevenLabs                | Low        | Low      | ✅ Dramatically simplified — $0.09-0.10/min with no platform fee. $399/mo has strong margins from day one.                                                          |
+| Email channel gap                             | Low        | Low      | ✅ Resolved — ElevenLabs build path allows Bond to handle email as a channel in its own orchestration layer                                                         |
+| Monitoring/incident response gap              | Medium     | Medium   | ⚠️ Bond must build production telemetry, alerting, and on-call process. ElevenLabs provides basic analytics.                                                        |
+| Pilot success gate too aggressive             | Medium     | Medium   | ⚠️ Consider phased criteria                                                                                                                                         |
 
 ---
 
@@ -210,6 +232,7 @@ The PRD is exceptionally thorough and well-researched. The hybrid build/buy appr
 The PRD provides an excellent strategic foundation, but execution readiness requires completion of critical path items. Recommend proceeding with stakeholder review and parallel work on critical items.
 
 **Conditions for Pilot Launch:**
+
 - [ ] Agent API v1 specification complete (ElevenLabs custom tool endpoints defined)
 - [ ] Legal/compliance signoff obtained (including AI disclosure policy)
 - [ ] Multi-location variable system built on ElevenLabs platform
@@ -221,4 +244,4 @@ The PRD provides an excellent strategic foundation, but execution readiness requ
 
 ---
 
-*For detailed reviews by domain, see `PRD_REVIEW_COUNCIL.md`*
+_For detailed reviews by domain, see `PRD_REVIEW_COUNCIL.md`_

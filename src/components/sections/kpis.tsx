@@ -35,7 +35,7 @@ export function KpiSection() {
               "rounded-xl px-4 py-2.5 text-sm font-medium transition-all",
               activePhase === i
                 ? "bg-bond-navy text-white shadow-md shadow-bond-navy/20"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                : "bg-muted text-muted-foreground hover:bg-muted/80",
             )}
           >
             <span className="font-display font-bold">{phase.phase}</span>

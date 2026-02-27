@@ -58,7 +58,7 @@ export function RisksSection() {
                     <span
                       className={cn(
                         "rounded-full px-2.5 py-1 text-[10px] font-bold",
-                        likelihoodColors[r.likelihood]
+                        likelihoodColors[r.likelihood],
                       )}
                     >
                       {r.likelihood}
@@ -66,7 +66,7 @@ export function RisksSection() {
                     <span
                       className={cn(
                         "rounded-full px-2.5 py-1 text-[10px] font-bold",
-                        impactColors[r.impact]
+                        impactColors[r.impact],
                       )}
                     >
                       {r.impact}

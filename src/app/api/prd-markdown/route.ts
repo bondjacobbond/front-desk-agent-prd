@@ -15,7 +15,7 @@ export async function GET() {
     console.error("Failed to read PRD.md:", error);
     return NextResponse.json(
       { error: "Failed to load PRD markdown" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

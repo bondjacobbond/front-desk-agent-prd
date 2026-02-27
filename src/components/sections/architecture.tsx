@@ -9,187 +9,117 @@ import {
 } from "@/components/section-wrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { architectureLayers, performanceTargets } from "@/lib/prd-data";
-import { Layers, Gauge } from "lucide-react";
-
-const phase1Endpoints = [
-  {
-    method: "GET",
-    path: "/organizations/{id}/schedules",
-    desc: "Events linked to programs, sessions, capacity, waitlist. SLA: freshness ≤60s",
-  },
-  {
-    method: "GET",
-    path: "/programs/{id}",
-    desc: "Description, age ranges, prerequisites, pricing, instructor, richer metadata",
-  },
-  {
-    method: "GET",
-    path: "/customers?phone={E164}|email={email}|firstName={}&lastName={}",
-    desc: "Customer record, family, registrations, balance, VIP tags. Lookup by phone (E164), email, or firstName+lastName when phone isn't on file",
-  },
-  {
-    method: "GET",
-    path: "/policies/{category}",
-    desc: "Structured policy objects with cancellation windows, refund rules",
-  },
-];
-
-const phase2Endpoints = [
-  {
-    method: "POST",
-    path: "/registrations",
-    desc: "Create registration. Requires agentToken + confirmationFlow",
-  },
-  {
-    method: "POST",
-    path: "/cancellations",
-    desc: "Process cancellation with reasonCode. Returns refund/credit info",
-  },
-];
-
-function EndpointCard({
-  endpoint,
-}: {
-  endpoint: { method: string; path: string; desc: string };
-}) {
-  return (
-    <div
-      className="flex flex-col gap-2 rounded-xl border border-border/50 bg-white px-4 py-3 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-3"
-    >
-      <span
-        className={`shrink-0 rounded-md px-2 py-0.5 font-mono text-[11px] font-bold ${
-          endpoint.method === "GET"
-            ? "bg-green-50 text-green-700"
-            : "bg-blue-50 text-blue-700"
-        }`}
-      >
-        {endpoint.method}
-      </span>
-      <code className="min-w-0 break-all font-mono text-xs text-foreground sm:flex-1 sm:min-w-0">
-        {endpoint.path}
-      </code>
-      <span className="min-w-0 text-xs text-muted-foreground sm:ml-auto sm:flex-1 sm:min-w-[10rem]">
-        {endpoint.desc}
-      </span>
-    </div>
-  );
-}
+import { Gauge } from "lucide-react";
 
 export function ArchitectureSection() {
+  const bondLayers = architectureLayers.filter((l) => l.owner === "Bond");
+  const vendorLayers = architectureLayers.filter((l) => l.owner === "Vendor");
+
   return (
     <SectionWrapper id="architecture">
       <SectionLabel>Architecture</SectionLabel>
-      <SectionTitle>Four layers, one system</SectionTitle>
+      <SectionTitle>What Bond owns vs. what the vendor runs</SectionTitle>
       <SectionDescription>
-        Bond owns the intelligence — the Agent API, policy engine, and data
-        access that make the AI agent effective. Where it runs (in-house or on a
-        partner platform) is a deployment decision. The moat is being the system
-        of record.
+        Bond&apos;s moat is the data and the actions — schedules, customers,
+        pricing, bookings. No AI platform is useful without Bond&apos;s API. The
+        conversation logic and voice processing run inside the vendor&apos;s
+        platform, configured by Bond.
       </SectionDescription>
 
-      {/* Architecture layers */}
-      <div className="mt-10 space-y-4">
-        {architectureLayers.map((layer, i) => (
+      {/* Architecture Stack */}
+      <div className="mt-10 space-y-2">
+        {/* Bond layers */}
+        <div className="mb-1">
+          <Badge
+            variant="outline"
+            className="rounded-full text-xs font-bold border-bond-navy/20 bg-bond-navy/10 text-bond-navy mb-3"
+          >
+            Bond Builds (Data + Actions + Admin)
+          </Badge>
+        </div>
+        {bondLayers.map((layer, i) => (
           <motion.div
             key={layer.layer}
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.1 }}
+            transition={{ duration: 0.4, delay: i * 0.08 }}
           >
-            <Card
-              className={`rounded-2xl transition-all hover:shadow-md ${
-                layer.decision === "Build"
-                  ? "border-bond-navy/20 bg-gradient-to-r from-bond-navy/[0.03] to-transparent"
-                  : layer.decision === "Build / Partner"
-                    ? "border-bond-navy/10 bg-gradient-to-r from-bond-navy/[0.02] to-transparent"
-                    : "border-border/50"
-              }`}
-            >
-              <CardContent className="p-5 md:p-6">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="flex items-start gap-4">
-                    <div
-                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold ${
-                        layer.decision === "Build"
-                          ? "bg-bond-navy text-white"
-                          : layer.decision === "Build / Partner"
-                            ? "bg-bond-navy/80 text-white"
-                            : "bg-muted text-muted-foreground"
-                      }`}
-                    >
-                      {layer.layer}
-                    </div>
-                    <div>
-                      <h4 className="font-display text-sm font-bold text-foreground">
-                        {layer.name}
-                      </h4>
-                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        {layer.desc}
-                      </p>
-                      <p className="mt-2 text-xs font-medium text-bond-navy/70">
-                        {layer.tech}
-                      </p>
-                    </div>
+            <Card className="rounded-2xl border-bond-navy/15 bg-gradient-to-r from-bond-navy/[0.04] to-transparent transition-all hover:shadow-md">
+              <CardContent className="p-4 sm:p-5">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-bond-navy text-white text-sm font-bold">
+                    {layer.layer}
                   </div>
-                  <Badge
-                    variant="outline"
-                    className={`shrink-0 rounded-full text-xs font-bold ${
-                      layer.decision === "Build"
-                        ? "border-bond-navy/20 bg-bond-navy/10 text-bond-navy"
-                        : layer.decision === "Build / Partner"
-                          ? "border-bond-navy/15 bg-bond-navy/5 text-bond-navy/80"
-                          : "border-bond-gold/30 bg-bond-gold/10 text-bond-gold"
-                    }`}
-                  >
-                    {layer.decision}
-                  </Badge>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-display text-sm font-bold text-foreground">
+                      {layer.name}
+                    </h4>
+                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                      {layer.desc}
+                    </p>
+                    <p className="mt-1.5 text-[11px] font-medium text-bond-navy/60">
+                      {layer.tech}
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
         ))}
-      </div>
 
-      {/* Agent API Spec */}
-      <div className="mt-12">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-bond-navy/10">
-            <Layers className="h-5 w-5 text-bond-navy" />
-          </div>
-          <h3 className="font-display text-xl font-bold text-bond-navy-dark">
-            Agent API v1 Contract
-          </h3>
+        {/* Abstraction boundary */}
+        <div className="flex items-center gap-3 py-3">
+          <div className="h-px flex-1 bg-border border-dashed border-t" />
+          <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+            API boundary — vendor calls Bond for data & actions
+          </span>
+          <div className="h-px flex-1 bg-border border-dashed border-t" />
         </div>
-        <Tabs defaultValue="phase1" className="mt-4">
-          <TabsList className="grid w-full max-w-md grid-cols-2">
-            <TabsTrigger value="phase1">Phase 1</TabsTrigger>
-            <TabsTrigger value="phase2">Phase 2</TabsTrigger>
-          </TabsList>
-          <TabsContent value="phase1" className="mt-4 space-y-2">
-            <p className="mb-2 text-xs text-muted-foreground">
-              Read-only: schedule, program, customer, and policy data
-            </p>
-            {phase1Endpoints.map((endpoint) => (
-              <EndpointCard key={endpoint.path} endpoint={endpoint} />
-            ))}
-          </TabsContent>
-          <TabsContent value="phase2" className="mt-4 space-y-2">
-            <p className="mb-2 text-xs text-muted-foreground">
-              Write operations: registration and cancellation processing
-            </p>
-            {phase2Endpoints.map((endpoint) => (
-              <EndpointCard key={endpoint.path} endpoint={endpoint} />
-            ))}
-          </TabsContent>
-        </Tabs>
-        <p className="mt-3 text-xs text-muted-foreground">
-          All endpoints: &lt;250ms p95 response, idempotent writes, RBAC
-          facility scope. Every call logged with agent_id, facility_id,
-          request_id, confidenceScore.
-        </p>
+
+        {/* Vendor layers */}
+        <div className="mb-1">
+          <Badge
+            variant="outline"
+            className="rounded-full text-xs font-bold border-bond-gold/30 bg-bond-gold/10 text-bond-gold mb-3"
+          >
+            Vendor-Provided (Swappable)
+          </Badge>
+        </div>
+        {vendorLayers.map((layer, i) => (
+          <motion.div
+            key={layer.layer}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.4,
+              delay: (bondLayers.length + i) * 0.08,
+            }}
+          >
+            <Card className="rounded-2xl border-border/50 transition-all hover:shadow-md">
+              <CardContent className="p-4 sm:p-5">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground text-sm font-bold">
+                    {layer.layer}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-display text-sm font-bold text-foreground">
+                      {layer.name}
+                    </h4>
+                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                      {layer.desc}
+                    </p>
+                    <p className="mt-1.5 text-[11px] font-medium text-muted-foreground/60">
+                      {layer.tech}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
       </div>
 
       {/* Performance targets */}

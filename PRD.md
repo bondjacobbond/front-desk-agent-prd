@@ -52,45 +52,45 @@ Facility operators and front desk staff benefit from reduced call volume, fewer 
 
 **Phase 1 (Pilot — Months 1–3 post-launch):**
 
-| Metric | How to Measure |
-| --- | --- |
-| 3 facilities activate AI Front Desk Agent within 60 days of launch | Track activations in Bond admin; target early adopters from Chelsea Piers, Toca, Palm Beach Skate Zone |
+| Metric                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | How to Measure                                                                                                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| 3 facilities activate AI Front Desk Agent within 60 days of launch                                                                                                                                                                                                                                                                                                                                                                                                               | Track activations in Bond admin; target early adopters from Chelsea Piers, Toca, Palm Beach Skate Zone                          |
 | 80%+ of inbound calls answered by the AI are completed end-to-end without escalation. 'Completed end-to-end' = caller issue classified as resolved by agent AND agent performed any requested write (booking/cancellation) or provided the requested factual answer; confirmation email sent; caller survey (sample) satisfaction ≥ 6/10. **To validate: pilot must reach at least 300 AI-handled calls across 3 facilities, or 100 calls per facility, whichever comes first.** | Monitor escalation rate in agent dashboard; compare to total call volume; track resolution classification and post-call surveys |
-| Average call answer time under 3 seconds (vs. industry average of 30+ seconds or missed entirely) | Telephony platform metrics; compare to pre-activation missed call rates |
-| Net Promoter Score from facility operators of 7+ (out of 10) on agent performance | Post-pilot survey administered by CS team at 30 and 60 days |
-| Zero critical errors (wrong bookings, incorrect policy information, unauthorized actions) | QA review of all agent interactions during pilot; automated flagging of edge cases |
+| Average call answer time under 3 seconds (vs. industry average of 30+ seconds or missed entirely)                                                                                                                                                                                                                                                                                                                                                                                | Telephony platform metrics; compare to pre-activation missed call rates                                                         |
+| Net Promoter Score from facility operators of 7+ (out of 10) on agent performance                                                                                                                                                                                                                                                                                                                                                                                                | Post-pilot survey administered by CS team at 30 and 60 days                                                                     |
+| Zero critical errors (wrong bookings, incorrect policy information, unauthorized actions)                                                                                                                                                                                                                                                                                                                                                                                        | QA review of all agent interactions during pilot; automated flagging of edge cases                                              |
 
 **Phase 2 (Scale — Months 3–9):**
 
-| Metric | How to Measure |
-| --- | --- |
-| 50+ facilities active on AI agent | Activation tracking in Bond admin |
+| Metric                                                                     | How to Measure                                                        |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| 50+ facilities active on AI agent                                          | Activation tracking in Bond admin                                     |
 | 15%+ increase in registration/booking conversion rate at active facilities | Compare pre/post activation booking rates using Bond transaction data |
-| 25%+ reduction in missed calls at active facilities | Telephony metrics; before/after comparison |
-| $150K+ in incremental ARR from AI agent subscriptions | Finance tracking of AI agent subscription revenue |
-| Facility staff report 5+ hours/week saved on phone-related tasks | Quarterly survey of active facilities administered by CS |
+| 25%+ reduction in missed calls at active facilities                        | Telephony metrics; before/after comparison                            |
+| $150K+ in incremental ARR from AI agent subscriptions                      | Finance tracking of AI agent subscription revenue                     |
+| Facility staff report 5+ hours/week saved on phone-related tasks           | Quarterly survey of active facilities administered by CS              |
 
 **Phase 3 (Proactive — Months 9–15):**
 
-| Metric | How to Measure |
-| --- | --- |
-| 100+ facilities active; AI agent becomes standard part of Bond onboarding | Activation rate as percentage of total Bond facility base |
-| AI agent handles 70%+ of all inbound facility communications (voice + email + chat) | Multi-channel volume tracking across all communication channels |
+| Metric                                                                                                                       | How to Measure                                                                                                        |
+| ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 100+ facilities active; AI agent becomes standard part of Bond onboarding                                                    | Activation rate as percentage of total Bond facility base                                                             |
+| AI agent handles 70%+ of all inbound facility communications (voice + email + chat)                                          | Multi-channel volume tracking across all communication channels                                                       |
 | Measurable revenue recapture: AI identifies and converts 20%+ of "second chance" leads (inquiries that would have been lost) | Track bookings attributed to AI agent interactions that occurred outside business hours or during high-volume periods |
-| Retention save flows prevent 10%+ of cancellation attempts | Compare cancellation completion rate pre/post save flow activation |
-| $500K+ incremental ARR | Finance reporting |
-| AI agent NPS of 8+ from end consumers (parents, players) | Post-interaction survey sampling |
+| Retention save flows prevent 10%+ of cancellation attempts                                                                   | Compare cancellation completion rate pre/post save flow activation                                                    |
+| $500K+ incremental ARR                                                                                                       | Finance reporting                                                                                                     |
+| AI agent NPS of 8+ from end consumers (parents, players)                                                                     | Post-interaction survey sampling                                                                                      |
 
 **Phase 4 (Bond Agents — Months 15–24):**
 
-| Metric | How to Measure |
-| --- | --- |
-| 3+ Bond Agent types active at 25%+ of facilities | Agent activation tracking by type; measure workflow coverage beyond front desk |
-| Operator weekly engagement with Agent Command Center | Track active sessions, directives issued, and agent recommendations reviewed per operator |
-| Collections Agent recovers 15%+ of outstanding AR within 30 days of activation | Track payment recovery rate attributed to agent outreach vs. manual staff follow-up |
-| Program Coordinator Agent fills 20%+ of underenrolled programs through proactive outreach | Compare enrollment velocity pre/post agent activation |
-| Bond Agents contributes $300K+ incremental ARR (agent add-on pricing) | Finance tracking of Bond Agents subscriptions beyond base front desk agent |
-| Operator satisfaction with AI team: NPS 8+ | Quarterly survey of Bond Agents customers |
+| Metric                                                                                    | How to Measure                                                                            |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| 3+ Bond Agent types active at 25%+ of facilities                                          | Agent activation tracking by type; measure workflow coverage beyond front desk            |
+| Operator weekly engagement with Agent Command Center                                      | Track active sessions, directives issued, and agent recommendations reviewed per operator |
+| Collections Agent recovers 15%+ of outstanding AR within 30 days of activation            | Track payment recovery rate attributed to agent outreach vs. manual staff follow-up       |
+| Program Coordinator Agent fills 20%+ of underenrolled programs through proactive outreach | Compare enrollment velocity pre/post agent activation                                     |
+| Bond Agents contributes $300K+ incremental ARR (agent add-on pricing)                     | Finance tracking of Bond Agents subscriptions beyond base front desk agent                |
+| Operator satisfaction with AI team: NPS 8+                                                | Quarterly survey of Bond Agents customers                                                 |
 
 ## HOW: High-Level Approach
 
@@ -140,13 +140,13 @@ A growing ecosystem of AI voice infrastructure providers offers APIs for buildin
 
 **Competitive Positioning Summary:**
 
-| Company | ICP | AI Capabilities | Live Voice | Pricing | Threat Level |
-| --- | --- | --- | --- | --- | --- |
-| ServiceTitan | Home services contractors | Full AI suite: voice agents, SMS booking, dispatch optimization | ✅ Live, 24/7 | Contact Center Pro add-on | Benchmark (different vertical) |
-| Momence | Fitness studios, gyms, spas | AI Inbox: booking, cancellation, freezes, refunds via text | ❌ Text only | $399/mo per location | Medium-High (closest ICP, no voice) |
-| Rec Technologies | Municipal parks & rec | Refund agent, analytics, marketing analyst | ❌ None | Included in platform | Medium (different ICP, early stage) |
-| Generic Voice AI (Retell, etc.) | Horizontal | Voice infrastructure, no domain context | ✅ Infrastructure only | Variable (usage-based) | Low (no integration, no domain knowledge) |
-| **Bond Sports** | **Private athletic facilities** | **Planned: Voice + email + chat, fully integrated** | **🎯 Voice-first** | **$250–500/mo target** | **—** |
+| Company                         | ICP                             | AI Capabilities                                                 | Live Voice             | Pricing                   | Threat Level                              |
+| ------------------------------- | ------------------------------- | --------------------------------------------------------------- | ---------------------- | ------------------------- | ----------------------------------------- |
+| ServiceTitan                    | Home services contractors       | Full AI suite: voice agents, SMS booking, dispatch optimization | ✅ Live, 24/7          | Contact Center Pro add-on | Benchmark (different vertical)            |
+| Momence                         | Fitness studios, gyms, spas     | AI Inbox: booking, cancellation, freezes, refunds via text      | ❌ Text only           | $399/mo per location      | Medium-High (closest ICP, no voice)       |
+| Rec Technologies                | Municipal parks & rec           | Refund agent, analytics, marketing analyst                      | ❌ None                | Included in platform      | Medium (different ICP, early stage)       |
+| Generic Voice AI (Retell, etc.) | Horizontal                      | Voice infrastructure, no domain context                         | ✅ Infrastructure only | Variable (usage-based)    | Low (no integration, no domain knowledge) |
+| **Bond Sports**                 | **Private athletic facilities** | **Planned: Voice + email + chat, fully integrated**             | **🎯 Voice-first**     | **$250–500/mo target**    | **—**                                     |
 
 **Bond's Strategic Window:** No one in the private athletic facility space has a voice-first AI agent. ServiceTitan proved it works for home services. Momence proved text AI works for fitness at $399/month. Rec Technologies is building the same agent architecture for municipal recreation. Bond has a clear 12–18 month window to own voice-first AI for private athletic facilities before adjacent players expand into the space.
 
@@ -262,19 +262,19 @@ We've spent significant time evaluating this question — meeting with vendors, 
 
 ### Comparative Summary
 
-| Dimension | Build (ElevenLabs + LLM) | Bland AI | Decagon | SidePilot | Intercom | EmbedReach |
-| --- | --- | --- | --- | --- | --- | --- |
-| Voice quality | Good (ElevenLabs) | Strong (own model) | Good | In development | Early | Production-ready (handles 80% of questions) |
-| Multi-tenancy | We control | Persona/pathway per facility | Researching | Master admin view | Not supported at scale | Per-tenant setup (embedded VSaaS model) |
-| Multi-modal | Build each channel | Phone, email, text, chat | Voice, chat, email | Chat, SMS, email (phone coming) | Chat, email (phone early) | Phone, SMS (coming), email, reputation |
-| Action-taking | Full control via our APIs | Via integrations/webhooks | Via tool calls | Via CRM integrations | Via procedures/APIs | Via API integration (if endpoints exist) |
-| Mass updates at scale | We control | Unclear — key risk | Unknown | Unknown | N/A | Unknown (embedded model) |
-| Customization per facility | Full | Pathway + persona | AOPs per facility | Per-client config | Limited | Per-tenant config |
-| Time to first pilot | 3-6 months | 4-8 weeks | 4-8 weeks | 4-8 weeks | Months (multi-tenant blocker) | 4-6 weeks (UI iframe + data sync) |
-| Production readiness timeline | 6+ months (voice is hard) | 2-3 months (with FDE) | 3-4 months | 2-3 months (voice immature) | Not viable (multi-tenancy) | 2-3 months (voice live, data sync required) |
-| Ongoing cost | Engineering time + API usage | Per-facility or usage-based | Enterprise contract | Per-facility | Per-workspace | Embedded model (Bond monetizes as add-on) |
-| Long-term differentiation | High — we own the data layer & business logic | Low — vendor dependency | Low | Low | Medium (already embedded) | Medium (embedded partnership, can monetize) |
-| Risk | Underestimate complexity | Vendor lock-in, mass update concern | Pricing/ICP mismatch | Voice immaturity | Multi-tenancy unsolved | Marketing suite focus vs voice-first; data sync integration |
+| Dimension                     | Build (ElevenLabs + LLM)                      | Bland AI                            | Decagon              | SidePilot                       | Intercom                      | EmbedReach                                                  |
+| ----------------------------- | --------------------------------------------- | ----------------------------------- | -------------------- | ------------------------------- | ----------------------------- | ----------------------------------------------------------- |
+| Voice quality                 | Good (ElevenLabs)                             | Strong (own model)                  | Good                 | In development                  | Early                         | Production-ready (handles 80% of questions)                 |
+| Multi-tenancy                 | We control                                    | Persona/pathway per facility        | Researching          | Master admin view               | Not supported at scale        | Per-tenant setup (embedded VSaaS model)                     |
+| Multi-modal                   | Build each channel                            | Phone, email, text, chat            | Voice, chat, email   | Chat, SMS, email (phone coming) | Chat, email (phone early)     | Phone, SMS (coming), email, reputation                      |
+| Action-taking                 | Full control via our APIs                     | Via integrations/webhooks           | Via tool calls       | Via CRM integrations            | Via procedures/APIs           | Via API integration (if endpoints exist)                    |
+| Mass updates at scale         | We control                                    | Unclear — key risk                  | Unknown              | Unknown                         | N/A                           | Unknown (embedded model)                                    |
+| Customization per facility    | Full                                          | Pathway + persona                   | AOPs per facility    | Per-client config               | Limited                       | Per-tenant config                                           |
+| Time to first pilot           | 3-6 months                                    | 4-8 weeks                           | 4-8 weeks            | 4-8 weeks                       | Months (multi-tenant blocker) | 4-6 weeks (UI iframe + data sync)                           |
+| Production readiness timeline | 6+ months (voice is hard)                     | 2-3 months (with FDE)               | 3-4 months           | 2-3 months (voice immature)     | Not viable (multi-tenancy)    | 2-3 months (voice live, data sync required)                 |
+| Ongoing cost                  | Engineering time + API usage                  | Per-facility or usage-based         | Enterprise contract  | Per-facility                    | Per-workspace                 | Embedded model (Bond monetizes as add-on)                   |
+| Long-term differentiation     | High — we own the data layer & business logic | Low — vendor dependency             | Low                  | Low                             | Medium (already embedded)     | Medium (embedded partnership, can monetize)                 |
+| Risk                          | Underestimate complexity                      | Vendor lock-in, mass update concern | Pricing/ICP mismatch | Voice immaturity                | Multi-tenancy unsolved        | Marketing suite focus vs voice-first; data sync integration |
 
 ### Recommendation
 
@@ -349,43 +349,43 @@ Bond needs a product that: creates a new high-margin revenue stream, deepens pla
 
 ### Phase 1: Intelligent Answering — "The AI That Knows Your Facility" (MVP)
 
-| Feature | Description | Priority | Size | Phase |
-| --- | --- | --- | --- | --- |
-| Inbound Voice Handling | AI answers inbound phone calls with natural, human-like conversation. Configurable greeting, facility-specific voice personality. | P0 — Must Have | L | Phase 1 |
-| Schedule & Availability Queries | Agent accesses real-time Bond data to answer questions about program schedules, class times, availability, and waitlist status. | P0 — Must Have | M | Phase 1 |
-| Pricing & Program Information | Agent provides accurate pricing, program descriptions, age requirements, skill levels, and prerequisite information pulled from Bond. | P0 — Must Have | M | Phase 1 |
-| Facility Policy Knowledge | Agent knows and communicates facility-specific policies: cancellation rules, refund policies, late arrival policies, weather cancellation procedures. | P0 — Must Have | M | Phase 1 |
-| Customer Recognition | Agent identifies returning customers by phone number, greets by name, and has context on their active registrations, memberships, and history. | P1 — Should Have | M | Phase 1 |
-| Human Escalation | Seamless warm transfer to human staff with full conversation context (transcript + intent summary). Configurable escalation triggers (sentiment, topic, VIP customers). | P0 — Must Have | M | Phase 1 |
-| Facility Admin Configuration Portal | Plain-English setup interface where facility admins configure policies, tone, FAQs, escalation rules, business hours, and custom instructions — like training a new hire. | P0 — Must Have | L | Phase 1 |
-| Conversation Dashboard | Admin-facing dashboard showing all AI conversations: transcripts, outcomes, escalation reasons, sentiment scores, call volume patterns. | P1 — Should Have | M | Phase 1 |
-| Multi-Sport / Multi-Facility Support | Agent supports facilities with multiple sports, programs, and locations under one Bond account. Each facility/location can have unique configurations. | P0 — Must Have | M | Phase 1 |
-| After-Hours & Overflow Routing | Configurable routing: AI answers all calls, AI answers only after-hours/overflow, AI answers only when hold time exceeds threshold. | P1 — Should Have | S | Phase 1 |
+| Feature                              | Description                                                                                                                                                               | Priority         | Size | Phase   |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---- | ------- |
+| Inbound Voice Handling               | AI answers inbound phone calls with natural, human-like conversation. Configurable greeting, facility-specific voice personality.                                         | P0 — Must Have   | L    | Phase 1 |
+| Schedule & Availability Queries      | Agent accesses real-time Bond data to answer questions about program schedules, class times, availability, and waitlist status.                                           | P0 — Must Have   | M    | Phase 1 |
+| Pricing & Program Information        | Agent provides accurate pricing, program descriptions, age requirements, skill levels, and prerequisite information pulled from Bond.                                     | P0 — Must Have   | M    | Phase 1 |
+| Facility Policy Knowledge            | Agent knows and communicates facility-specific policies: cancellation rules, refund policies, late arrival policies, weather cancellation procedures.                     | P0 — Must Have   | M    | Phase 1 |
+| Customer Recognition                 | Agent identifies returning customers by phone number, greets by name, and has context on their active registrations, memberships, and history.                            | P1 — Should Have | M    | Phase 1 |
+| Human Escalation                     | Seamless warm transfer to human staff with full conversation context (transcript + intent summary). Configurable escalation triggers (sentiment, topic, VIP customers).   | P0 — Must Have   | M    | Phase 1 |
+| Facility Admin Configuration Portal  | Plain-English setup interface where facility admins configure policies, tone, FAQs, escalation rules, business hours, and custom instructions — like training a new hire. | P0 — Must Have   | L    | Phase 1 |
+| Conversation Dashboard               | Admin-facing dashboard showing all AI conversations: transcripts, outcomes, escalation reasons, sentiment scores, call volume patterns.                                   | P1 — Should Have | M    | Phase 1 |
+| Multi-Sport / Multi-Facility Support | Agent supports facilities with multiple sports, programs, and locations under one Bond account. Each facility/location can have unique configurations.                    | P0 — Must Have   | M    | Phase 1 |
+| After-Hours & Overflow Routing       | Configurable routing: AI answers all calls, AI answers only after-hours/overflow, AI answers only when hold time exceeds threshold.                                       | P1 — Should Have | S    | Phase 1 |
 
 ### Phase 2: Action-Taking — "The AI That Does Things" (Post-MVP)
 
-| Feature | Description | Priority | Size | Phase |
-| --- | --- | --- | --- | --- |
-| Registration & Booking | Agent can complete class/program registrations, book facility rentals, and add customers to waitlists — all within the phone call. | P0 — Must Have | L | Phase 2 |
-| Cancellation Processing | Agent processes cancellations according to facility-specific policies, applies appropriate fees or credits, handles exceptions (illness, hardship) per admin-configured rules. | P1 — Should Have | M | Phase 2 |
-| Membership Inquiries & Modifications | Agent handles membership questions, processes freezes, and initiates cancellations with notice period enforcement. | P1 — Should Have | M | Phase 2 |
-| Payment Collection | Secure payment processing within the call for registrations, outstanding balances, and membership payments. PCI-compliant tokenized payment handling. | P1 — Should Have | L | Phase 2 |
-| Email Channel | Agent handles inbound emails with the same knowledge and action-taking capabilities as voice. Auto-responds or drafts responses for staff review. | P1 — Should Have | M | Phase 2 |
-| SMS / Chat Channel | Agent handles text-based inquiries via SMS and web chat with the same capabilities. | P2 — Could Have | M | Phase 2 |
-| Confirmation & Follow-Up Messages | After completing actions, agent sends confirmation emails/SMS with registration details, calendar invites, policy reminders. | P1 — Should Have | S | Phase 2 |
+| Feature                              | Description                                                                                                                                                                    | Priority         | Size | Phase   |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | ---- | ------- |
+| Registration & Booking               | Agent can complete class/program registrations, book facility rentals, and add customers to waitlists — all within the phone call.                                             | P0 — Must Have   | L    | Phase 2 |
+| Cancellation Processing              | Agent processes cancellations according to facility-specific policies, applies appropriate fees or credits, handles exceptions (illness, hardship) per admin-configured rules. | P1 — Should Have | M    | Phase 2 |
+| Membership Inquiries & Modifications | Agent handles membership questions, processes freezes, and initiates cancellations with notice period enforcement.                                                             | P1 — Should Have | M    | Phase 2 |
+| Payment Collection                   | Secure payment processing within the call for registrations, outstanding balances, and membership payments. PCI-compliant tokenized payment handling.                          | P1 — Should Have | L    | Phase 2 |
+| Email Channel                        | Agent handles inbound emails with the same knowledge and action-taking capabilities as voice. Auto-responds or drafts responses for staff review.                              | P1 — Should Have | M    | Phase 2 |
+| SMS / Chat Channel                   | Agent handles text-based inquiries via SMS and web chat with the same capabilities.                                                                                            | P2 — Could Have  | M    | Phase 2 |
+| Confirmation & Follow-Up Messages    | After completing actions, agent sends confirmation emails/SMS with registration details, calendar invites, policy reminders.                                                   | P1 — Should Have | S    | Phase 2 |
 
 ### Phase 3: Proactive Intelligence — "The AI That Anticipates" (Future)
 
 The front desk agent evolves from reactive to proactive — anticipating needs, recovering lost revenue, and driving growth without waiting for the phone to ring. Still one agent, but dramatically smarter about when and how to engage.
 
-| Feature | Description | Priority | Size | Phase |
-| --- | --- | --- | --- | --- |
-| Second Chance Leads | AI reviews all unanswered calls and unresolved inquiries, flags high-potential leads for follow-up — modeled on ServiceTitan's 37% recapture rate feature. | P2 — Could Have | M | Phase 3 |
-| Proactive Outreach | AI initiates outbound calls/messages for: waitlist openings, schedule changes, registration reminders, membership renewal approaching, re-engagement of lapsed customers. | P2 — Could Have | L | Phase 3 |
-| Retention & Save Flows | Detects at-risk members (missed classes, declining usage, upcoming contract end). Runs cancellation save flows when customers call to cancel — applies retention playbooks configured by the facility before processing. Proactively reaches out with personalized save offers, pause options, or alternative programs. | P2 — Could Have | L | Phase 3 |
-| Cross-Sell & Upsell Recommendations | During conversations, AI recommends relevant programs, memberships, or add-ons based on customer profile and facility offerings. | P2 — Could Have | M | Phase 3 |
-| Multi-Language Support | Agent handles conversations in Spanish and other languages common in facility service areas. | P2 — Could Have | L | Phase 3 |
-| Analytics & Insights Dashboard | Advanced analytics: conversion funnels, common inquiry topics, peak call patterns, revenue attributed to AI interactions, customer satisfaction trends. | P2 — Could Have | M | Phase 3 |
+| Feature                             | Description                                                                                                                                                                                                                                                                                                             | Priority        | Size | Phase   |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ---- | ------- |
+| Second Chance Leads                 | AI reviews all unanswered calls and unresolved inquiries, flags high-potential leads for follow-up — modeled on ServiceTitan's 37% recapture rate feature.                                                                                                                                                              | P2 — Could Have | M    | Phase 3 |
+| Proactive Outreach                  | AI initiates outbound calls/messages for: waitlist openings, schedule changes, registration reminders, membership renewal approaching, re-engagement of lapsed customers.                                                                                                                                               | P2 — Could Have | L    | Phase 3 |
+| Retention & Save Flows              | Detects at-risk members (missed classes, declining usage, upcoming contract end). Runs cancellation save flows when customers call to cancel — applies retention playbooks configured by the facility before processing. Proactively reaches out with personalized save offers, pause options, or alternative programs. | P2 — Could Have | L    | Phase 3 |
+| Cross-Sell & Upsell Recommendations | During conversations, AI recommends relevant programs, memberships, or add-ons based on customer profile and facility offerings.                                                                                                                                                                                        | P2 — Could Have | M    | Phase 3 |
+| Multi-Language Support              | Agent handles conversations in Spanish and other languages common in facility service areas.                                                                                                                                                                                                                            | P2 — Could Have | L    | Phase 3 |
+| Analytics & Insights Dashboard      | Advanced analytics: conversion funnels, common inquiry topics, peak call patterns, revenue attributed to AI interactions, customer satisfaction trends.                                                                                                                                                                 | P2 — Could Have | M    | Phase 3 |
 
 ### Phase 4: Bond Agents — "Your AI Team" (Vision)
 
@@ -395,38 +395,38 @@ This is where Bond's system-of-record advantage compounds: every agent is only a
 
 **Operator Experience:**
 
-| Feature | Description | Priority | Size | Phase |
-| --- | --- | --- | --- | --- |
-| Agent Command Center | Unified dashboard where operators see all active agents, their activity, decisions made, escalations pending, and performance metrics. Single pane of glass for the AI team. Think: a staffing board, but for your AI workforce. | P2 — Could Have | L | Phase 4 |
-| Operator ↔ Agent Communication | Natural language interface where operators can direct, query, and supervise their agents. "What's our AR status this month?" "Pause outreach to the Smith family." "Fill the spring soccer clinic — reach out to last year's participants first." Agents can proactively surface recommendations and ask for approval before acting. | P2 — Could Have | L | Phase 4 |
-| Agent-to-Agent Handoffs | Agents coordinate with each other through Bond's shared data layer. Front desk agent detects a retention risk during a call and flags the retention save flow. Program coordinator agent fills a newly opened spot and triggers outreach. Collections agent resolves a balance and front desk agent knows on the next call. | P2 — Could Have | M | Phase 4 |
+| Feature                        | Description                                                                                                                                                                                                                                                                                                                          | Priority        | Size | Phase   |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | ---- | ------- |
+| Agent Command Center           | Unified dashboard where operators see all active agents, their activity, decisions made, escalations pending, and performance metrics. Single pane of glass for the AI team. Think: a staffing board, but for your AI workforce.                                                                                                     | P2 — Could Have | L    | Phase 4 |
+| Operator ↔ Agent Communication | Natural language interface where operators can direct, query, and supervise their agents. "What's our AR status this month?" "Pause outreach to the Smith family." "Fill the spring soccer clinic — reach out to last year's participants first." Agents can proactively surface recommendations and ask for approval before acting. | P2 — Could Have | L    | Phase 4 |
+| Agent-to-Agent Handoffs        | Agents coordinate with each other through Bond's shared data layer. Front desk agent detects a retention risk during a call and flags the retention save flow. Program coordinator agent fills a newly opened spot and triggers outreach. Collections agent resolves a balance and front desk agent knows on the next call.          | P2 — Could Have | M    | Phase 4 |
 
 **Role-Specific Agents (powered by Bond Agent API):**
 
-| Feature | Description | Priority | Size | Phase |
-| --- | --- | --- | --- | --- |
-| Collections & AR Agent | Follows up on failed payments, outstanding balances, and expired payment methods via SMS, email, and voice. Negotiates payment plans within admin-configured parameters. Escalates hardship cases to staff. Replaces the uncomfortable "chasing parents for money" task that front desk staff dread. | P2 — Could Have | M | Phase 4 |
-| Program Coordinator Agent | Monitors enrollment levels and proactively fills underenrolled programs by reaching out to waitlisted families, past participants, and age-appropriate prospects. Handles instructor/coach substitution notifications, communicates schedule changes to affected families, and manages cascading reschedules. | P2 — Could Have | L | Phase 4 |
-| Events & Party Booking Agent | Handles birthday party and event inquiries end-to-end: availability checks, package selection, deposit collection, confirmation, and pre-event reminders. Follows up on abandoned inquiries. Coordinates add-ons (food, decorations, extra time). Currently a high-touch, phone-heavy workflow at most facilities. | P2 — Could Have | M | Phase 4 |
-| Rental Coordinator Agent | Manages facility rental inquiries (ice time, field rentals, court bookings) for teams, leagues, and organizations. Checks real-time availability, sends quotes, handles hold requests, and follows up on unsigned contracts. Manages recurring rental relationships and seasonal rebooking. | P2 — Could Have | M | Phase 4 |
+| Feature                      | Description                                                                                                                                                                                                                                                                                                        | Priority        | Size | Phase   |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | ---- | ------- |
+| Collections & AR Agent       | Follows up on failed payments, outstanding balances, and expired payment methods via SMS, email, and voice. Negotiates payment plans within admin-configured parameters. Escalates hardship cases to staff. Replaces the uncomfortable "chasing parents for money" task that front desk staff dread.               | P2 — Could Have | M    | Phase 4 |
+| Program Coordinator Agent    | Monitors enrollment levels and proactively fills underenrolled programs by reaching out to waitlisted families, past participants, and age-appropriate prospects. Handles instructor/coach substitution notifications, communicates schedule changes to affected families, and manages cascading reschedules.      | P2 — Could Have | L    | Phase 4 |
+| Events & Party Booking Agent | Handles birthday party and event inquiries end-to-end: availability checks, package selection, deposit collection, confirmation, and pre-event reminders. Follows up on abandoned inquiries. Coordinates add-ons (food, decorations, extra time). Currently a high-touch, phone-heavy workflow at most facilities. | P2 — Could Have | M    | Phase 4 |
+| Rental Coordinator Agent     | Manages facility rental inquiries (ice time, field rentals, court bookings) for teams, leagues, and organizations. Checks real-time availability, sends quotes, handles hold requests, and follows up on unsigned contracts. Manages recurring rental relationships and seasonal rebooking.                        | P2 — Could Have | M    | Phase 4 |
 
 **Back Office Intelligence:**
 
-| Feature | Description | Priority | Size | Phase |
-| --- | --- | --- | --- | --- |
-| Demand & Staffing Intelligence | Analyzes registration trends, call patterns, and historical data to predict demand spikes, recommend staffing levels, and surface pricing optimization opportunities. "Tuesday 4pm hockey clinics fill 3x faster than Thursday — consider adding a session." | P3 — Won't Have (this release) | L | Phase 4 |
-| Compliance & Operations Agent | Tracks waiver expirations, coach/instructor certification renewals, and safety requirement gaps. Proactively flags compliance issues before they become problems. Can auto-notify affected families and staff. | P3 — Won't Have (this release) | M | Phase 4 |
-| Automated Operational Reporting | Agents generate weekly/monthly facility performance summaries: revenue trends, attendance patterns, program utilization, and anomaly detection. Delivered to operators via the command center or email digest. | P3 — Won't Have (this release) | M | Phase 4 |
+| Feature                         | Description                                                                                                                                                                                                                                                  | Priority                       | Size | Phase   |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------ | ---- | ------- |
+| Demand & Staffing Intelligence  | Analyzes registration trends, call patterns, and historical data to predict demand spikes, recommend staffing levels, and surface pricing optimization opportunities. "Tuesday 4pm hockey clinics fill 3x faster than Thursday — consider adding a session." | P3 — Won't Have (this release) | L    | Phase 4 |
+| Compliance & Operations Agent   | Tracks waiver expirations, coach/instructor certification renewals, and safety requirement gaps. Proactively flags compliance issues before they become problems. Can auto-notify affected families and staff.                                               | P3 — Won't Have (this release) | M    | Phase 4 |
+| Automated Operational Reporting | Agents generate weekly/monthly facility performance summaries: revenue trends, attendance patterns, program utilization, and anomaly detection. Delivered to operators via the command center or email digest.                                               | P3 — Won't Have (this release) | M    | Phase 4 |
 
 ### Out of Scope (For Now)
 
-| Feature | Reason |
-| --- | --- |
+| Feature                                                    | Reason                                                                                                                                                                         |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Outbound cold calling / sales prospecting to net-new leads | Regulatory complexity (TCPA), brand risk. Note: outbound to existing customers/contacts (retention, collections, waitlist, schedule changes) is in scope for Phase 3–4 agents. |
-| Video or in-app voice | Low demand signal, high complexity, focus on phone-first |
-| AI-generated marketing content | Different product category; stay focused on operational agents |
-| Referee/official scheduling | Separate workflow, not consumer-facing (potential Phase 4+ consideration) |
-| League standings / score reporting by voice | Future consideration after core agent ecosystem is stable |
+| Video or in-app voice                                      | Low demand signal, high complexity, focus on phone-first                                                                                                                       |
+| AI-generated marketing content                             | Different product category; stay focused on operational agents                                                                                                                 |
+| Referee/official scheduling                                | Separate workflow, not consumer-facing (potential Phase 4+ consideration)                                                                                                      |
+| League standings / score reporting by voice                | Future consideration after core agent ecosystem is stable                                                                                                                      |
 
 ---
 
@@ -460,14 +460,14 @@ The Agent API is the critical technical investment. It provides the AI agent wit
 
 **Endpoints (readable contract):**
 
-*Phase 1 — Read-only (schedules, programs, customers, policies):*
+_Phase 1 — Read-only (schedules, programs, customers, policies):_
 
 - `GET /organizations/{id}/schedules?start=...&end=...` — returns events linked to programs, sessions, capacity, waitlist count, lastUpdated timestamp. **SLA: data freshness ≤ 60s.**
 - `GET /programs/{id}` — returns description, age ranges, prerequisites, priceId, instructor, richer metadata.
 - `GET /customers` — query by `phone={E164}`, `email={email}`, or `firstName={}&lastName={}` (at least one required). Returns canonical customer record, family members, active registrations, outstanding balance, tags (VIP), opt-ins. Email and name lookup support cases where phone isn't on file. **PII: masked for unknown callers.**
 - `GET /policies/{category}` — structured policy objects (cancellationWindowHours, refundRules, exceptions) with `policyId`.
 
-*Phase 2 — Write operations (registrations, cancellations):*
+_Phase 2 — Write operations (registrations, cancellations):_
 
 - `POST /registrations` — create registration. Requires `agentToken` + `confirmationFlow`. Returns `registrationId`, `status`, `amountCharged`. **All writes logged with `actor=agent`.**
 - `POST /cancellations` — accepts `registrationId`, `reasonCode`, `requestedBy`. Returns `refundApplied`, `creditIssued` plus explanation.
@@ -480,18 +480,18 @@ Every Agent API call is logged, permissioned, and auditable. The AI agent operat
 
 ### Build vs. Buy Decision Framework
 
-| Component | Decision | Rationale |
-| --- | --- | --- |
-| Telephony / Call Routing | Buy | Commodity infrastructure; Twilio/Vonage are mature and reliable |
-| Speech-to-Text | Buy | Best-in-class models from Deepgram, OpenAI, Google are superior to anything we'd build |
-| Text-to-Speech | Buy | ElevenLabs, OpenAI TTS deliver human-quality voice; no advantage to building |
-| LLM Foundation Model | Buy | Use Claude, GPT-4, or similar; focus engineering on the data layer, not model training |
-| Agentic Orchestration Layer | Build/Partner | Conversation state management, LLM orchestration, and intent routing are increasingly commodity. Vendors or open frameworks (LangGraph, etc.) handle this well. Bond's value is in the data and logic the orchestrator calls into, not the orchestrator itself. |
-| Agent API (Bond Data Access) | **Build — Moat** | Core platform investment and the heart of Bond's competitive advantage. No one else can build structured, permissioned access to Bond's data. This is what makes the AI agent effective. |
-| Policy & Business Logic Engine | **Build — Moat** | Facility-specific rules, cancellation policies, refund workflows, and exception handling are Bond's proprietary domain knowledge. This is irreplaceable. |
-| Admin Configuration UI | Build | Core product experience; must feel native to Bond |
-| Conversation Dashboard & Analytics | Build | Proprietary insights that feed back into product improvement |
-| Confidence Scoring / Escalation Logic | Build | Domain-specific; determines quality of the entire experience |
+| Component                             | Decision         | Rationale                                                                                                                                                                                                                                                       |
+| ------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Telephony / Call Routing              | Buy              | Commodity infrastructure; Twilio/Vonage are mature and reliable                                                                                                                                                                                                 |
+| Speech-to-Text                        | Buy              | Best-in-class models from Deepgram, OpenAI, Google are superior to anything we'd build                                                                                                                                                                          |
+| Text-to-Speech                        | Buy              | ElevenLabs, OpenAI TTS deliver human-quality voice; no advantage to building                                                                                                                                                                                    |
+| LLM Foundation Model                  | Buy              | Use Claude, GPT-4, or similar; focus engineering on the data layer, not model training                                                                                                                                                                          |
+| Agentic Orchestration Layer           | Build/Partner    | Conversation state management, LLM orchestration, and intent routing are increasingly commodity. Vendors or open frameworks (LangGraph, etc.) handle this well. Bond's value is in the data and logic the orchestrator calls into, not the orchestrator itself. |
+| Agent API (Bond Data Access)          | **Build — Moat** | Core platform investment and the heart of Bond's competitive advantage. No one else can build structured, permissioned access to Bond's data. This is what makes the AI agent effective.                                                                        |
+| Policy & Business Logic Engine        | **Build — Moat** | Facility-specific rules, cancellation policies, refund workflows, and exception handling are Bond's proprietary domain knowledge. This is irreplaceable.                                                                                                        |
+| Admin Configuration UI                | Build            | Core product experience; must feel native to Bond                                                                                                                                                                                                               |
+| Conversation Dashboard & Analytics    | Build            | Proprietary insights that feed back into product improvement                                                                                                                                                                                                    |
+| Confidence Scoring / Escalation Logic | Build            | Domain-specific; determines quality of the entire experience                                                                                                                                                                                                    |
 
 This hybrid approach mirrors ServiceTitan's strategy: their AI agents are powerful because they sit on top of ServiceTitan's system of record — real-time technician availability, job history, customer data, dispatch logic. The data layer and business logic are the moat, not the conversational AI wrapper. Bond's advantage is the same: any orchestration vendor can manage a conversation, but only Bond has the facility data, policies, and business rules that make the conversation useful.
 
@@ -512,16 +512,16 @@ PCI DSS compliance for any payment-related conversations. All call recordings an
 
 ### Performance Requirements
 
-| Metric | Target |
-| --- | --- |
-| Call answer latency | Less than 2 seconds from ring |
-| First response latency (greeting) | Less than 1 second |
-| Turn-by-turn response latency | Less than 800ms (for natural conversational feel) |
-| Uptime | 99.9% (agent must be more reliable than human staff) |
-| Concurrent calls per facility | At least 5 simultaneous |
-| Data freshness | Real-time (schedule changes reflected within 60 seconds) |
-| Accuracy on factual queries | 98%+ (schedules, pricing, availability) |
-| Appropriate escalation rate | 15–25% of calls (too low = overconfident; too high = not useful) |
+| Metric                            | Target                                                           |
+| --------------------------------- | ---------------------------------------------------------------- |
+| Call answer latency               | Less than 2 seconds from ring                                    |
+| First response latency (greeting) | Less than 1 second                                               |
+| Turn-by-turn response latency     | Less than 800ms (for natural conversational feel)                |
+| Uptime                            | 99.9% (agent must be more reliable than human staff)             |
+| Concurrent calls per facility     | At least 5 simultaneous                                          |
+| Data freshness                    | Real-time (schedule changes reflected within 60 seconds)         |
+| Accuracy on factual queries       | 98%+ (schedules, pricing, availability)                          |
+| Appropriate escalation rate       | 15–25% of calls (too low = overconfident; too high = not useful) |
 
 ### Quality & Eval System
 
@@ -643,16 +643,16 @@ Caller identified by phone number. Agent: "Hi David, thanks for calling [Facilit
 
 ## Open Issues & Key Decisions
 
-| Issue | Status | Decision Makers | Description / Resolution |
-| --- | --- | --- | --- |
-| Voice provider selection (Twilio vs. Vonage vs. other) | Open | PM, Engineering Lead | Need to evaluate latency, cost, reliability, and integration complexity. Schedule vendor evaluations. |
-| LLM provider strategy (single vs. multi-model) | Open | PM, Engineering Lead | Single provider (e.g., Claude API) is simpler; multi-model (different LLMs for different tasks) may optimize cost/quality. Recommend starting single, architecting for swap. |
-| AI disclosure requirements | Open | PM, Legal | Some states require disclosure that caller is speaking to AI. Recommend always disclosing with option to transfer to human. Need legal review of state-by-state requirements. |
-| Pricing model: flat fee vs. usage-based vs. hybrid | Open | PM, CEO, Finance | Flat monthly fee ($250–500) is simplest and predictable for facilities. Usage-based (per call/minute) aligns cost with value but creates unpredictability. Recommend flat fee with tier structure based on call volume. |
-| Payment processing in voice calls (PCI compliance) | Open | PM, Engineering, Security | Handling credit card info over AI voice calls has PCI implications. May need to redirect to secure payment link via SMS during call. Defer to Phase 2 deep-dive. |
-| Data residency and call recording storage | Open | PM, Engineering, Legal | Call recordings contain PII. Need to define retention policies, storage location, access controls. GDPR considerations for any Canadian facilities (PIPEDA). |
-| Multi-language support timeline | Open — HIGH PRIORITY DISCOVERY | PM, Engineering, CS | Spanish is highest-demand second language. Foundation models support it natively but accuracy/naturalness needs testing. **Run high-priority discovery to learn whether Spanish needs Phase 2 in specific pilot geographies.** Given demographic realities, don't leave this to Phase 3 without data. |
-| Rollout strategy: opt-in vs. default-on for new facilities | Open | PM, CS Lead, CEO | Opt-in is safer but slower. Default-on (with easy disable) drives adoption. Recommend opt-in for Phase 1/2, evaluate default-on for Phase 3. |
+| Issue                                                      | Status                         | Decision Makers           | Description / Resolution                                                                                                                                                                                                                                                                              |
+| ---------------------------------------------------------- | ------------------------------ | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Voice provider selection (Twilio vs. Vonage vs. other)     | Open                           | PM, Engineering Lead      | Need to evaluate latency, cost, reliability, and integration complexity. Schedule vendor evaluations.                                                                                                                                                                                                 |
+| LLM provider strategy (single vs. multi-model)             | Open                           | PM, Engineering Lead      | Single provider (e.g., Claude API) is simpler; multi-model (different LLMs for different tasks) may optimize cost/quality. Recommend starting single, architecting for swap.                                                                                                                          |
+| AI disclosure requirements                                 | Open                           | PM, Legal                 | Some states require disclosure that caller is speaking to AI. Recommend always disclosing with option to transfer to human. Need legal review of state-by-state requirements.                                                                                                                         |
+| Pricing model: flat fee vs. usage-based vs. hybrid         | Open                           | PM, CEO, Finance          | Flat monthly fee ($250–500) is simplest and predictable for facilities. Usage-based (per call/minute) aligns cost with value but creates unpredictability. Recommend flat fee with tier structure based on call volume.                                                                               |
+| Payment processing in voice calls (PCI compliance)         | Open                           | PM, Engineering, Security | Handling credit card info over AI voice calls has PCI implications. May need to redirect to secure payment link via SMS during call. Defer to Phase 2 deep-dive.                                                                                                                                      |
+| Data residency and call recording storage                  | Open                           | PM, Engineering, Legal    | Call recordings contain PII. Need to define retention policies, storage location, access controls. GDPR considerations for any Canadian facilities (PIPEDA).                                                                                                                                          |
+| Multi-language support timeline                            | Open — HIGH PRIORITY DISCOVERY | PM, Engineering, CS       | Spanish is highest-demand second language. Foundation models support it natively but accuracy/naturalness needs testing. **Run high-priority discovery to learn whether Spanish needs Phase 2 in specific pilot geographies.** Given demographic realities, don't leave this to Phase 3 without data. |
+| Rollout strategy: opt-in vs. default-on for new facilities | Open                           | PM, CS Lead, CEO          | Opt-in is safer but slower. Default-on (with easy disable) drives adoption. Recommend opt-in for Phase 1/2, evaluate default-on for Phase 3.                                                                                                                                                          |
 
 ---
 
@@ -664,70 +664,70 @@ Caller identified by phone number. Agent: "Hi David, thanks for calling [Facilit
 
 Objective: Ship a working voice agent to 5–10 pilot facilities that can answer questions using real Bond data.
 
-| Est. Delivery | Milestone | Description | Prerequisites / Notes |
-| --- | --- | --- | --- |
-| Month 1, Week 1–2 | Complete competitive deep-dive & architecture review | Finalize technical architecture, vendor selection for telephony/STT/TTS. Review this PRD with engineering leads. | This PRD; engineering availability |
-| Month 1, Week 3–4 | Agent API v1 specification & development kickoff | Define and begin building the API layer that gives the AI agent read access to Bond data (schedules, programs, pricing, customers, policies). | Database schema review; API team allocation |
-| Month 2, Week 1–2 | Voice infrastructure setup | Integrate telephony provider, STT, and TTS. Build basic call flow: answer → process speech → generate response → speak response. | Vendor contracts signed |
-| Month 2, Week 3–4 | Intelligence engine v1 | Build LLM orchestration layer with Bond-specific prompts, context management, and conversation state handling. Connect to Agent API. | Agent API v1 endpoints available |
-| Month 3, Week 1–2 | Admin configuration portal v1 | Build plain-English setup interface for facility admins. Pre-populate with Bond data. Support basic policy, tone, and escalation configuration. | UX designs approved |
-| Month 3, Week 3–4 | Internal testing & QA | Comprehensive testing across scenarios: schedule queries, pricing, policies, edge cases, escalation, multi-sport facilities. | Test facility accounts configured |
-| Month 4, Week 1–2 | Pilot launch (5–10 facilities) | Deploy to select facilities. Active monitoring, daily review of all conversations, rapid iteration. | Pilot facility agreements; CS team briefed |
-| Month 4, Week 3–4 | Pilot evaluation & Phase 2 planning | Analyze pilot data: resolution rates, accuracy, escalation patterns, facility feedback, consumer feedback. Plan Phase 2 scope. | 4+ weeks of pilot data |
+| Est. Delivery     | Milestone                                            | Description                                                                                                                                     | Prerequisites / Notes                       |
+| ----------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| Month 1, Week 1–2 | Complete competitive deep-dive & architecture review | Finalize technical architecture, vendor selection for telephony/STT/TTS. Review this PRD with engineering leads.                                | This PRD; engineering availability          |
+| Month 1, Week 3–4 | Agent API v1 specification & development kickoff     | Define and begin building the API layer that gives the AI agent read access to Bond data (schedules, programs, pricing, customers, policies).   | Database schema review; API team allocation |
+| Month 2, Week 1–2 | Voice infrastructure setup                           | Integrate telephony provider, STT, and TTS. Build basic call flow: answer → process speech → generate response → speak response.                | Vendor contracts signed                     |
+| Month 2, Week 3–4 | Intelligence engine v1                               | Build LLM orchestration layer with Bond-specific prompts, context management, and conversation state handling. Connect to Agent API.            | Agent API v1 endpoints available            |
+| Month 3, Week 1–2 | Admin configuration portal v1                        | Build plain-English setup interface for facility admins. Pre-populate with Bond data. Support basic policy, tone, and escalation configuration. | UX designs approved                         |
+| Month 3, Week 3–4 | Internal testing & QA                                | Comprehensive testing across scenarios: schedule queries, pricing, policies, edge cases, escalation, multi-sport facilities.                    | Test facility accounts configured           |
+| Month 4, Week 1–2 | Pilot launch (5–10 facilities)                       | Deploy to select facilities. Active monitoring, daily review of all conversations, rapid iteration.                                             | Pilot facility agreements; CS team briefed  |
+| Month 4, Week 3–4 | Pilot evaluation & Phase 2 planning                  | Analyze pilot data: resolution rates, accuracy, escalation patterns, facility feedback, consumer feedback. Plan Phase 2 scope.                  | 4+ weeks of pilot data                      |
 
 ### Phase 2: Action-Taking & Scale (Months 5–9)
 
 Objective: Enable the agent to take actions (book, cancel, modify) and expand to 50+ facilities.
 
-| Est. Delivery | Milestone | Description | Prerequisites / Notes |
-| --- | --- | --- | --- |
-| Month 5 | Agent API v2 — write operations | Extend API to support registration creation, cancellation processing, waitlist management, membership modifications. | Phase 1 pilot learnings; API security review |
-| Month 6 | Action-taking intelligence | Build confirmation flows, policy enforcement logic, exception handling, and undo/correction capabilities into the intelligence engine. | Agent API v2 complete |
-| Month 6–7 | Email & SMS channel support | Extend agent to handle inbound emails and text messages with same knowledge and action capabilities. | Channel-specific UX design |
-| Month 7 | Conversation dashboard v2 | Enhanced analytics: conversion tracking, revenue attribution, common inquiry patterns, facility comparison benchmarks. | Data pipeline for call analytics |
-| Month 8 | Scaled rollout (50+ facilities) | Graduated rollout with onboarding playbook, CS training, and facility success metrics. | Onboarding documentation; CS training complete |
-| Month 9 | Phase 2 evaluation & Phase 3 planning | Comprehensive review of scaled deployment. Revenue analysis, customer satisfaction, operational metrics. | 3+ months of scaled data |
+| Est. Delivery | Milestone                             | Description                                                                                                                            | Prerequisites / Notes                          |
+| ------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| Month 5       | Agent API v2 — write operations       | Extend API to support registration creation, cancellation processing, waitlist management, membership modifications.                   | Phase 1 pilot learnings; API security review   |
+| Month 6       | Action-taking intelligence            | Build confirmation flows, policy enforcement logic, exception handling, and undo/correction capabilities into the intelligence engine. | Agent API v2 complete                          |
+| Month 6–7     | Email & SMS channel support           | Extend agent to handle inbound emails and text messages with same knowledge and action capabilities.                                   | Channel-specific UX design                     |
+| Month 7       | Conversation dashboard v2             | Enhanced analytics: conversion tracking, revenue attribution, common inquiry patterns, facility comparison benchmarks.                 | Data pipeline for call analytics               |
+| Month 8       | Scaled rollout (50+ facilities)       | Graduated rollout with onboarding playbook, CS training, and facility success metrics.                                                 | Onboarding documentation; CS training complete |
+| Month 9       | Phase 2 evaluation & Phase 3 planning | Comprehensive review of scaled deployment. Revenue analysis, customer satisfaction, operational metrics.                               | 3+ months of scaled data                       |
 
 ### Phase 3: Proactive Intelligence (Months 10–15)
 
 Objective: The front desk agent evolves from reactive to proactive — anticipating needs, recovering lost revenue, saving at-risk customers, and driving growth without waiting for the phone to ring.
 
-| Est. Delivery | Milestone | Description | Prerequisites / Notes |
-| --- | --- | --- | --- |
-| Month 10–11 | Second Chance Leads engine | AI reviews all unresolved inquiries and missed calls, scores lead potential, surfaces high-value follow-up opportunities. | Call history data; lead scoring model |
-| Month 11–12 | Retention & Save Flows | Detects at-risk members, runs cancellation save flows with admin-configured retention playbooks, proactively reaches out with personalized offers. | Churn signal model; retention playbook config in admin portal |
-| Month 12–13 | Proactive outreach — waitlist & schedule changes | Agent initiates outbound contact for: waitlist spot openings, schedule changes, registration deadline reminders, re-engagement of lapsed customers. | Outbound calling/messaging infrastructure; consent management |
-| Month 13–14 | Cross-sell & recommendation engine | During conversations, agent recommends relevant programs based on customer profile, history, and facility offerings. | Recommendation model; A/B testing framework |
-| Month 14–15 | Multi-language support & analytics dashboard | Spanish and other high-demand languages. Advanced analytics: conversion funnels, inquiry topics, peak patterns, revenue attribution. | Language testing with pilot facilities; data pipeline for analytics |
+| Est. Delivery | Milestone                                        | Description                                                                                                                                         | Prerequisites / Notes                                               |
+| ------------- | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Month 10–11   | Second Chance Leads engine                       | AI reviews all unresolved inquiries and missed calls, scores lead potential, surfaces high-value follow-up opportunities.                           | Call history data; lead scoring model                               |
+| Month 11–12   | Retention & Save Flows                           | Detects at-risk members, runs cancellation save flows with admin-configured retention playbooks, proactively reaches out with personalized offers.  | Churn signal model; retention playbook config in admin portal       |
+| Month 12–13   | Proactive outreach — waitlist & schedule changes | Agent initiates outbound contact for: waitlist spot openings, schedule changes, registration deadline reminders, re-engagement of lapsed customers. | Outbound calling/messaging infrastructure; consent management       |
+| Month 13–14   | Cross-sell & recommendation engine               | During conversations, agent recommends relevant programs based on customer profile, history, and facility offerings.                                | Recommendation model; A/B testing framework                         |
+| Month 14–15   | Multi-language support & analytics dashboard     | Spanish and other high-demand languages. Advanced analytics: conversion funnels, inquiry topics, peak patterns, revenue attribution.                | Language testing with pilot facilities; data pipeline for analytics |
 
 ### Phase 4: Bond Agents (Months 15–24)
 
 Objective: Expand from a single front desk agent to **Bond Agents** — a managed ecosystem of role-specific AI agents with a unified command center where operators direct, supervise, and collaborate with their AI team. Every agent runs on Bond's Agent API and policy engine.
 
-| Est. Delivery | Milestone | Description | Prerequisites / Notes |
-| --- | --- | --- | --- |
-| Month 15–16 | Agent Command Center | Unified operator dashboard for all active agents: activity feed, decisions made, escalations pending, performance metrics. | UX research with Phase 3 operators; command center design |
-| Month 16–17 | Operator ↔ Agent Communication | Natural language interface for operators to direct, query, and supervise agents. Agents proactively surface recommendations and request approval. | Command center infrastructure; NL query layer against Agent API |
-| Month 17–18 | Collections & AR Agent | Automated follow-up on failed payments, outstanding balances, expired payment methods. Negotiates payment plans within admin-configured rules. | Payment API extensions; AR data in Agent API |
-| Month 18–19 | Program Coordinator Agent | Fills underenrolled programs via proactive outreach, manages instructor sub notifications, handles cascading schedule changes. | Enrollment analytics; instructor data in Agent API |
-| Month 19–20 | Agent-to-Agent Handoffs | Agents coordinate through Bond's shared data layer. Front desk flags retention risks, program coordinator triggers outreach, collections resolves balances visible across agents. | Shared event bus; agent state management |
-| Month 20–22 | Events & Rental Agents | Event/party booking agent (end-to-end) and rental coordinator agent (ice/field/court). | Event/rental data in Agent API |
-| Month 22–24 | Back Office Intelligence | Demand & staffing predictions, compliance monitoring (waivers, certifications), automated operational reporting. | 12+ months of interaction data; compliance data in Agent API |
+| Est. Delivery | Milestone                      | Description                                                                                                                                                                       | Prerequisites / Notes                                           |
+| ------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Month 15–16   | Agent Command Center           | Unified operator dashboard for all active agents: activity feed, decisions made, escalations pending, performance metrics.                                                        | UX research with Phase 3 operators; command center design       |
+| Month 16–17   | Operator ↔ Agent Communication | Natural language interface for operators to direct, query, and supervise agents. Agents proactively surface recommendations and request approval.                                 | Command center infrastructure; NL query layer against Agent API |
+| Month 17–18   | Collections & AR Agent         | Automated follow-up on failed payments, outstanding balances, expired payment methods. Negotiates payment plans within admin-configured rules.                                    | Payment API extensions; AR data in Agent API                    |
+| Month 18–19   | Program Coordinator Agent      | Fills underenrolled programs via proactive outreach, manages instructor sub notifications, handles cascading schedule changes.                                                    | Enrollment analytics; instructor data in Agent API              |
+| Month 19–20   | Agent-to-Agent Handoffs        | Agents coordinate through Bond's shared data layer. Front desk flags retention risks, program coordinator triggers outreach, collections resolves balances visible across agents. | Shared event bus; agent state management                        |
+| Month 20–22   | Events & Rental Agents         | Event/party booking agent (end-to-end) and rental coordinator agent (ice/field/court).                                                                                            | Event/rental data in Agent API                                  |
+| Month 22–24   | Back Office Intelligence       | Demand & staffing predictions, compliance monitoring (waivers, certifications), automated operational reporting.                                                                  | 12+ months of interaction data; compliance data in Agent API    |
 
 ---
 
 ## Risk Assessment & Mitigation
 
-| Risk | Likelihood | Impact | Mitigation |
-| --- | --- | --- | --- |
-| AI provides incorrect information (wrong schedule, wrong price) | Medium | High | Strict data freshness requirements; confidence scoring with fallback to escalation; comprehensive QA testing per facility before activation |
-| Caller frustration with AI ("I want to talk to a person") | High (initially) | Medium | Always offer human transfer option; detect frustration early and proactively offer transfer; continuously improve based on escalation patterns |
-| Regulatory issues (AI disclosure laws, recording consent) | Medium | High | Proactive legal review; always-disclose-by-default approach; state-by-state compliance checklist before facility activation |
-| Telephony/infrastructure downtime | Low | Critical | Multi-provider redundancy; automatic failover to facility's existing phone system; 99.9% uptime SLA with providers |
-| Low facility adoption | Medium | High | Start with champions (facilities already asking for this); demonstrate ROI within 30 days; offer 60-day free trial; CS-led onboarding |
-| Competitor launches voice AI for rec facilities | Medium | High | Speed to market is critical; first-mover advantage compounds (data moat); deep Bond integration is defensible |
-| Data breach / PII exposure from call recordings | Low | Critical | Encryption at rest and in transit; strict access controls; automated PII redaction in transcripts; regular security audits |
-| Cost of AI inference exceeds revenue per facility | Medium | Medium | Monitor cost per call closely; optimize prompt engineering for token efficiency; negotiate volume pricing with LLM providers; tier pricing to match usage |
+| Risk                                                            | Likelihood       | Impact   | Mitigation                                                                                                                                                |
+| --------------------------------------------------------------- | ---------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AI provides incorrect information (wrong schedule, wrong price) | Medium           | High     | Strict data freshness requirements; confidence scoring with fallback to escalation; comprehensive QA testing per facility before activation               |
+| Caller frustration with AI ("I want to talk to a person")       | High (initially) | Medium   | Always offer human transfer option; detect frustration early and proactively offer transfer; continuously improve based on escalation patterns            |
+| Regulatory issues (AI disclosure laws, recording consent)       | Medium           | High     | Proactive legal review; always-disclose-by-default approach; state-by-state compliance checklist before facility activation                               |
+| Telephony/infrastructure downtime                               | Low              | Critical | Multi-provider redundancy; automatic failover to facility's existing phone system; 99.9% uptime SLA with providers                                        |
+| Low facility adoption                                           | Medium           | High     | Start with champions (facilities already asking for this); demonstrate ROI within 30 days; offer 60-day free trial; CS-led onboarding                     |
+| Competitor launches voice AI for rec facilities                 | Medium           | High     | Speed to market is critical; first-mover advantage compounds (data moat); deep Bond integration is defensible                                             |
+| Data breach / PII exposure from call recordings                 | Low              | Critical | Encryption at rest and in transit; strict access controls; automated PII redaction in transcripts; regular security audits                                |
+| Cost of AI inference exceeds revenue per facility               | Medium           | Medium   | Monitor cost per call closely; optimize prompt engineering for token efficiency; negotiate volume pricing with LLM providers; tier pricing to match usage |
 
 ---
 
@@ -739,15 +739,15 @@ Momence has validated $399/month for text-only AI in the fitness studio market. 
 
 **Recommended Tier Structure:**
 
-| Tier | Monthly Price | Includes | Target Facility |
-| --- | --- | --- | --- |
-| Starter | $249/month | Voice-only, up to 200 calls/month, business hours + after hours, basic dashboard | Small single-sport facilities |
-| Professional | $399/month | Voice + email + chat, up to 500 calls/month, action-taking (book/cancel), full dashboard, priority support | Mid-size multi-sport facilities |
-| Enterprise | $599/month | All channels, unlimited calls, advanced analytics, custom integrations, dedicated success manager, multi-location support | Large facilities, franchise groups (Chelsea Piers, Canlan) |
+| Tier         | Monthly Price | Includes                                                                                                                  | Target Facility                                            |
+| ------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Starter      | $249/month    | Voice-only, up to 200 calls/month, business hours + after hours, basic dashboard                                          | Small single-sport facilities                              |
+| Professional | $399/month    | Voice + email + chat, up to 500 calls/month, action-taking (book/cancel), full dashboard, priority support                | Mid-size multi-sport facilities                            |
+| Enterprise   | $599/month    | All channels, unlimited calls, advanced analytics, custom integrations, dedicated success manager, multi-location support | Large facilities, franchise groups (Chelsea Piers, Canlan) |
 
 **Revenue Projections (Conservative):**
 
-Year 1 (50 facilities at blended $350/month avg): $210K incremental ARR. Year 2 (150 facilities at blended $400/month avg): $720K incremental ARR. Year 3 (250 facilities at blended $450/month avg): $1.35M incremental ARR.
+Year 1 (100 facilities, 40% penetration at blended $350/month avg): $420K incremental ARR. Year 2 (300 facilities, 60% penetration at blended $400/month avg): $1.44M incremental ARR. Year 3 (750 facilities, 75% penetration at blended $450/month avg): $4.05M incremental ARR. Assumes 250 facilities today, doubling in customers each year from Year 2, with penetration ramping from 40% to 75%.
 
 ---
 
@@ -771,9 +771,9 @@ Every conversation generates data that makes the agent better. Common escalation
 
 ## Meeting History
 
-| Meeting Date | Attendees | Highlights | Key Decisions |
-| --- | --- | --- | --- |
-| TBD | TBD | PRD Draft Review | TBD |
+| Meeting Date | Attendees | Highlights       | Key Decisions |
+| ------------ | --------- | ---------------- | ------------- |
+| TBD          | TBD       | PRD Draft Review | TBD           |
 
 ## Appendix A: ServiceTitan Benchmark Details
 
@@ -797,16 +797,16 @@ This appendix provides a comprehensive evaluation of every vendor and approach c
 
 Each vendor is scored 1–5 across eight weighted dimensions. Scores reflect fit for Bond's specific use case, not general product quality.
 
-| Criterion | Weight | Description |
-| --- | --- | --- |
-| Voice-First Capability | 20% | Live inbound voice quality, latency, natural conversation handling. Bond's primary channel. |
-| Multi-Tenancy at Scale | 15% | Ability to manage 300+ facility configurations with unique policies, voices, and knowledge bases under one Bond account. |
-| Bond Data Integration | 15% | How naturally the solution connects to Bond's Agent API for real-time schedule, registration, membership, and customer data. |
-| Action-Taking (Write Operations) | 15% | Can the agent book registrations, process cancellations, modify memberships — not just answer questions? |
-| Mass Update & Configuration Management | 10% | Can Bond push a policy change or new capability to hundreds of facilities simultaneously, not one by one? |
-| Time to Production | 10% | Realistic timeline from contract signing to live calls at pilot facilities. |
-| Cost Model & Scalability | 10% | Pricing predictability at 300+ facilities; gross margin sustainability at $250–500/mo per facility. |
-| Strategic Control & Lock-in Risk | 5% | Bond's ability to migrate away, own the IP, and evolve independently. |
+| Criterion                              | Weight | Description                                                                                                                  |
+| -------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| Voice-First Capability                 | 20%    | Live inbound voice quality, latency, natural conversation handling. Bond's primary channel.                                  |
+| Multi-Tenancy at Scale                 | 15%    | Ability to manage 300+ facility configurations with unique policies, voices, and knowledge bases under one Bond account.     |
+| Bond Data Integration                  | 15%    | How naturally the solution connects to Bond's Agent API for real-time schedule, registration, membership, and customer data. |
+| Action-Taking (Write Operations)       | 15%    | Can the agent book registrations, process cancellations, modify memberships — not just answer questions?                     |
+| Mass Update & Configuration Management | 10%    | Can Bond push a policy change or new capability to hundreds of facilities simultaneously, not one by one?                    |
+| Time to Production                     | 10%    | Realistic timeline from contract signing to live calls at pilot facilities.                                                  |
+| Cost Model & Scalability               | 10%    | Pricing predictability at 300+ facilities; gross margin sustainability at $250–500/mo per facility.                          |
+| Strategic Control & Lock-in Risk       | 5%     | Bond's ability to migrate away, own the IP, and evolve independently.                                                        |
 
 ---
 
@@ -818,16 +818,17 @@ Each vendor is scored 1–5 across eight weighted dimensions. Scores reflect fit
 
 **Pricing (as of Jan 2026):**
 
-| Plan | Monthly Fee | Per-Minute Rate | Concurrency |
-| --- | --- | --- | --- |
-| Start | Free | $0.14/min | 10 calls |
-| Build | $299/mo | $0.12/min | 50 calls |
-| Scale | $499/mo | $0.11/min | 100 calls |
-| Enterprise | Custom | Negotiated | Unlimited |
+| Plan       | Monthly Fee | Per-Minute Rate | Concurrency |
+| ---------- | ----------- | --------------- | ----------- |
+| Start      | Free        | $0.14/min       | 10 calls    |
+| Build      | $299/mo     | $0.12/min       | 50 calls    |
+| Scale      | $499/mo     | $0.11/min       | 100 calls   |
+| Enterprise | Custom      | Negotiated      | Unlimited   |
 
 Additional costs: $0.02/SMS, $0.015 minimum per outbound call attempt, transfer time billed separately ($0.03–0.05/min).
 
 **Strengths:**
+
 - Strong voice quality with proprietary model; low latency
 - Pathways system enables deterministic steps (legal disclosures, authentication loops) alongside AI flexibility
 - Flexible pricing: willing to structure per-facility, per-minute, per-resolution, or flat fee — critical for Bond's resale model
@@ -837,6 +838,7 @@ Additional costs: $0.02/SMS, $0.015 minimum per outbound call attempt, transfer 
 - Production-proven at enterprise scale
 
 **Weaknesses:**
+
 - **Mass update concern (critical risk):** If Bond replicates a pathway across 300 facilities and needs to add a refund capability, it's unclear whether updates can be pushed globally or require individual facility updates. Bland's sales team could not answer this definitively — punted to implementation team.
 - Vendor dependency for orchestration layer; Bond doesn't own the conversation logic
 - Per-minute pricing can create cost unpredictability as call volumes grow
@@ -844,16 +846,16 @@ Additional costs: $0.02/SMS, $0.015 minimum per outbound call attempt, transfer 
 
 **Bond Fit Score:**
 
-| Criterion | Score (1–5) | Notes |
-| --- | --- | --- |
-| Voice-First Capability | 5 | Best-in-class voice; proprietary model; low latency |
-| Multi-Tenancy at Scale | 3 | Persona/pathway per facility works, but mass management is unproven |
-| Bond Data Integration | 4 | Supports webhooks and integrations; Bond builds the Agent API, Bland calls it |
-| Action-Taking | 4 | Can trigger bookings, cancellations via webhook/API; not native to Bond |
-| Mass Update & Config Management | 2 | Key unresolved risk; no confirmed mass push capability |
-| Time to Production | 5 | 4–8 weeks to first pilot with FDE support |
-| Cost Model & Scalability | 3 | Per-minute pricing creates margin pressure; enterprise pricing is negotiable |
-| Strategic Control & Lock-in Risk | 2 | Bond depends on Bland for orchestration; pathway definitions are proprietary |
+| Criterion                        | Score (1–5) | Notes                                                                         |
+| -------------------------------- | ----------- | ----------------------------------------------------------------------------- |
+| Voice-First Capability           | 5           | Best-in-class voice; proprietary model; low latency                           |
+| Multi-Tenancy at Scale           | 3           | Persona/pathway per facility works, but mass management is unproven           |
+| Bond Data Integration            | 4           | Supports webhooks and integrations; Bond builds the Agent API, Bland calls it |
+| Action-Taking                    | 4           | Can trigger bookings, cancellations via webhook/API; not native to Bond       |
+| Mass Update & Config Management  | 2           | Key unresolved risk; no confirmed mass push capability                        |
+| Time to Production               | 5           | 4–8 weeks to first pilot with FDE support                                     |
+| Cost Model & Scalability         | 3           | Per-minute pricing creates margin pressure; enterprise pricing is negotiable  |
+| Strategic Control & Lock-in Risk | 2           | Bond depends on Bland for orchestration; pathway definitions are proprietary  |
 
 **Weighted Score: 3.55 / 5**
 
@@ -868,12 +870,14 @@ Additional costs: $0.02/SMS, $0.015 minimum per outbound call attempt, transfer 
 **Overview:** Decagon is a well-funded enterprise AI customer support platform that handles support tickets autonomously using "Agent Operating Procedures" (AOPs) written in plain English — no visual workflow builder. It supports voice, chat, and email. Decagon has raised significant venture funding and targets large enterprise customers. Notable clients include Eventbrite and Rippling.
 
 **Pricing:** Entirely custom; no public pricing page. Two models available:
+
 - **Per-conversation:** Flat fee per AI interaction (regardless of outcome)
 - **Per-resolution:** Higher fee, but only when the AI resolves the issue autonomously
 
 Contract minimums appeared high during evaluation — oriented toward enterprise-scale buyers with large ticket volumes.
 
 **Strengths:**
+
 - Full multi-modal support: voice, chat, email in one platform
 - AOPs in plain English make policy configuration accessible to non-technical staff
 - Knowledge base integration, QA/monitoring, A/B testing, and custom analytics built in
@@ -881,6 +885,7 @@ Contract minimums appeared high during evaluation — oriented toward enterprise
 - Enterprise-grade security and compliance posture
 
 **Weaknesses:**
+
 - **Pricing is a deal-breaker for current stage:** Contract minimums seem extremely high. Bond's facility base (300+ locations at $250–500/mo each) may not generate enough volume per facility to justify Decagon's enterprise pricing.
 - **Multi-tenancy was not a solved problem:** During evaluation, their team was "researching" multi-tenant implementation. This is a first-class requirement for Bond.
 - No public pricing creates budget uncertainty and lengthy sales cycles
@@ -889,16 +894,16 @@ Contract minimums appeared high during evaluation — oriented toward enterprise
 
 **Bond Fit Score:**
 
-| Criterion | Score (1–5) | Notes |
-| --- | --- | --- |
-| Voice-First Capability | 4 | Good voice demo; less proven at scale than Bland |
-| Multi-Tenancy at Scale | 1 | Actively researching; not solved |
-| Bond Data Integration | 3 | Tool calls and API integration; would need custom Bond integration |
-| Action-Taking | 4 | Strong action-taking via tool calls and procedures |
-| Mass Update & Config Management | 2 | Unknown; AOP management at 300+ tenants untested |
-| Time to Production | 3 | 4–8 weeks to pilot, but sales cycle and contracting may be slow |
-| Cost Model & Scalability | 1 | Enterprise pricing doesn't fit Bond's ICP; margin modeling impossible |
-| Strategic Control & Lock-in Risk | 2 | Vendor owns orchestration; custom contract lock-in |
+| Criterion                        | Score (1–5) | Notes                                                                 |
+| -------------------------------- | ----------- | --------------------------------------------------------------------- |
+| Voice-First Capability           | 4           | Good voice demo; less proven at scale than Bland                      |
+| Multi-Tenancy at Scale           | 1           | Actively researching; not solved                                      |
+| Bond Data Integration            | 3           | Tool calls and API integration; would need custom Bond integration    |
+| Action-Taking                    | 4           | Strong action-taking via tool calls and procedures                    |
+| Mass Update & Config Management  | 2           | Unknown; AOP management at 300+ tenants untested                      |
+| Time to Production               | 3           | 4–8 weeks to pilot, but sales cycle and contracting may be slow       |
+| Cost Model & Scalability         | 1           | Enterprise pricing doesn't fit Bond's ICP; margin modeling impossible |
+| Strategic Control & Lock-in Risk | 2           | Vendor owns orchestration; custom contract lock-in                    |
 
 **Weighted Score: 2.50 / 5**
 
@@ -914,15 +919,16 @@ Contract minimums appeared high during evaluation — oriented toward enterprise
 
 **Pricing (current, per location):**
 
-| Plan | Monthly Price | AI Agents | AI Tokens | SMS Segments |
-| --- | --- | --- | --- | --- |
-| Base | $320/mo | 1 | 5,000 | 500 |
-| Premium | $720/mo | 4 | 25,000 | 3,000 |
-| Enterprise | Custom | Unlimited | 75,000 | 10,000 |
+| Plan       | Monthly Price | AI Agents | AI Tokens | SMS Segments |
+| ---------- | ------------- | --------- | --------- | ------------ |
+| Base       | $320/mo       | 1         | 5,000     | 500          |
+| Premium    | $720/mo       | 4         | 25,000    | 3,000        |
+| Enterprise | Custom        | Unlimited | 75,000    | 10,000       |
 
 Annual billing saves 20%.
 
 **Strengths:**
+
 - Closest ICP alignment: purpose-built for fitness/gym industry with relevant workflows (booking, cancellations, payment recovery, lead nurture)
 - White-label capable with master admin view — addresses multi-tenant management need
 - Cancellation save flows and payment recovery agents align with Bond Phase 3–4 vision
@@ -930,6 +936,7 @@ Annual billing saves 20%.
 - Competitive pricing validates Bond's target price range
 
 **Weaknesses:**
+
 - **Voice agent was not mature at time of evaluation.** Phone receptionist was "in development." For Bond's voice-first use case, this is disqualifying for Phase 1.
 - Primarily outbound/appointment booking focus — less proven as an inbound receptionist/support agent
 - Would need to build Bond-specific integration from scratch
@@ -938,16 +945,16 @@ Annual billing saves 20%.
 
 **Bond Fit Score:**
 
-| Criterion | Score (1–5) | Notes |
-| --- | --- | --- |
-| Voice-First Capability | 1 | Voice was in development at time of demo; disqualifying for Phase 1 |
-| Multi-Tenancy at Scale | 4 | Master admin view with white-label; closest to Bond's needs |
-| Bond Data Integration | 2 | No Bond integration; would need full custom build |
-| Action-Taking | 4 | Strong booking, cancellation, payment workflows |
-| Mass Update & Config Management | 3 | Master admin implies some central management; untested at Bond scale |
-| Time to Production | 2 | Voice immaturity delays pilot; integration build required |
-| Cost Model & Scalability | 4 | Per-location pricing aligns with Bond's resale model |
-| Strategic Control & Lock-in Risk | 3 | White-label is positive; still vendor-dependent for orchestration |
+| Criterion                        | Score (1–5) | Notes                                                                |
+| -------------------------------- | ----------- | -------------------------------------------------------------------- |
+| Voice-First Capability           | 1           | Voice was in development at time of demo; disqualifying for Phase 1  |
+| Multi-Tenancy at Scale           | 4           | Master admin view with white-label; closest to Bond's needs          |
+| Bond Data Integration            | 2           | No Bond integration; would need full custom build                    |
+| Action-Taking                    | 4           | Strong booking, cancellation, payment workflows                      |
+| Mass Update & Config Management  | 3           | Master admin implies some central management; untested at Bond scale |
+| Time to Production               | 2           | Voice immaturity delays pilot; integration build required            |
+| Cost Model & Scalability         | 4           | Per-location pricing aligns with Bond's resale model                 |
+| Strategic Control & Lock-in Risk | 3           | White-label is positive; still vendor-dependent for orchestration    |
 
 **Weighted Score: 2.55 / 5**
 
@@ -964,6 +971,7 @@ Annual billing saves 20%.
 **Pricing:** Per-resolution model (custom pricing; contact account manager). No public pricing for voice.
 
 **Strengths:**
+
 - Bond already uses Intercom — existing relationship, known platform, integrated workflows
 - Fin Voice has matured significantly: 28 languages, smart routing, CSAT, call monitoring, transcripts, analytics
 - Guidance system allows plain-English behavior customization per channel
@@ -972,6 +980,7 @@ Annual billing saves 20%.
 - Can integrate with any telephony provider (Twilio, SIP, PSTN forwarding)
 
 **Weaknesses:**
+
 - **Multi-tenancy remains the fundamental blocker.** Intercom is built as one workspace per company. To support 300+ Bond facilities, each with unique policies, knowledge bases, and configurations, Bond would need separate workspaces or brands per facility — costly, unwieldy, and operationally unmanageable. Jordan (Intercom) acknowledged this during evaluation.
 - Fin Voice is not generally available — "limited to select customers" with Intercom's sales team
 - Voice Procedures (action-taking) are in closed beta — not production-ready
@@ -981,16 +990,16 @@ Annual billing saves 20%.
 
 **Bond Fit Score:**
 
-| Criterion | Score (1–5) | Notes |
-| --- | --- | --- |
-| Voice-First Capability | 3 | Voice has improved significantly but still limited availability and maturing |
-| Multi-Tenancy at Scale | 1 | Fundamental architectural mismatch; not designed for B2B2C multi-tenant |
-| Bond Data Integration | 3 | APIs and procedures exist; would need significant custom work per facility |
-| Action-Taking | 2 | Voice Procedures in closed beta; not production-ready |
-| Mass Update & Config Management | 1 | Per-workspace model makes mass management across 300+ facilities unworkable |
-| Time to Production | 2 | Multi-tenancy blocker adds months; voice availability uncertain |
-| Cost Model & Scalability | 2 | Per-workspace costs compound; pricing model doesn't fit B2B2C resale |
-| Strategic Control & Lock-in Risk | 3 | Already embedded in Bond's stack; medium switching cost |
+| Criterion                        | Score (1–5) | Notes                                                                        |
+| -------------------------------- | ----------- | ---------------------------------------------------------------------------- |
+| Voice-First Capability           | 3           | Voice has improved significantly but still limited availability and maturing |
+| Multi-Tenancy at Scale           | 1           | Fundamental architectural mismatch; not designed for B2B2C multi-tenant      |
+| Bond Data Integration            | 3           | APIs and procedures exist; would need significant custom work per facility   |
+| Action-Taking                    | 2           | Voice Procedures in closed beta; not production-ready                        |
+| Mass Update & Config Management  | 1           | Per-workspace model makes mass management across 300+ facilities unworkable  |
+| Time to Production               | 2           | Multi-tenancy blocker adds months; voice availability uncertain              |
+| Cost Model & Scalability         | 2           | Per-workspace costs compound; pricing model doesn't fit B2B2C resale         |
+| Strategic Control & Lock-in Risk | 3           | Already embedded in Bond's stack; medium switching cost                      |
 
 **Weighted Score: 2.10 / 5**
 
@@ -1007,6 +1016,7 @@ Annual billing saves 20%.
 **Pricing:** Embedded model — Bond can monetize as add-on revenue stream for facilities. Pricing not publicly listed; structured as embedded partnership.
 
 **Strengths:**
+
 - **Voice AI is live and production-ready:** Handles 80% of common questions automatically, pre-trained with business info (hours, locations, pricing, services)
 - **Can integrate with APIs for reservations/cancellations** if Bond endpoints exist — action-taking capability is present
 - **Full transcripts and AI summaries post-call** — strong analytics and monitoring
@@ -1018,6 +1028,7 @@ Annual billing saves 20%.
 - **Designed for VSaaS embedded model** — aligns with Bond's platform approach
 
 **Weaknesses:**
+
 - **More of a marketing suite than dedicated AI agent platform.** Voice AI is one component among many (ads, email, SMS, reputation). For Bond's voice-first Phase 1 requirement, this may be overkill.
 - **Integration requires data sync setup** — even with Snowflake option, need to configure recurring cron jobs and data mapping
 - **Timing considerations:** League/class purchases happen before service delivery — need automated triggers with time delta after purchase vs immediate solicitation. May require custom trigger logic.
@@ -1026,16 +1037,16 @@ Annual billing saves 20%.
 
 **Bond Fit Score:**
 
-| Criterion | Score (1–5) | Notes |
-| --- | --- | --- |
-| Voice-First Capability | 3 | Production-ready voice AI, handles 80% of questions, but part of broader marketing suite |
-| Multi-Tenancy at Scale | 3 | Per-tenant setup; designed for embedded VSaaS model |
-| Bond Data Integration | 4 | Can pull from Snowflake warehouse; can integrate with Bond APIs for reservations/cancellations |
-| Action-Taking | 3 | Can integrate with APIs for reservations/cancellations if endpoints exist; not native to Bond |
-| Mass Update & Config Management | 3 | Embedded model supports multi-tenant; configuration management unclear at Bond's scale |
-| Time to Production | 4 | UI iframe is low effort; data sync setup required but Snowflake option reduces burden |
-| Cost Model & Scalability | 4 | Embedded model allows Bond to monetize as add-on; pricing structure fits resale model |
-| Strategic Control & Lock-in Risk | 3 | Embedded partnership model; can start with single SKU and expand incrementally |
+| Criterion                        | Score (1–5) | Notes                                                                                          |
+| -------------------------------- | ----------- | ---------------------------------------------------------------------------------------------- |
+| Voice-First Capability           | 3           | Production-ready voice AI, handles 80% of questions, but part of broader marketing suite       |
+| Multi-Tenancy at Scale           | 3           | Per-tenant setup; designed for embedded VSaaS model                                            |
+| Bond Data Integration            | 4           | Can pull from Snowflake warehouse; can integrate with Bond APIs for reservations/cancellations |
+| Action-Taking                    | 3           | Can integrate with APIs for reservations/cancellations if endpoints exist; not native to Bond  |
+| Mass Update & Config Management  | 3           | Embedded model supports multi-tenant; configuration management unclear at Bond's scale         |
+| Time to Production               | 4           | UI iframe is low effort; data sync setup required but Snowflake option reduces burden          |
+| Cost Model & Scalability         | 4           | Embedded model allows Bond to monetize as add-on; pricing structure fits resale model          |
+| Strategic Control & Lock-in Risk | 3           | Embedded partnership model; can start with single SKU and expand incrementally                 |
 
 **Weighted Score: 3.30 / 5**
 
@@ -1051,15 +1062,16 @@ Annual billing saves 20%.
 
 **Pricing (as of Jan 2026):**
 
-| Plan | Conversational AI Rate | Notes |
-| --- | --- | --- |
-| Starter/Creator/Pro | $0.10/min | ~50% reduction from previous pricing |
-| Business (Annual) | $0.08/min | Volume discount |
-| Enterprise | Custom (lower) | Negotiated |
+| Plan                | Conversational AI Rate | Notes                                |
+| ------------------- | ---------------------- | ------------------------------------ |
+| Starter/Creator/Pro | $0.10/min              | ~50% reduction from previous pricing |
+| Business (Annual)   | $0.08/min              | Volume discount                      |
+| Enterprise          | Custom (lower)         | Negotiated                           |
 
 Note: LLM costs are currently absorbed by ElevenLabs but will eventually be passed through.
 
 **Strengths:**
+
 - Best-in-class voice quality (TTS); industry-leading naturalness and expressiveness
 - **Native text/chat support (Chat Mode, Feb 2026)** — build text-only agents or enable chat on existing voice agents; same knowledge base and reasoning across modalities
 - Conversational AI platform provides both infrastructure and orchestration capabilities
@@ -1070,6 +1082,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 - Phone integration via Twilio/SIP supported
 
 **Weaknesses:**
+
 - Not a turnkey "AI agent for athletic facilities" — Bond must build the domain logic, multi-tenancy, and business integrations
 - Conversational AI platform is general-purpose; no facility management context
 - LLM costs currently absorbed will eventually be passed through — pricing will increase
@@ -1078,16 +1091,16 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 
 **Bond Fit Score (as infrastructure component, not standalone solution):**
 
-| Criterion | Score (1–5) | Notes |
-| --- | --- | --- |
-| Voice-First Capability | 5 | Industry-best voice quality; excellent STT/TTS |
-| Multi-Tenancy at Scale | 1 | Not provided; Bond builds this |
-| Bond Data Integration | 2 | APIs available but Bond does all integration work |
-| Action-Taking | 2 | Possible via custom development on top of platform |
-| Mass Update & Config Management | 1 | Not applicable; Bond builds this |
-| Time to Production | 2 | 3–6 months for MVP; significant engineering investment |
-| Cost Model & Scalability | 5 | Excellent per-minute pricing; costs scale linearly |
-| Strategic Control & Lock-in Risk | 4 | Bond owns all business logic; ElevenLabs is replaceable infrastructure |
+| Criterion                        | Score (1–5) | Notes                                                                  |
+| -------------------------------- | ----------- | ---------------------------------------------------------------------- |
+| Voice-First Capability           | 5           | Industry-best voice quality; excellent STT/TTS                         |
+| Multi-Tenancy at Scale           | 1           | Not provided; Bond builds this                                         |
+| Bond Data Integration            | 2           | APIs available but Bond does all integration work                      |
+| Action-Taking                    | 2           | Possible via custom development on top of platform                     |
+| Mass Update & Config Management  | 1           | Not applicable; Bond builds this                                       |
+| Time to Production               | 2           | 3–6 months for MVP; significant engineering investment                 |
+| Cost Model & Scalability         | 5           | Excellent per-minute pricing; costs scale linearly                     |
+| Strategic Control & Lock-in Risk | 4           | Bond owns all business logic; ElevenLabs is replaceable infrastructure |
 
 **Weighted Score: 2.75 / 5** (as standalone) / **Infrastructure Rating: Excellent**
 
@@ -1102,6 +1115,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 **Overview:** Use ElevenLabs for voice and text infrastructure ($0.08–0.10/min; Chat Mode for text agents), a frontier LLM (Claude/GPT) for reasoning, Twilio for telephony, and Bond's engineering team to build the Agent API, orchestration layer, policy engine, admin configuration portal, and conversation dashboard.
 
 **Strengths:**
+
 - Full ownership of every layer: data access, business logic, orchestration, and admin experience
 - Deepest possible integration with Bond's platform
 - No per-conversation or per-resolution vendor fees — only infrastructure usage costs
@@ -1113,6 +1127,7 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 - **Blank Metal (consultancy) can accelerate build —** sprint-based engagement ($30–50K/sprint) for expert guidance on agent architecture and eval systems; 90-day production guarantee; embed model means knowledge transfer to Bond's team, not a long-term dependency. Consider for initial sprint to accelerate architecture decisions.
 
 **Weaknesses:**
+
 - **Significant engineering investment:** 2–3 engineers for 3–6 months for MVP; ongoing 1–2 engineers for maintenance
 - **Voice AI is extremely hard in production.** As Bland AI noted: "getting something demoable is easy, getting something that works in production is extremely difficult"
 - Need to build phone number provisioning, call routing, SMS, email delivery infrastructure
@@ -1122,16 +1137,16 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 
 **Bond Fit Score:**
 
-| Criterion | Score (1–5) | Notes |
-| --- | --- | --- |
-| Voice-First Capability | 4 | ElevenLabs provides excellent voice; orchestration quality depends on Bond's execution |
-| Multi-Tenancy at Scale | 5 | Designed for Bond's exact architecture from day one |
-| Bond Data Integration | 5 | Native integration; Bond builds both sides |
-| Action-Taking | 5 | Full control via Bond's own APIs |
-| Mass Update & Config Management | 5 | Bond designs and owns this entirely |
-| Time to Production | 2 | 3–6 months for MVP; 6+ months for production-ready voice |
-| Cost Model & Scalability | 3 | High upfront engineering investment (2-3 engineers × 3-6 months) impacts cost model; best long-term unit economics but significant initial investment |
-| Strategic Control & Lock-in Risk | 5 | Bond owns everything; zero vendor lock-in |
+| Criterion                        | Score (1–5) | Notes                                                                                                                                                 |
+| -------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Voice-First Capability           | 4           | ElevenLabs provides excellent voice; orchestration quality depends on Bond's execution                                                                |
+| Multi-Tenancy at Scale           | 5           | Designed for Bond's exact architecture from day one                                                                                                   |
+| Bond Data Integration            | 5           | Native integration; Bond builds both sides                                                                                                            |
+| Action-Taking                    | 5           | Full control via Bond's own APIs                                                                                                                      |
+| Mass Update & Config Management  | 5           | Bond designs and owns this entirely                                                                                                                   |
+| Time to Production               | 2           | 3–6 months for MVP; 6+ months for production-ready voice                                                                                              |
+| Cost Model & Scalability         | 3           | High upfront engineering investment (2-3 engineers × 3-6 months) impacts cost model; best long-term unit economics but significant initial investment |
+| Strategic Control & Lock-in Risk | 5           | Bond owns everything; zero vendor lock-in                                                                                                             |
 
 **Weighted Score: 4.20 / 5** (long-term) / **3.50 / 5** (near-term, penalized for timeline risk)
 
@@ -1141,15 +1156,15 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 
 ### Consolidated Scoring Matrix
 
-| Vendor / Option | Voice-First (20%) | Multi-Tenant (15%) | Bond Integration (15%) | Action-Taking (15%) | Mass Update (10%) | Time to Production (10%) | Cost Model (10%) | Strategic Control (5%) | **Weighted Total** |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **Bland AI** | 5 | 3 | 4 | 4 | 2 | 5 | 3 | 2 | **3.55** |
-| **Decagon** | 4 | 1 | 3 | 4 | 2 | 3 | 1 | 2 | **2.50** |
-| **SidePilot** | 1 | 4 | 2 | 4 | 3 | 2 | 4 | 3 | **2.55** |
-| **Intercom (Fin)** | 3 | 1 | 3 | 2 | 1 | 2 | 2 | 3 | **2.10** |
-| **EmbedReach** | 3 | 3 | 4 | 3 | 3 | 4 | 4 | 3 | **3.35** |
-| **ElevenLabs** (infra) | 5 | 1 | 2 | 2 | 1 | 2 | 5 | 4 | **2.75** |
-| **Build In-House** (incl. Blank Metal as accelerator) | 4 | 5 | 5 | 5 | 5 | 2 | 3 | 5 | **4.20** |
+| Vendor / Option                                       | Voice-First (20%) | Multi-Tenant (15%) | Bond Integration (15%) | Action-Taking (15%) | Mass Update (10%) | Time to Production (10%) | Cost Model (10%) | Strategic Control (5%) | **Weighted Total** |
+| ----------------------------------------------------- | ----------------- | ------------------ | ---------------------- | ------------------- | ----------------- | ------------------------ | ---------------- | ---------------------- | ------------------ |
+| **Bland AI**                                          | 5                 | 3                  | 4                      | 4                   | 2                 | 5                        | 3                | 2                      | **3.55**           |
+| **Decagon**                                           | 4                 | 1                  | 3                      | 4                   | 2                 | 3                        | 1                | 2                      | **2.50**           |
+| **SidePilot**                                         | 1                 | 4                  | 2                      | 4                   | 3                 | 2                        | 4                | 3                      | **2.55**           |
+| **Intercom (Fin)**                                    | 3                 | 1                  | 3                      | 2                   | 1                 | 2                        | 2                | 3                      | **2.10**           |
+| **EmbedReach**                                        | 3                 | 3                  | 4                      | 3                   | 3                 | 4                        | 4                | 3                      | **3.35**           |
+| **ElevenLabs** (infra)                                | 5                 | 1                  | 2                      | 2                   | 1                 | 2                        | 5                | 4                      | **2.75**           |
+| **Build In-House** (incl. Blank Metal as accelerator) | 4                 | 5                  | 5                      | 5                   | 5                 | 2                        | 3                | 5                      | **4.20**           |
 
 ---
 
@@ -1157,27 +1172,27 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 
 **Tier 1 — Recommended Path (Hybrid):**
 
-| Component | Decision | Vendor/Approach |
-| --- | --- | --- |
-| Agent API & Business Logic | **Build (Bond's Moat)** | Bond engineering team; consider Blank Metal for initial sprint |
-| Policy Engine & Admin Config | **Build** | Bond engineering team |
-| Voice + Text Infrastructure (STT/TTS/Chat) | **Buy** | ElevenLabs ($0.08–0.10/min) |
-| Telephony | **Buy** | Twilio |
-| Agentic Orchestration | **Pilot with Bland → Evaluate → Build or Continue** | Bland AI (pilot); parallel build using ElevenLabs + LLM APIs |
-| Architecture Acceleration | **Engage (optional)** | Blank Metal ($30–50K/sprint for 2–3 sprints) |
+| Component                                  | Decision                                            | Vendor/Approach                                                |
+| ------------------------------------------ | --------------------------------------------------- | -------------------------------------------------------------- |
+| Agent API & Business Logic                 | **Build (Bond's Moat)**                             | Bond engineering team; consider Blank Metal for initial sprint |
+| Policy Engine & Admin Config               | **Build**                                           | Bond engineering team                                          |
+| Voice + Text Infrastructure (STT/TTS/Chat) | **Buy**                                             | ElevenLabs ($0.08–0.10/min)                                    |
+| Telephony                                  | **Buy**                                             | Twilio                                                         |
+| Agentic Orchestration                      | **Pilot with Bland → Evaluate → Build or Continue** | Bland AI (pilot); parallel build using ElevenLabs + LLM APIs   |
+| Architecture Acceleration                  | **Engage (optional)**                               | Blank Metal ($30–50K/sprint for 2–3 sprints)                   |
 
 **Tier 2 — Monitor for Future Phases:**
 
-| Vendor | When to Re-Evaluate | Potential Use Case |
-| --- | --- | --- |
-| SidePilot | When their voice agent matures | Phase 2+ text channel partner; cancellation save flow reference |
-| Decagon | When Bond hits 500+ facilities and higher per-facility call volumes | Enterprise orchestration alternative if Bland fails |
-| Intercom (Fin) | If Intercom solves multi-tenancy for B2B2C | Unlikely near-term; continue using for Bond's own B2B support |
+| Vendor         | When to Re-Evaluate                                                 | Potential Use Case                                              |
+| -------------- | ------------------------------------------------------------------- | --------------------------------------------------------------- |
+| SidePilot      | When their voice agent matures                                      | Phase 2+ text channel partner; cancellation save flow reference |
+| Decagon        | When Bond hits 500+ facilities and higher per-facility call volumes | Enterprise orchestration alternative if Bland fails             |
+| Intercom (Fin) | If Intercom solves multi-tenancy for B2B2C                          | Unlikely near-term; continue using for Bond's own B2B support   |
 
 **Tier 3 — Not Recommended:**
 
-| Vendor | Reason |
-| --- | --- |
+| Vendor     | Reason                                                                                                                                                                                                            |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | EmbedReach | Marketing suite with voice component; better fit for Phase 2+ marketing/reputation add-on than Phase 1 voice-first front desk agent. Voice AI is production-ready but embedded within broader marketing platform. |
 
 **Key Takeaway:** No single vendor solves Bond's full problem. The hybrid approach — own the data layer and business logic (Bond's irreplaceable moat), buy commodity infrastructure (voice, telephony), and pilot the orchestration layer with Bland while building in parallel — maximizes speed to market while preserving long-term strategic control. The 60-day Bland pilot produces real customer feedback while Bond builds the Agent API foundation that every future Bond Agent will run on.

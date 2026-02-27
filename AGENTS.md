@@ -48,11 +48,12 @@ src/
 ### Component Patterns
 
 1. **Client Components**: Use `"use client"` directive for interactive components
+
    ```tsx
    "use client";
-   
+
    import { motion } from "framer-motion";
-   
+
    export function MyComponent() {
      // Component code
    }
@@ -65,9 +66,10 @@ src/
    - Wrap content in semantic `<section>` tag
 
 3. **Styling**: Use Tailwind utility classes with the `cn()` helper for conditional classes
+
    ```tsx
    import { cn } from "@/lib/utils";
-   
+
    <div className={cn(
      "base-classes",
      condition && "conditional-classes",
@@ -163,9 +165,12 @@ export function MySection() {
 ```tsx
 import { Badge } from "@/components/ui/badge";
 
-<Badge variant="outline" className="rounded-full border-bond-navy/20 bg-bond-navy/5">
+<Badge
+  variant="outline"
+  className="rounded-full border-bond-navy/20 bg-bond-navy/5"
+>
   Status Text
-</Badge>
+</Badge>;
 ```
 
 ### Card Components
@@ -177,10 +182,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
   <CardHeader>
     <CardTitle>Title</CardTitle>
   </CardHeader>
-  <CardContent>
-    Content
-  </CardContent>
-</Card>
+  <CardContent>Content</CardContent>
+</Card>;
 ```
 
 ## Scripts
@@ -220,6 +223,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 6. Relative imports (if any)
 
 Example:
+
 ```tsx
 "use client";
 

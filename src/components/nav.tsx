@@ -22,11 +22,13 @@ import {
   FileQuestion,
   Zap,
   Scale,
+  Headphones,
 } from "lucide-react";
 import { CopyPrdButton } from "@/components/copy-prd-button";
 
 const sections = [
   { id: "hero", label: "Overview", icon: Zap },
+  { id: "demo", label: "Live Demo", icon: Headphones },
   { id: "problem", label: "Problem", icon: Target },
   { id: "kpis", label: "KPIs", icon: BarChart3 },
   { id: "competitive", label: "Competitive", icon: Users },
@@ -52,7 +54,7 @@ export function Nav() {
           setActive(visible[0].target.id);
         }
       },
-      { rootMargin: "-20% 0px -70% 0px" }
+      { rootMargin: "-20% 0px -70% 0px" },
     );
 
     sections.forEach(({ id }) => {
@@ -99,7 +101,7 @@ export function Nav() {
                       "flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm font-medium transition-all",
                       active === id
                         ? "bg-bond-navy/10 text-bond-navy"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
                     )}
                   >
                     <Icon className="h-4 w-4 shrink-0" />
@@ -130,35 +132,35 @@ export function Nav() {
         <div className="flex shrink-0 items-center gap-2">
           <CopyPrdButton size="sm" compact />
           <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-64 p-0">
-            <SheetTitle className="sr-only">Navigation</SheetTitle>
-            <div className="px-4 py-6">
-              <ul className="space-y-1">
-                {sections.map(({ id, label, icon: Icon }) => (
-                  <li key={id}>
-                    <button
-                      onClick={() => handleClick(id)}
-                      className={cn(
-                        "flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all",
-                        active === id
-                          ? "bg-bond-navy/10 text-bond-navy"
-                          : "text-muted-foreground hover:bg-muted"
-                      )}
-                    >
-                      <Icon className="h-4 w-4 shrink-0" />
-                      {label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </SheetContent>
-        </Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-64 p-0">
+              <SheetTitle className="sr-only">Navigation</SheetTitle>
+              <div className="px-4 py-6">
+                <ul className="space-y-1">
+                  {sections.map(({ id, label, icon: Icon }) => (
+                    <li key={id}>
+                      <button
+                        onClick={() => handleClick(id)}
+                        className={cn(
+                          "flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all",
+                          active === id
+                            ? "bg-bond-navy/10 text-bond-navy"
+                            : "text-muted-foreground hover:bg-muted",
+                        )}
+                      >
+                        <Icon className="h-4 w-4 shrink-0" />
+                        {label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </header>
     </>

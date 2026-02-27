@@ -27,8 +27,8 @@ export function CompetitiveSection() {
       <SectionDescription>
         Baseline has already deployed a voice AI front desk agent (powered by
         EmbedReach) to their sports facility customers. Bond&apos;s window to
-        lead the category with deeper integration is narrowing — speed to
-        market is critical.
+        lead the category with deeper integration is narrowing — speed to market
+        is critical.
       </SectionDescription>
 
       {/* Competitor cards */}
@@ -127,10 +127,11 @@ export function CompetitiveSection() {
           </div>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             Planned: Voice + email + text, fully integrated with Bond as system
-            of record. $250-500/mo target pricing. Baseline&apos;s EmbedReach-powered
-            agent handles FAQs and sends links — Bond&apos;s agent will go deeper:
-            real-time data, in-call booking, customer recognition, and proactive
-            outreach. The moat is being the system of record.
+            of record. $250-500/mo target pricing. Baseline&apos;s
+            EmbedReach-powered agent handles FAQs and sends links — Bond&apos;s
+            agent will go deeper: real-time data, in-call booking, customer
+            recognition, and proactive outreach. The moat is being the system of
+            record.
           </p>
           <div className="mt-3 flex items-center gap-4 text-xs">
             <div className="flex items-center gap-1.5">
@@ -155,74 +156,6 @@ export function CompetitiveSection() {
           </a>
         </CardContent>
       </Card>
-
-      {/* Recommendation */}
-      <div className="mt-10">
-        <h3 className="font-display text-xl font-bold text-bond-navy-dark">
-          Recommended approach
-        </h3>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          <span className="font-semibold text-foreground">
-            Hybrid with parallel de-risking.
-          </span>{" "}
-          Build the Agent API and business logic layer (Bond&apos;s moat is
-          being the system of record), build or partner for voice infrastructure
-          and agentic orchestration (commodity), pilot with Bland to validate
-          while building in parallel.
-        </p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          {[
-            {
-              label: "Build",
-              items: [
-                "Agent API layer",
-                "Policy & business logic",
-                "Admin UI",
-                "Confidence scoring",
-              ],
-            },
-            {
-              label: "Build/Partner",
-              items: [
-                "Agentic orchestration",
-                "Voice + Text (ElevenLabs)",
-                "Telephony (Twilio)",
-                "Foundation LLM",
-              ],
-            },
-            {
-              label: "Pilot",
-              items: [
-                "Bland AI (60 days)",
-                "1-2 facilities",
-                "Decision trigger at day 60",
-              ],
-            },
-          ].map(({ label, items }) => (
-            <Card key={label} className="rounded-2xl border-border/50">
-              <CardContent className="p-5">
-                <Badge
-                  variant="outline"
-                  className="mb-3 rounded-full border-bond-navy/20 text-xs font-semibold text-bond-navy"
-                >
-                  {label}
-                </Badge>
-                <ul className="space-y-1.5">
-                  {items.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2 text-sm text-muted-foreground"
-                    >
-                      <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-bond-navy/30" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
     </SectionWrapper>
   );
 }

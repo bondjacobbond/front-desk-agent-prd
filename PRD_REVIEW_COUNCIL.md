@@ -13,6 +13,7 @@ This document contains comprehensive reviews from seven distinct perspectives on
 **Overall Assessment:** The PRD is exceptionally thorough and well-researched, demonstrating deep competitive analysis and strategic thinking. The hybrid build/buy approach is sound, but several critical gaps need resolution before pilot launch.
 
 **Key Consensus Points:**
+
 - ✅ Strong market positioning and competitive analysis
 - ✅ Clear phased approach with measurable KPIs
 - ⚠️ Agent API specification needs more detail before engineering commitment
@@ -23,6 +24,7 @@ This document contains comprehensive reviews from seven distinct perspectives on
 ---
 
 ## 1. Product Management Review
+
 **Reviewer:** Product Strategy Lead  
 **Focus:** Strategic alignment, market fit, feature prioritization, go-to-market readiness
 
@@ -87,6 +89,7 @@ Strong strategic foundation, but needs resolution on customer recognition scope,
 ---
 
 ## 2. Engineering Review
+
 **Reviewer:** Engineering Lead / Platform Architect  
 **Focus:** Technical feasibility, architecture decisions, implementation complexity, scalability
 
@@ -181,6 +184,7 @@ Architecture is sound, but Agent API specification needs significant detail befo
 ---
 
 ## 3. Design / UX Review
+
 **Reviewer:** UX Lead / Product Designer  
 **Focus:** User experience, configuration interface, conversation flows, accessibility
 
@@ -275,6 +279,7 @@ Strong user-centered thinking, but admin UI and dashboard need detailed specific
 ---
 
 ## 4. Sales / Go-to-Market Review
+
 **Reviewer:** Sales Lead / Revenue Strategy  
 **Focus:** Pricing, market readiness, sales enablement, customer acquisition
 
@@ -366,6 +371,7 @@ Pricing is validated, but sales motion and enablement materials need definition.
 ---
 
 ## 5. Legal / Compliance Review
+
 **Reviewer:** Legal Counsel / Compliance Lead  
 **Focus:** Regulatory requirements, PCI compliance, data privacy, risk mitigation
 
@@ -454,15 +460,17 @@ Compliance considerations are identified but need detailed legal review and writ
 ---
 
 ## 6. Finance / Business Review
+
 **Reviewer:** Finance Lead / Business Operations  
 **Focus:** Unit economics, revenue projections, cost model, profitability
 
 ### Strengths
 
 1. **Revenue Projections Are Conservative**
-   - Year 1: $210K (50 facilities × $350 avg)
-   - Year 2: $720K (150 facilities × $400 avg)
-   - Year 3: $1.35M (250 facilities × $450 avg)
+   - Year 1: $420K (100 facilities, 40% penetration × $350 avg)
+   - Year 2: $1.44M (300 facilities, 60% penetration × $400 avg)
+   - Year 3: $4.05M (750 facilities, 75% penetration × $450 avg)
+   - Assumes 250 facilities today, doubling each year from Year 2, penetration ramps 40%→75%
    - Assumptions are reasonable
 
 2. **Cost Economics Are Identified**
@@ -544,6 +552,7 @@ Revenue projections are solid, but cost model needs complete specification. Unit
 ---
 
 ## 7. Customer Success Review
+
 **Reviewer:** Customer Success Lead / Implementation  
 **Focus:** Pilot readiness, onboarding, supportability, customer experience
 
@@ -654,6 +663,20 @@ Pilot plan is structured, but onboarding and support processes need detailed def
 
 ---
 
+## Open Decisions — Owners (Voice Platform Pilot)
+
+| Decision                   | Owners                   |
+| -------------------------- | ------------------------ |
+| Voice platform for pilot   | Matt (CEO), Jacob (PM)   |
+| Bland negotiation          | Matt (CEO)               |
+| Launch pricing model       | Matt (CEO), Jacob (PM)   |
+| AI disclosure requirements | Marc (Legal), Jacob (PM) |
+| Monitoring and QA plan     | Jacob (PM), Engineering  |
+| Bond Data API v1 spec      | Jacob (PM), Engineering  |
+| Email channel — Phase 2    | Jacob (PM), Engineering  |
+
+---
+
 ## Consolidated Recommendations
 
 ### Critical Path Items (Must Resolve Before Pilot)
@@ -747,12 +770,14 @@ Pilot plan is structured, but onboarding and support processes need detailed def
 This is an exceptionally thorough PRD that demonstrates deep research, strategic thinking, and clear vision. The hybrid build/buy approach is well-reasoned, and the phased rollout is logical.
 
 **Key Strengths:**
+
 - Comprehensive competitive analysis
 - Clear strategic moat identification
 - Realistic phased approach
 - Strong KPI framework
 
 **Key Gaps:**
+
 - Agent API needs detailed specification
 - Legal/compliance needs written policies
 - Mass update system needs technical design
@@ -763,6 +788,7 @@ This is an exceptionally thorough PRD that demonstrates deep research, strategic
 The PRD is ready for stakeholder review, but critical path items (Agent API spec, legal signoff, mass update design, onboarding playbook) must be completed before pilot launch. The PRD provides an excellent foundation, but execution readiness requires these detailed specifications.
 
 **Next Steps:**
+
 1. Schedule stakeholder review meeting
 2. Assign owners to critical path items
 3. Set deadlines for each critical path item
@@ -781,4 +807,4 @@ The PRD is ready for stakeholder review, but critical path items (Agent API spec
 - [ ] Finance
 - [ ] Customer Success
 
-**Date:** _______________
+**Date:** ******\_\_\_******

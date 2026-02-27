@@ -22,7 +22,7 @@ export function SectionWrapper({
       className={cn(
         "scroll-mt-20 px-6 py-16 md:px-12 lg:px-16 lg:scroll-mt-8",
         muted && "bg-bond-soft-bg",
-        className
+        className,
       )}
     >
       <motion.div

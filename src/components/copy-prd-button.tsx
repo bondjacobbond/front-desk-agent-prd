@@ -38,7 +38,7 @@ export function CopyPrdButton({
       aria-label={copied ? "Copied" : "Copy PRD Markdown"}
       className={cn(
         "gap-2 border-bond-navy/20 bg-bond-navy/5 text-bond-navy hover:bg-bond-navy/10",
-        className
+        className,
       )}
     >
       {copied ? (

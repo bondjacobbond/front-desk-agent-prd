@@ -1,5 +1,6 @@
 import { Nav } from "@/components/nav";
 import { HeroSection } from "@/components/sections/hero";
+import { DemoSection } from "@/components/sections/demo";
 import { ProblemSection } from "@/components/sections/problem";
 import { KpiSection } from "@/components/sections/kpis";
 import { CompetitiveSection } from "@/components/sections/competitive";
@@ -18,6 +19,7 @@ export default function Home() {
       <Nav />
       <main className="lg:ml-56">
         <HeroSection />
+        <DemoSection />
         <ProblemSection />
         <KpiSection />
         <CompetitiveSection />
