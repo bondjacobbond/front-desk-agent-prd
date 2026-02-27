@@ -10,86 +10,80 @@ import {
 } from "@/components/section-wrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Check,
-  X,
-  TrendingUp,
-  AlertTriangle,
-  SlidersHorizontal,
-} from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TrendingUp, AlertTriangle, SlidersHorizontal } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 import { pricingModel, rampModel } from "@/lib/prd-data";
 
-function PricingModelCard({
-  model,
-}: {
-  model: typeof pricingModel.models.fixed | typeof pricingModel.models.usage;
-}) {
-  return (
-    <div>
-      <div className="flex items-baseline gap-1 mb-1">
-        <span className="font-display text-3xl font-bold text-bond-navy">
-          {model.price}
-        </span>
-        <span className="text-sm text-muted-foreground">{model.period}</span>
-      </div>
-      <p className="text-xs text-muted-foreground mb-5">{model.rationale}</p>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <div className="flex items-center gap-1.5 mb-2">
-            <Check className="h-3.5 w-3.5 text-green-600" />
-            <span className="text-xs font-semibold text-foreground">Pros</span>
-          </div>
-          <ul className="space-y-1.5">
-            {model.pros.map((pro) => (
-              <li
-                key={pro}
-                className="flex items-start gap-2 text-xs text-muted-foreground"
-              >
-                <div className="mt-1 h-1 w-1 shrink-0 rounded-full bg-green-600" />
-                {pro}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <div className="flex items-center gap-1.5 mb-2">
-            <X className="h-3.5 w-3.5 text-red-400" />
-            <span className="text-xs font-semibold text-foreground">Cons</span>
-          </div>
-          <ul className="space-y-1.5">
-            {model.cons.map((con) => (
-              <li
-                key={con}
-                className="flex items-start gap-2 text-xs text-muted-foreground"
-              >
-                <div className="mt-1 h-1 w-1 shrink-0 rounded-full bg-red-400" />
-                {con}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  );
+type VendorPath = "elevenlabs" | "bland";
+
+const VENDOR_DEFAULTS: Record<
+  VendorPath,
+  {
+    aiCostPerMinute: number;
+    platformCostPerYear: number;
+    setupCost: number;
+    label: string;
+  }
+> = {
+  elevenlabs: {
+    aiCostPerMinute: 0.09,
+    platformCostPerYear: 0,
+    setupCost: 0,
+    label: "ElevenLabs",
+  },
+  bland: {
+    aiCostPerMinute: 0.3,
+    platformCostPerYear: 100_000,
+    setupCost: 50_000,
+    label: "Bland AI",
+  },
+};
+
+interface PricingPreset {
+  label: string;
+  baseFee: number;
+  perResolution: number;
+  perMinute: number;
 }
 
-const DEFAULTS = {
+const PRESETS: PricingPreset[] = [
+  { label: "Flat $399/mo", baseFee: 399, perResolution: 0, perMinute: 0 },
+  { label: "$149 + $1/res", baseFee: 149, perResolution: 1, perMinute: 0 },
+  {
+    label: "$99 + $0.50/min",
+    baseFee: 99,
+    perResolution: 0,
+    perMinute: 0.5,
+  },
+  {
+    label: "$149 + $0.75/min",
+    baseFee: 149,
+    perResolution: 0,
+    perMinute: 0.75,
+  },
+  {
+    label: "$99 + $0.50/res + $0.25/min",
+    baseFee: 99,
+    perResolution: 0.5,
+    perMinute: 0.25,
+  },
+];
+
+const INITIAL = {
+  baseFee: 399,
+  perResolution: 0,
+  perMinute: 0,
   callMinutes: pricingModel.assumptions.callMinutesPerFacility,
   resolutionRate: pricingModel.assumptions.resolutionRate,
-  aiCostPerMinute: pricingModel.assumptions.aiCostPerMinute,
   avgCallDuration: pricingModel.assumptions.avgCallDuration,
   facilities: rampModel.years.map((y) => y.agentFacilities),
   totalBases: rampModel.years.map((y) => y.totalBase),
-  flatFeePerMonth: 399,
-  platformFeePerMonth: pricingModel.models.usage.platformFee ?? 149,
-  perResolutionCost: pricingModel.models.usage.perResolution ?? 1,
 };
 
 function SliderInput({
@@ -142,159 +136,175 @@ function formatCurrency(n: number): string {
   return `$${Math.round(n)}`;
 }
 
+function buildPriceLabel(
+  baseFee: number,
+  perRes: number,
+  perMin: number,
+): string {
+  const parts: string[] = [`$${baseFee}/mo`];
+  if (perRes > 0) parts.push(`$${perRes}/res`);
+  if (perMin > 0) parts.push(`$${perMin}/min`);
+  return parts.join(" + ");
+}
+
 export function PricingSection() {
-  const [callMinutes, setCallMinutes] = useState(DEFAULTS.callMinutes);
-  const [resolutionRate, setResolutionRate] = useState(DEFAULTS.resolutionRate);
-  const [y1Facilities, setY1Facilities] = useState(DEFAULTS.facilities[0]);
-  const [y2Facilities, setY2Facilities] = useState(DEFAULTS.facilities[1]);
-  const [y3Facilities, setY3Facilities] = useState(DEFAULTS.facilities[2]);
-  const [flatFeePerMonth, setFlatFeePerMonth] = useState(
-    DEFAULTS.flatFeePerMonth,
-  );
-  const [platformFeePerMonth, setPlatformFeePerMonth] = useState(
-    DEFAULTS.platformFeePerMonth,
-  );
-  const [perResolutionCost, setPerResolutionCost] = useState(
-    DEFAULTS.perResolutionCost,
-  );
+  const [vendorPath, setVendorPath] = useState<VendorPath>("elevenlabs");
   const [aiCostPerMinute, setAiCostPerMinute] = useState(
-    DEFAULTS.aiCostPerMinute,
+    VENDOR_DEFAULTS.elevenlabs.aiCostPerMinute,
+  );
+  const [blandPlatformCost, setBlandPlatformCost] = useState(
+    VENDOR_DEFAULTS.bland.platformCostPerYear,
+  );
+  const [blandSetupCost, setBlandSetupCost] = useState(
+    VENDOR_DEFAULTS.bland.setupCost,
+  );
+
+  const [baseFee, setBaseFee] = useState(INITIAL.baseFee);
+  const [perResolution, setPerResolution] = useState(INITIAL.perResolution);
+  const [perMinute, setPerMinute] = useState(INITIAL.perMinute);
+
+  const [callMinutes, setCallMinutes] = useState(INITIAL.callMinutes);
+  const [resolutionRate, setResolutionRate] = useState(INITIAL.resolutionRate);
+  const [y1Facilities, setY1Facilities] = useState(INITIAL.facilities[0]);
+  const [y2Facilities, setY2Facilities] = useState(INITIAL.facilities[1]);
+  const [y3Facilities, setY3Facilities] = useState(INITIAL.facilities[2]);
+
+  const vendorConfig = VENDOR_DEFAULTS[vendorPath];
+
+  const handleVendorSwitch = (v: VendorPath) => {
+    setVendorPath(v);
+    setAiCostPerMinute(VENDOR_DEFAULTS[v].aiCostPerMinute);
+  };
+
+  const applyPreset = (p: PricingPreset) => {
+    setBaseFee(p.baseFee);
+    setPerResolution(p.perResolution);
+    setPerMinute(p.perMinute);
+  };
+
+  const activePreset = PRESETS.find(
+    (p) =>
+      p.baseFee === baseFee &&
+      p.perResolution === perResolution &&
+      p.perMinute === perMinute,
   );
 
   const derived = useMemo(() => {
-    const avgDuration = DEFAULTS.avgCallDuration;
+    const avgDuration = INITIAL.avgCallDuration;
     const calls = Math.round(callMinutes / avgDuration);
     const resolutions = Math.round(calls * resolutionRate);
-    const aiCost = callMinutes * aiCostPerMinute;
-    const usageMonthly = platformFeePerMonth + resolutions * perResolutionCost;
+    const aiCostPerFacility = callMinutes * aiCostPerMinute;
+
+    const revenuePerFacility =
+      baseFee + resolutions * perResolution + callMinutes * perMinute;
 
     const facilities = [y1Facilities, y2Facilities, y3Facilities];
 
     const years = rampModel.years.map((y, i) => {
       const fac = facilities[i];
-      const totalBase = DEFAULTS.totalBases[i];
+      const totalBase = INITIAL.totalBases[i];
       const adoptionPct = Math.round((fac / totalBase) * 100);
-      const fixedArr = fac * flatFeePerMonth * 12;
-      const usageArr = fac * usageMonthly * 12;
-      const totalAiCost = fac * aiCost * 12;
-      const fixedMargin = fixedArr - totalAiCost;
-      const usageMargin = usageArr - totalAiCost;
+      const arr = fac * revenuePerFacility * 12;
+
+      const usageAiCost = fac * aiCostPerFacility * 12;
+      const vendorPlatformCost =
+        vendorPath === "bland" ? blandPlatformCost : 0;
+      const vendorSetupCost =
+        vendorPath === "bland" && i === 0 ? blandSetupCost : 0;
+      const totalVendorCost =
+        usageAiCost + vendorPlatformCost + vendorSetupCost;
+
+      const grossMargin = arr - totalVendorCost;
 
       return {
         ...y,
         agentFacilities: fac,
         adoptionPct,
-        fixedArr,
-        usageArr,
-        totalAiCost,
-        fixedMargin,
-        usageMargin,
+        arr,
+        usageAiCost,
+        vendorPlatformCost,
+        vendorSetupCost,
+        totalVendorCost,
+        grossMargin,
       };
     });
 
-    const maxArr = Math.max(...years.map((y) => y.fixedArr));
+    const maxArr = Math.max(...years.map((y) => y.arr), 1);
 
-    return { calls, resolutions, aiCost, usageMonthly, years, maxArr };
+    return {
+      calls,
+      resolutions,
+      aiCostPerFacility,
+      revenuePerFacility,
+      years,
+      maxArr,
+    };
   }, [
     callMinutes,
     resolutionRate,
     y1Facilities,
     y2Facilities,
     y3Facilities,
-    flatFeePerMonth,
-    platformFeePerMonth,
-    perResolutionCost,
+    baseFee,
+    perResolution,
+    perMinute,
     aiCostPerMinute,
+    vendorPath,
+    blandPlatformCost,
+    blandSetupCost,
   ]);
 
   const isModified =
-    callMinutes !== DEFAULTS.callMinutes ||
-    resolutionRate !== DEFAULTS.resolutionRate ||
-    y1Facilities !== DEFAULTS.facilities[0] ||
-    y2Facilities !== DEFAULTS.facilities[1] ||
-    y3Facilities !== DEFAULTS.facilities[2] ||
-    flatFeePerMonth !== DEFAULTS.flatFeePerMonth ||
-    platformFeePerMonth !== DEFAULTS.platformFeePerMonth ||
-    perResolutionCost !== DEFAULTS.perResolutionCost ||
-    aiCostPerMinute !== DEFAULTS.aiCostPerMinute;
+    baseFee !== INITIAL.baseFee ||
+    perResolution !== INITIAL.perResolution ||
+    perMinute !== INITIAL.perMinute ||
+    callMinutes !== INITIAL.callMinutes ||
+    resolutionRate !== INITIAL.resolutionRate ||
+    y1Facilities !== INITIAL.facilities[0] ||
+    y2Facilities !== INITIAL.facilities[1] ||
+    y3Facilities !== INITIAL.facilities[2] ||
+    aiCostPerMinute !== VENDOR_DEFAULTS[vendorPath].aiCostPerMinute ||
+    vendorPath !== "elevenlabs" ||
+    blandPlatformCost !== VENDOR_DEFAULTS.bland.platformCostPerYear ||
+    blandSetupCost !== VENDOR_DEFAULTS.bland.setupCost;
 
   const handleReset = () => {
-    setCallMinutes(DEFAULTS.callMinutes);
-    setResolutionRate(DEFAULTS.resolutionRate);
-    setY1Facilities(DEFAULTS.facilities[0]);
-    setY2Facilities(DEFAULTS.facilities[1]);
-    setY3Facilities(DEFAULTS.facilities[2]);
-    setFlatFeePerMonth(DEFAULTS.flatFeePerMonth);
-    setPlatformFeePerMonth(DEFAULTS.platformFeePerMonth);
-    setPerResolutionCost(DEFAULTS.perResolutionCost);
-    setAiCostPerMinute(DEFAULTS.aiCostPerMinute);
+    setVendorPath("elevenlabs");
+    setAiCostPerMinute(VENDOR_DEFAULTS.elevenlabs.aiCostPerMinute);
+    setBlandPlatformCost(VENDOR_DEFAULTS.bland.platformCostPerYear);
+    setBlandSetupCost(VENDOR_DEFAULTS.bland.setupCost);
+    setBaseFee(INITIAL.baseFee);
+    setPerResolution(INITIAL.perResolution);
+    setPerMinute(INITIAL.perMinute);
+    setCallMinutes(INITIAL.callMinutes);
+    setResolutionRate(INITIAL.resolutionRate);
+    setY1Facilities(INITIAL.facilities[0]);
+    setY2Facilities(INITIAL.facilities[1]);
+    setY3Facilities(INITIAL.facilities[2]);
   };
+
+  const priceLabel = buildPriceLabel(baseFee, perResolution, perMinute);
 
   return (
     <SectionWrapper id="pricing">
       <SectionLabel>Business Model</SectionLabel>
       <SectionTitle>Pricing and growth</SectionTitle>
       <SectionDescription>
-        Launch pricing is TBD. Two models under consideration — flat rate for
-        simplicity, or per-resolution for value alignment. Both are modeled
-        below against a 2x annual base growth trajectory.
+        Launch pricing is TBD. Use the calculator below to model different
+        pricing structures — flat rate, per-resolution, per-minute, or any
+        combination — against vendor costs and facility growth.
       </SectionDescription>
 
-      {/* Pricing Models — Tabbed */}
-      <div className="mt-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-        >
-          <Card className="rounded-2xl border-2 border-bond-navy/20">
-            <CardContent className="p-5 sm:p-6">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
-                <div>
-                  <h3 className="font-display text-base font-bold text-foreground">
-                    {pricingModel.name}
-                  </h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <AlertTriangle className="h-3.5 w-3.5 text-bond-gold" />
-                    <span className="text-xs font-medium text-bond-gold">
-                      {pricingModel.status}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mb-5 flex flex-wrap gap-2">
-                {pricingModel.features.map((feature) => (
-                  <Badge
-                    key={feature}
-                    variant="outline"
-                    className="rounded-full text-[11px] border-bond-navy/15 text-muted-foreground"
-                  >
-                    {feature}
-                  </Badge>
-                ))}
-              </div>
-
-              <Tabs defaultValue="fixed">
-                <TabsList className="grid w-full max-w-sm grid-cols-2 mb-5">
-                  <TabsTrigger value="fixed">Flat Rate</TabsTrigger>
-                  <TabsTrigger value="usage">Platform + Resolution</TabsTrigger>
-                </TabsList>
-                <TabsContent value="fixed">
-                  <PricingModelCard model={pricingModel.models.fixed} />
-                </TabsContent>
-                <TabsContent value="usage">
-                  <PricingModelCard model={pricingModel.models.usage} />
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
-        </motion.div>
+      {/* Status badge */}
+      <div className="mt-6 flex items-center gap-2">
+        <AlertTriangle className="h-3.5 w-3.5 text-bond-gold" />
+        <span className="text-xs font-medium text-bond-gold">
+          {pricingModel.status}
+        </span>
       </div>
 
       {/* What-If Calculator */}
-      <div className="mt-12">
+      <div className="mt-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-bond-navy/10">
             <TrendingUp className="h-5 w-5 text-bond-navy" />
@@ -338,52 +348,169 @@ export function PricingSection() {
                     )}
                   </div>
                   <AccordionContent className="pt-4">
-                    {/* Pricing parameters */}
+                    {/* ── Bond Pricing to Customers ── */}
                     <div className="mb-6">
                       <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-                        Pricing Parameters
+                        Bond Pricing to Customers
                       </p>
-                      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+
+                      {/* Presets */}
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {PRESETS.map((p) => (
+                          <button
+                            key={p.label}
+                            onClick={() => applyPreset(p)}
+                            className={cn(
+                              "rounded-full border px-3 py-1.5 text-[11px] font-medium transition-all",
+                              activePreset?.label === p.label
+                                ? "border-bond-navy bg-bond-navy text-white"
+                                : "border-border/60 bg-white text-muted-foreground hover:border-bond-navy/30 hover:text-foreground",
+                            )}
+                          >
+                            {p.label}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Sliders */}
+                      <div className="grid gap-5 sm:grid-cols-3">
                         <SliderInput
-                          label="Flat fee ($/mo)"
-                          value={flatFeePerMonth}
-                          min={200}
+                          label="Monthly base fee"
+                          value={baseFee}
+                          min={0}
                           max={800}
                           step={25}
                           format={(v) => `$${v}`}
-                          onChange={setFlatFeePerMonth}
+                          onChange={setBaseFee}
                         />
                         <SliderInput
-                          label="Platform fee ($/mo)"
-                          value={platformFeePerMonth}
-                          min={50}
-                          max={300}
-                          step={10}
-                          format={(v) => `$${v}`}
-                          onChange={setPlatformFeePerMonth}
-                        />
-                        <SliderInput
-                          label="Per-resolution ($)"
-                          value={perResolutionCost}
-                          min={0.25}
+                          label="Per resolution"
+                          value={perResolution}
+                          min={0}
                           max={5}
                           step={0.25}
-                          format={(v) => `$${v}`}
-                          onChange={setPerResolutionCost}
+                          format={(v) =>
+                            v === 0 ? "Off" : `$${v.toFixed(2)}`
+                          }
+                          onChange={setPerResolution}
                         />
+                        <SliderInput
+                          label="Per call minute"
+                          value={perMinute}
+                          min={0}
+                          max={2}
+                          step={0.05}
+                          format={(v) =>
+                            v === 0 ? "Off" : `$${v.toFixed(2)}`
+                          }
+                          onChange={setPerMinute}
+                        />
+                      </div>
+
+                      {/* Live formula */}
+                      <div className="mt-3 rounded-lg bg-bond-navy/[0.04] border border-bond-navy/10 px-3 py-2">
+                        <p className="text-[11px] text-bond-navy font-medium">
+                          Revenue per facility:{" "}
+                          <span className="font-bold">
+                            ${derived.revenuePerFacility.toFixed(0)}/mo
+                          </span>
+                          <span className="text-bond-navy/50 ml-1.5">
+                            ({priceLabel})
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* ── Voice Vendor ── */}
+                    <div className="mb-6">
+                      <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+                        Voice Vendor (cost to Bond)
+                      </p>
+                      <div className="flex gap-2 mb-4">
+                        {(
+                          [
+                            {
+                              key: "elevenlabs" as VendorPath,
+                              label: "ElevenLabs",
+                              sub: "$0.09/min · no platform fee",
+                            },
+                            {
+                              key: "bland" as VendorPath,
+                              label: "Bland AI",
+                              sub: "$0.30/min · $100K/yr + $50K setup",
+                            },
+                          ] as const
+                        ).map((v) => (
+                          <button
+                            key={v.key}
+                            onClick={() => handleVendorSwitch(v.key)}
+                            className={cn(
+                              "flex-1 rounded-xl border-2 p-3 text-left transition-all",
+                              vendorPath === v.key
+                                ? "border-bond-navy bg-bond-navy/[0.04]"
+                                : "border-border/50 bg-white hover:border-border",
+                            )}
+                          >
+                            <p
+                              className={cn(
+                                "text-xs font-bold",
+                                vendorPath === v.key
+                                  ? "text-bond-navy"
+                                  : "text-foreground",
+                              )}
+                            >
+                              {v.label}
+                            </p>
+                            <p className="text-[10px] text-muted-foreground mt-0.5">
+                              {v.sub}
+                            </p>
+                          </button>
+                        ))}
+                      </div>
+
+                      <div
+                        className={cn(
+                          "grid gap-5",
+                          vendorPath === "bland"
+                            ? "sm:grid-cols-3"
+                            : "sm:grid-cols-1 max-w-xs",
+                        )}
+                      >
                         <SliderInput
                           label="AI cost ($/min)"
                           value={aiCostPerMinute}
                           min={0.02}
-                          max={0.2}
+                          max={0.5}
                           step={0.01}
                           format={(v) => `$${v.toFixed(2)}`}
                           onChange={setAiCostPerMinute}
                         />
+                        {vendorPath === "bland" && (
+                          <>
+                            <SliderInput
+                              label="Platform fee ($/yr)"
+                              value={blandPlatformCost}
+                              min={0}
+                              max={200_000}
+                              step={5_000}
+                              format={(v) => `$${(v / 1000).toFixed(0)}K`}
+                              onChange={setBlandPlatformCost}
+                            />
+                            <SliderInput
+                              label="Setup (one-time)"
+                              value={blandSetupCost}
+                              min={0}
+                              max={100_000}
+                              step={5_000}
+                              format={(v) => `$${(v / 1000).toFixed(0)}K`}
+                              onChange={setBlandSetupCost}
+                            />
+                          </>
+                        )}
                       </div>
                     </div>
 
-                    {/* Per-facility assumptions */}
+                    {/* ── Per-Facility Usage ── */}
                     <div className="mb-6">
                       <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                         Per-Facility Usage
@@ -410,14 +537,14 @@ export function PricingSection() {
                       </div>
                     </div>
 
-                    {/* Facility counts */}
+                    {/* ── Facility Counts ── */}
                     <div>
                       <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                         Facilities with AI Agent
                       </p>
                       <div className="grid gap-5 sm:grid-cols-3">
                         <SliderInput
-                          label={`Year 1 (of ${DEFAULTS.totalBases[0]})`}
+                          label={`Year 1 (of ${INITIAL.totalBases[0]})`}
                           value={y1Facilities}
                           min={3}
                           max={150}
@@ -426,7 +553,7 @@ export function PricingSection() {
                           onChange={setY1Facilities}
                         />
                         <SliderInput
-                          label={`Year 2 (of ${DEFAULTS.totalBases[1]})`}
+                          label={`Year 2 (of ${INITIAL.totalBases[1]})`}
                           value={y2Facilities}
                           min={10}
                           max={500}
@@ -435,7 +562,7 @@ export function PricingSection() {
                           onChange={setY2Facilities}
                         />
                         <SliderInput
-                          label={`Year 3 (of ${DEFAULTS.totalBases[2]})`}
+                          label={`Year 3 (of ${INITIAL.totalBases[2]})`}
                           value={y3Facilities}
                           min={50}
                           max={1500}
@@ -446,7 +573,7 @@ export function PricingSection() {
                       </div>
                     </div>
 
-                    {/* Live unit economics */}
+                    {/* ── Unit Economics ── */}
                     <div className="mt-6 pt-5 border-t border-bond-navy/10">
                       <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                         Unit Economics (per facility / month)
@@ -473,18 +600,34 @@ export function PricingSection() {
                             AI cost
                           </p>
                           <p className="font-display text-base font-bold text-bond-navy">
-                            ${derived.aiCost.toFixed(0)}
+                            ${derived.aiCostPerFacility.toFixed(0)}
                           </p>
                         </div>
                         <div className="rounded-lg border border-border/50 bg-white p-2.5">
                           <p className="text-[10px] text-muted-foreground">
-                            Usage rev
+                            Bond revenue
                           </p>
                           <p className="font-display text-base font-bold text-bond-gold">
-                            ${derived.usageMonthly.toFixed(2)}
+                            ${derived.revenuePerFacility.toFixed(0)}
                           </p>
                         </div>
                       </div>
+                      {vendorPath === "bland" && (
+                        <div className="mt-2 rounded-lg border border-orange-200/60 bg-orange-50/40 p-2.5 space-y-0.5">
+                          <p className="text-[10px] font-medium text-orange-800">
+                            +{" "}
+                            {formatCurrency(blandPlatformCost)}
+                            /yr platform fee (fixed, regardless of facility
+                            count)
+                          </p>
+                          {blandSetupCost > 0 && (
+                            <p className="text-[10px] font-medium text-orange-800">
+                              + {formatCurrency(blandSetupCost)} one-time
+                              managed services setup (Year 1 only)
+                            </p>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -493,135 +636,119 @@ export function PricingSection() {
           </Card>
         </motion.div>
 
-        {/* Year cards — tabbed */}
-        <div className="mt-6">
-          <Tabs defaultValue="year1">
-            <TabsList className="grid w-full max-w-md grid-cols-3 mb-4">
-              {derived.years.map((year, i) => (
-                <TabsTrigger key={year.year} value={`year${i + 1}`}>
-                  {year.year}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            {derived.years.map((year, i) => (
-              <TabsContent key={year.year} value={`year${i + 1}`}>
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Card className="rounded-2xl border-border/50">
-                    <CardContent className="p-4 sm:p-5">
-                      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                        <div className="flex items-start gap-3 min-w-0">
-                          <Badge
-                            variant="outline"
-                            className="shrink-0 rounded-full border-bond-gold/30 bg-bond-gold/10 text-xs font-semibold text-bond-gold"
-                          >
-                            {year.year}
-                          </Badge>
-                          <div className="min-w-0">
-                            <p className="text-sm font-bold text-foreground">
-                              {year.phase}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-0.5">
-                              {year.agentFacilities.toLocaleString()} of{" "}
-                              {DEFAULTS.totalBases[i].toLocaleString()}{" "}
-                              facilities ({year.adoptionPct}% adoption)
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+        {/* Year cards */}
+        <div className="mt-6 space-y-4">
+          {derived.years.map((year, i) => (
+            <motion.div
+              key={year.year}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+            >
+              <Card className="rounded-2xl border-border/50">
+                <CardContent className="p-4 sm:p-5">
+                  <div className="flex items-start gap-3 min-w-0">
+                    <Badge
+                      variant="outline"
+                      className="shrink-0 rounded-full border-bond-gold/30 bg-bond-gold/10 text-xs font-semibold text-bond-gold"
+                    >
+                      {year.year}
+                    </Badge>
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-foreground">
+                        {year.phase}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {year.agentFacilities.toLocaleString()} of{" "}
+                        {INITIAL.totalBases[i].toLocaleString()} facilities (
+                        {year.adoptionPct}% adoption)
+                      </p>
+                    </div>
+                  </div>
 
-                      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                        <div className="rounded-lg bg-bond-navy/[0.03] border border-bond-navy/10 p-3">
-                          <p className="text-[11px] font-medium text-muted-foreground">
-                            At ${flatFeePerMonth}/mo flat
-                          </p>
-                          <p className="font-display text-xl font-bold text-bond-navy">
-                            {formatCurrency(year.fixedArr)}
-                          </p>
-                          <p className="text-[11px] text-muted-foreground">
-                            ARR
-                          </p>
-                        </div>
-                        <div className="rounded-lg bg-bond-gold/[0.05] border border-bond-gold/15 p-3">
-                          <p className="text-[11px] font-medium text-muted-foreground">
-                            At ${platformFeePerMonth} + ${perResolutionCost}/res
-                          </p>
-                          <p className="font-display text-xl font-bold text-bond-gold">
-                            {formatCurrency(year.usageArr)}
-                          </p>
-                          <p className="text-[11px] text-muted-foreground">
-                            ARR
-                          </p>
-                        </div>
-                        <div className="rounded-lg bg-muted/40 border border-border/50 p-3">
-                          <p className="text-[11px] font-medium text-muted-foreground">
-                            AI platform cost
-                          </p>
-                          <p className="font-display text-xl font-bold text-foreground">
-                            {formatCurrency(year.totalAiCost)}
-                          </p>
-                          <p className="text-[11px] text-muted-foreground">
-                            at ${aiCostPerMinute.toFixed(2)}/min
-                          </p>
-                        </div>
-                        <div className="rounded-lg bg-green-50/60 border border-green-200/50 p-3">
-                          <p className="text-[11px] font-medium text-muted-foreground">
-                            Gross margin (flat)
-                          </p>
-                          <p className="font-display text-xl font-bold text-green-700">
-                            {formatCurrency(year.fixedMargin)}
-                          </p>
-                          <p className="text-[11px] text-muted-foreground">
-                            {year.fixedArr > 0
-                              ? `${Math.round((year.fixedMargin / year.fixedArr) * 100)}%`
-                              : "—"}{" "}
-                            margin
-                          </p>
-                        </div>
-                      </div>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                    <div className="rounded-lg bg-bond-navy/[0.03] border border-bond-navy/10 p-3">
+                      <p className="text-[11px] font-medium text-muted-foreground">
+                        Bond Revenue
+                      </p>
+                      <p className="font-display text-xl font-bold text-bond-navy">
+                        {formatCurrency(year.arr)}
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">
+                        ARR at {priceLabel}
+                      </p>
+                    </div>
+                    <div className="rounded-lg bg-muted/40 border border-border/50 p-3">
+                      <p className="text-[11px] font-medium text-muted-foreground">
+                        Vendor cost ({vendorConfig.label})
+                      </p>
+                      <p className="font-display text-xl font-bold text-foreground">
+                        {formatCurrency(year.totalVendorCost)}
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">
+                        {vendorPath === "bland"
+                          ? `${formatCurrency(year.usageAiCost)} usage + ${formatCurrency(year.vendorPlatformCost)} platform${year.vendorSetupCost > 0 ? ` + ${formatCurrency(year.vendorSetupCost)} setup` : ""}`
+                          : `at $${aiCostPerMinute.toFixed(2)}/min`}
+                      </p>
+                    </div>
+                    <div
+                      className={cn(
+                        "rounded-lg border p-3",
+                        year.grossMargin >= 0
+                          ? "bg-green-50/60 border-green-200/50"
+                          : "bg-red-50/60 border-red-200/50",
+                      )}
+                    >
+                      <p className="text-[11px] font-medium text-muted-foreground">
+                        Gross margin
+                      </p>
+                      <p
+                        className={cn(
+                          "font-display text-xl font-bold",
+                          year.grossMargin >= 0
+                            ? "text-green-700"
+                            : "text-red-600",
+                        )}
+                      >
+                        {formatCurrency(year.grossMargin)}
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">
+                        {year.arr > 0
+                          ? `${Math.round((year.grossMargin / year.arr) * 100)}%`
+                          : "—"}{" "}
+                        margin
+                      </p>
+                    </div>
+                  </div>
 
-                      {/* Visual bar */}
-                      <div className="mt-3 space-y-1.5">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] w-14 text-muted-foreground shrink-0">
-                            Flat
-                          </span>
-                          <div className="flex-1 h-2 overflow-hidden rounded-full bg-bond-navy/10">
-                            <motion.div
-                              className="h-full rounded-full bg-bond-navy"
-                              initial={{ width: 0 }}
-                              animate={{
-                                width: `${derived.maxArr > 0 ? (year.fixedArr / derived.maxArr) * 100 : 0}%`,
-                              }}
-                              transition={{ duration: 0.6, ease: "easeOut" }}
-                            />
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] w-14 text-muted-foreground shrink-0">
-                            Usage
-                          </span>
-                          <div className="flex-1 h-2 overflow-hidden rounded-full bg-bond-gold/15">
-                            <motion.div
-                              className="h-full rounded-full bg-bond-gold"
-                              initial={{ width: 0 }}
-                              animate={{
-                                width: `${derived.maxArr > 0 ? (year.usageArr / derived.maxArr) * 100 : 0}%`,
-                              }}
-                              transition={{ duration: 0.6, ease: "easeOut" }}
-                            />
-                          </div>
-                        </div>
+                  {/* Visual bar */}
+                  <div className="mt-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] w-16 text-muted-foreground shrink-0">
+                        Revenue
+                      </span>
+                      <div className="flex-1 h-2 overflow-hidden rounded-full bg-bond-navy/10">
+                        <motion.div
+                          className="h-full rounded-full bg-bond-navy"
+                          initial={{ width: 0 }}
+                          whileInView={{
+                            width: `${(year.arr / derived.maxArr) * 100}%`,
+                          }}
+                          viewport={{ once: true }}
+                          transition={{
+                            duration: 0.6,
+                            ease: "easeOut",
+                            delay: i * 0.15,
+                          }}
+                        />
                       </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </TabsContent>
-            ))}
-          </Tabs>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </div>
       </div>
     </SectionWrapper>

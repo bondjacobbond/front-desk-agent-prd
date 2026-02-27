@@ -274,7 +274,7 @@ export function BuildVsBuySection() {
                       label: "Year-1 cost",
                       value: "$150K+ (negotiable)",
                       detail:
-                        "$100K platform + $50K managed + $0.30/min. Needs counter-offer.",
+                        "$100K/yr platform + $50K one-time setup/managed services + $0.30/min usage. Needs counter-offer.",
                     },
                     {
                       label: "Risk",

@@ -1438,7 +1438,7 @@ export const openDecisions = [
     issue: "Bland negotiation",
     status: "Action Required",
     owners: "Matt (CEO)",
-    desc: "Bland offered $150K minimum ($100K platform + $50K managed services + $0.30/min). Matt believes this is negotiable. Need a counter-proposal — e.g. reduced pilot deal for 3 facilities, lower platform fee, or performance-based structure. Outcome determines whether Path A is viable.",
+    desc: "Bland offered $150K minimum: $100K/yr platform fee + $50K one-time managed services setup + $0.30/min usage. Matt believes this is negotiable. Need a counter-proposal — e.g. reduced pilot deal for 3 facilities, lower platform fee, or performance-based structure. Outcome determines whether Path A is viable.",
   },
   {
     issue: "Launch pricing model",
