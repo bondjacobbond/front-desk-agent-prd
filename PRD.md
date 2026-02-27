@@ -874,7 +874,7 @@ Additional costs: $0.02/SMS, $0.015 minimum per outbound call attempt, transfer 
 - **Per-conversation:** Flat fee per AI interaction (regardless of outcome)
 - **Per-resolution:** Higher fee, but only when the AI resolves the issue autonomously
 
-Contract minimums appeared high during evaluation — oriented toward enterprise-scale buyers with large ticket volumes.
+Minimum annual contract size is **$250K**. Decagon noted that with Bond's target customer ACV (<$5K), a deflection rate of at least 40% would be needed to justify the business case.
 
 **Strengths:**
 
@@ -886,7 +886,7 @@ Contract minimums appeared high during evaluation — oriented toward enterprise
 
 **Weaknesses:**
 
-- **Pricing is a deal-breaker for current stage:** Contract minimums seem extremely high. Bond's facility base (300+ locations at $250–500/mo each) may not generate enough volume per facility to justify Decagon's enterprise pricing.
+- **Pricing is a deal-breaker for current stage:** Minimum annual contract is $250K. Bond's facility base (300+ locations at $250–500/mo each) may not generate enough volume per facility to justify that spend, especially given Decagon's requirement of ≥40% deflection rate to make the business case work.
 - **Multi-tenancy was not a solved problem:** During evaluation, their team was "researching" multi-tenant implementation. This is a first-class requirement for Bond.
 - No public pricing creates budget uncertainty and lengthy sales cycles
 - Per-conversation model means Bond pays even when the AI fails to resolve

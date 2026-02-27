@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { Phone, Mail, MessageSquare, ArrowRight } from "lucide-react";
+import { Phone, Mail, MessageSquare } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -85,17 +85,6 @@ export function HeroSection() {
               <p className="mt-1 text-xs text-muted-foreground">{label}</p>
             </div>
           ))}
-        </motion.div>
-
-        {/* Scroll hint */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.6 }}
-          className="mt-16 flex items-center gap-2 text-sm text-muted-foreground"
-        >
-          Scroll to explore
-          <ArrowRight className="h-4 w-4 animate-pulse" />
         </motion.div>
       </motion.div>
     </section>

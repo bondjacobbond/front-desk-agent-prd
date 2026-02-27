@@ -1774,12 +1774,12 @@ export const vendors = [
     score: 2.5,
     tier: "Tier 2 - Monitor",
     pricing: {
-      model: "Custom (per-conversation or per-resolution)",
+      model: "$250K/yr minimum (per-conversation or per-resolution)",
       plans: [
         {
           name: "Enterprise",
-          price: "Custom",
-          rate: "Contact Sales",
+          price: "$250K/yr min",
+          rate: "Requires ≥40% deflection rate to justify",
           concurrency: "N/A",
         },
       ],
@@ -1791,7 +1791,7 @@ export const vendors = [
       "Strong action-taking via tool calls",
     ],
     weaknesses: [
-      "Pricing is deal-breaker: contract minimums too high for Bond's current stage",
+      "Pricing is deal-breaker: $250K/yr minimum contract, requires ≥40% deflection rate",
       "Multi-tenancy not solved (actively researching)",
       "No public pricing creates budget uncertainty",
       "Per-conversation model means paying even when AI fails",
