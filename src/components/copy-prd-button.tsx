@@ -9,10 +9,14 @@ export function CopyPrdButton({
   className,
   size = "sm",
   compact,
+  label = "Copy Markdown",
+  compactLabel = "Copy MD",
 }: {
   className?: string;
   size?: "sm" | "default" | "lg";
   compact?: boolean;
+  label?: string;
+  compactLabel?: string;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -32,10 +36,10 @@ export function CopyPrdButton({
   return (
     <Button
       variant="outline"
-      size={compact ? "icon-sm" : size}
+      size={size}
       onClick={handleCopy}
-      title="Copy PRD Markdown"
-      aria-label={copied ? "Copied" : "Copy PRD Markdown"}
+      title={compact ? compactLabel : label}
+      aria-label={copied ? "Copied" : compact ? compactLabel : label}
       className={cn(
         "gap-2 border-bond-navy/20 bg-bond-navy/5 text-bond-navy hover:bg-bond-navy/10",
         className,
@@ -44,12 +48,12 @@ export function CopyPrdButton({
       {copied ? (
         <>
           <Check className="h-4 w-4" />
-          {!compact && "Copied"}
+          Copied
         </>
       ) : (
         <>
           <Copy className="h-4 w-4" />
-          {!compact && "Copy PRD Markdown"}
+          {compact ? compactLabel : label}
         </>
       )}
     </Button>
