@@ -1233,3 +1233,289 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 5. ✅ Add RACI table and owner assignments to PRD — Owner: PM
 6. ✅ Update KPIs with exact definitions and sample sizes — Owner: PM + Data
 7. ⏳ Book 60-day review meeting with vendor pilot triggers on calendar — Owner: PM
+
+---
+
+## Appendix F: Bond Public API to ElevenLabs Documentation
+
+All endpoints below hit the **raw Bond Sports public API** at `https://public.api.bondsports.co/v1`. Each ElevenLabs agent is configured per-organization with a fixed `orgId` in tool URLs and an `x-api-key` header stored as an ElevenLabs secret.
+
+### Integration Model
+
+- **Server tools** call the Bond public API directly. Auth is `x-api-key` header per org.
+- **Client tools** are only for browser-side UI actions. Never use them for Bond data retrieval.
+- **MCP** is a future abstraction once the tool taxonomy stabilizes.
+
+**Guardrails:**
+
+- The `x-api-key` must be stored as an ElevenLabs secret and sent via header — never as a query parameter or model-controlled value.
+- The `orgId` is baked into each agent's tool URLs. The model never asks the caller for org IDs.
+- Start with read-only program/session/event tools. Defer writes, payments, and admin actions.
+
+### Bond Public API Endpoints
+
+Base URL: `https://public.api.bondsports.co/v1`
+Auth: `x-api-key` header
+
+#### `GET /v1/organization/{orgId}/programs`
+
+Programs with nested sessions, products, and pricing. Primary catalog endpoint.
+
+- **Query params:** `expand`, `facility_id`, `status`, `page`, `per_page`
+- **Default expand:** `sessions,sessions.products,sessions.products.prices`
+- **Response:** `{ data: Program[], meta: { pagination } }`
+
+#### `GET /v1/organization/{orgId}/programs/{programId}/sessions`
+
+Sessions for a specific program with registration windows and events.
+
+- **Query params:** `expand`, `status`
+- **Default expand:** `products,products.prices,segments,events`
+- **Response:** `{ data: Session[], meta }`
+
+#### `GET /v1/organization/{orgId}/programs/{programId}/sessions/{sessionId}/events`
+
+Calendar occurrences with capacity and waitlist for a session.
+
+- **Query params:** `expand`, `page`
+- **Response:** `{ data: SessionEvent[], meta: { pagination } }`
+- **Key fields per event:** `startDate`, `endDate`, `timezone`, `maxParticipants`, `currentParticipants`, `spotsRemaining`, `isWaitlistEnabled`, `waitlistCount`
+
+#### `GET /v1/organization/{orgId}/programs/{programId}/sessions/{sessionId}/products`
+
+Pricing tiers for a session. Usually unnecessary if programs are fetched with full expand.
+
+#### `GET /v1/organization/{orgId}/programs/{programId}/sessions/{sessionId}/segments`
+
+Segments within a session (for segmented scheduling only).
+
+#### `GET /v1/organization/{orgId}/programs/{programId}/sessions/{sessionId}/segments/{segmentId}/events`
+
+Events within a specific segment. Same shape as session events.
+
+### Recommended ElevenLabs Tool Catalog
+
+#### `getPrograms` — Primary tool
+
+**Backed by:** `GET /v1/organization/{orgId}/programs?expand=sessions,sessions.products,sessions.products.prices&per_page=100`
+
+Use for most caller questions: what programs exist, pricing, schedule, ages, registration. The orgId and x-api-key are fixed per agent.
+
+#### `getProgramSessions` — Drill-down tool
+
+**Backed by:** `GET /v1/organization/{orgId}/programs/{programId}/sessions?expand=products,products.prices,segments,events`
+
+Use when the caller identified a specific program and needs session-level detail. `programId` comes from a prior `getPrograms` response.
+
+#### `getSessionEvents` — Availability tool
+
+**Backed by:** `GET /v1/organization/{orgId}/programs/{programId}/sessions/{sessionId}/events`
+
+Use for specific calendar dates/times and spot counts. `programId` and `sessionId` come from prior responses.
+
+#### `openSchedulePage` — Client tool
+
+Browser-side only. Opens a URL in the widget. Never for data retrieval.
+
+### Scenario Mapping
+
+| Caller question | Tool | What to infer | Ask only if needed |
+| --- | --- | --- | --- |
+| "What's on today after school?" | `getPrograms` | Today's date, filter sessions | No |
+| "Do you still have spots in Learn to Skate on Saturday?" | `getSessionEvents` | Saturday date, match program/session from prior call | Which location if ambiguous |
+| "What programs do you offer for 8-year-olds?" | `getPrograms` | Filter by age range | Sport or skill level if too broad |
+| "How much are private lessons?" | `getPrograms` | Match to program name/type | Sport or length if multiple formats |
+| "When does spring hockey registration open?" | `getPrograms` | Match sport/season, check registrationStartDate | Youth vs adult if both exist |
+| "Is the Wednesday clinic at the north rink or south rink?" | `getSessionEvents` | Match clinic, find Wednesday events, read facility/space | Which clinic if multiple |
+
+### Copy-Paste Snippets
+
+#### Server tool: `getPrograms`
+
+```json
+{
+  "name": "getPrograms",
+  "description": "Look up all programs, sessions, and pricing for this facility. Use this when the caller asks what programs exist, how much something costs, what ages a program is for, what the schedule is, or when registration opens.",
+  "method": "GET",
+  "url": "https://public.api.bondsports.co/v1/organization/{ORG_ID}/programs",
+  "headers": {
+    "x-api-key": "{{BOND_API_KEY}}",
+    "Content-Type": "application/json"
+  },
+  "query_parameters": [
+    {
+      "name": "expand",
+      "value": "sessions,sessions.products,sessions.products.prices",
+      "value_type": "fixed"
+    },
+    {
+      "name": "per_page",
+      "value": "100",
+      "value_type": "fixed"
+    },
+    {
+      "name": "facility_id",
+      "value_type": "llm_prompt",
+      "description": "Optional facility ID. Only include if the caller specified a location or the assistant must disambiguate between multiple locations."
+    }
+  ]
+}
+```
+
+#### Server tool: `getProgramSessions`
+
+```json
+{
+  "name": "getProgramSessions",
+  "description": "Get detailed sessions for a specific program including registration windows, events, and pricing. Use after identifying a program from getPrograms when the caller needs session-level specifics.",
+  "method": "GET",
+  "url": "https://public.api.bondsports.co/v1/organization/{ORG_ID}/programs/{programId}/sessions",
+  "headers": {
+    "x-api-key": "{{BOND_API_KEY}}",
+    "Content-Type": "application/json"
+  },
+  "path_parameters": [
+    {
+      "name": "programId",
+      "value_type": "llm_prompt",
+      "description": "The program ID from a previous getPrograms response. Match the caller's question to a program name, then use its ID."
+    }
+  ],
+  "query_parameters": [
+    {
+      "name": "expand",
+      "value": "products,products.prices,segments,events",
+      "value_type": "fixed"
+    }
+  ]
+}
+```
+
+#### Server tool: `getSessionEvents`
+
+```json
+{
+  "name": "getSessionEvents",
+  "description": "Get calendar events (specific dates, times, and availability) for a session. Use when the caller asks what time a class meets, what day it happens, or whether there are spots remaining.",
+  "method": "GET",
+  "url": "https://public.api.bondsports.co/v1/organization/{ORG_ID}/programs/{programId}/sessions/{sessionId}/events",
+  "headers": {
+    "x-api-key": "{{BOND_API_KEY}}",
+    "Content-Type": "application/json"
+  },
+  "path_parameters": [
+    {
+      "name": "programId",
+      "value_type": "llm_prompt",
+      "description": "Program ID from a previous getPrograms response."
+    },
+    {
+      "name": "sessionId",
+      "value_type": "llm_prompt",
+      "description": "Session ID from a previous getPrograms or getProgramSessions response."
+    }
+  ]
+}
+```
+
+#### Client tool: `openSchedulePage`
+
+```json
+{
+  "type": "client",
+  "name": "openSchedulePage",
+  "description": "Open a schedule or program page in the user's browser when they ask for a link or want to view details visually.",
+  "expects_response": false,
+  "response_timeout_secs": 1,
+  "parameters": [
+    {
+      "identifier": "url",
+      "data_type": "string",
+      "required": true,
+      "description": "Fully qualified URL to open."
+    }
+  ],
+  "execution_mode": "immediate"
+}
+```
+
+#### System prompt guidance
+
+```text
+You have access to Bond Sports API tools for this facility. Use them to answer questions with real data.
+
+Use getPrograms as your default first tool call. It returns the full catalog of programs with sessions, pricing, and schedules. Use it when the caller asks:
+- What programs, classes, or activities are available
+- How much something costs
+- What ages a program is for
+- What the schedule looks like today or this week
+- When registration opens or closes
+
+Use getProgramSessions when the caller has identified a specific program and needs more detail about its sessions, registration windows, or segments.
+
+Use getSessionEvents when the caller needs specific calendar dates/times or wants to know if there are spots remaining in a specific session.
+
+Tool chaining: Start with getPrograms. If the caller narrows to a specific program, use getProgramSessions. If they need event-level detail or availability, use getSessionEvents.
+
+Never ask the caller for program IDs, session IDs, or organization IDs. Extract these from prior tool responses. Infer dates from natural language. If multiple options match, ask one clarifying question.
+
+Do not use client tools to fetch Bond data. Client tools are only for browser-side actions.
+```
+
+#### Response schema: Programs with sessions and pricing
+
+```json
+{
+  "data": [
+    {
+      "id": 1234,
+      "name": "Learn to Skate",
+      "description": "Beginner skating program for all ages",
+      "sport": "Figure Skating",
+      "type": "class",
+      "sessions": [
+        {
+          "id": 5678,
+          "name": "Spring Session",
+          "startDate": "2026-03-15",
+          "endDate": "2026-05-15",
+          "registrationStartDate": "2026-02-01",
+          "registrationEndDate": "2026-03-14",
+          "maxParticipants": 20,
+          "currentParticipants": 16,
+          "facility": { "id": 42, "name": "Palm Beach Skate Zone" },
+          "products": [
+            {
+              "id": 9012,
+              "name": "Full Session",
+              "prices": [{ "amount": 160, "memberAmount": 140, "currency": "USD" }]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "meta": { "pagination": { "total": 24, "perPage": 100, "currentPage": 1, "lastPage": 1, "hasMore": false } }
+}
+```
+
+#### Response schema: Session events with availability
+
+```json
+{
+  "data": [
+    {
+      "id": 3456,
+      "startDate": "2026-03-15T09:00:00-04:00",
+      "endDate": "2026-03-15T10:00:00-04:00",
+      "timezone": "America/New_York",
+      "maxParticipants": 20,
+      "currentParticipants": 16,
+      "spotsRemaining": 4,
+      "isWaitlistEnabled": true,
+      "waitlistCount": 0
+    }
+  ],
+  "meta": { "pagination": { "total": 10, "perPage": 100, "currentPage": 1, "lastPage": 1, "hasMore": false } }
+}
+```

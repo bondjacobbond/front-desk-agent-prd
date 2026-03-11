@@ -20,13 +20,14 @@ import {
   AlertTriangle,
   BarChart3,
   FileQuestion,
+  FileText,
   Zap,
   Scale,
   Headphones,
 } from "lucide-react";
 import { CopyPrdButton } from "@/components/copy-prd-button";
 
-const sections = [
+const mainSections = [
   { id: "hero", label: "Overview", icon: Zap },
   { id: "demo", label: "Live Demo", icon: Headphones },
   { id: "problem", label: "Problem", icon: Target },
@@ -41,6 +42,12 @@ const sections = [
   { id: "risks", label: "Risks", icon: AlertTriangle },
   { id: "decisions", label: "Open Decisions", icon: FileQuestion },
 ];
+
+const appendixSections = [
+  { id: "documentation", label: "Documentation", icon: FileText },
+];
+
+const sections = [...mainSections, ...appendixSections];
 
 export function Nav() {
   const [active, setActive] = useState("hero");
@@ -93,7 +100,30 @@ export function Nav() {
           </div>
           <div className="flex-1 overflow-y-auto px-3 py-4">
             <ul className="space-y-0.5">
-              {sections.map(({ id, label, icon: Icon }) => (
+              {mainSections.map(({ id, label, icon: Icon }) => (
+                <li key={id}>
+                  <button
+                    onClick={() => handleClick(id)}
+                    className={cn(
+                      "flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm font-medium transition-all",
+                      active === id
+                        ? "bg-bond-navy/10 text-bond-navy"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                    )}
+                  >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    {label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-5 px-3">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-bond-navy/45">
+                Appendix
+              </p>
+            </div>
+            <ul className="mt-2 space-y-0.5">
+              {appendixSections.map(({ id, label, icon: Icon }) => (
                 <li key={id}>
                   <button
                     onClick={() => handleClick(id)}
@@ -141,7 +171,30 @@ export function Nav() {
               <SheetTitle className="sr-only">Navigation</SheetTitle>
               <div className="px-4 py-6">
                 <ul className="space-y-1">
-                  {sections.map(({ id, label, icon: Icon }) => (
+                  {mainSections.map(({ id, label, icon: Icon }) => (
+                    <li key={id}>
+                      <button
+                        onClick={() => handleClick(id)}
+                        className={cn(
+                          "flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all",
+                          active === id
+                            ? "bg-bond-navy/10 text-bond-navy"
+                            : "text-muted-foreground hover:bg-muted",
+                        )}
+                      >
+                        <Icon className="h-4 w-4 shrink-0" />
+                        {label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-5 px-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-bond-navy/45">
+                    Appendix
+                  </p>
+                </div>
+                <ul className="mt-2 space-y-1">
+                  {appendixSections.map(({ id, label, icon: Icon }) => (
                     <li key={id}>
                       <button
                         onClick={() => handleClick(id)}

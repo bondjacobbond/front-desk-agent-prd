@@ -12,6 +12,7 @@ import { TimelineSection } from "@/components/sections/timeline-section";
 import { PricingSection } from "@/components/sections/pricing";
 import { RisksSection } from "@/components/sections/risks";
 import { DecisionsSection } from "@/components/sections/decisions";
+import { DocumentationSection } from "@/components/sections/documentation";
 
 export default function Home() {
   return (
@@ -32,6 +33,9 @@ export default function Home() {
         <RisksSection />
         <DecisionsSection />
       </main>
+      <aside className="border-t border-border/50 lg:ml-56">
+        <DocumentationSection />
+      </aside>
     </>
   );
 }

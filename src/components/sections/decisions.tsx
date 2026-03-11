@@ -77,13 +77,14 @@ export function DecisionsSection() {
         ))}
       </div>
 
-      {/* Bottom-of-PRD easter egg */}
+      {/* Transition to appendix */}
       <div className="mt-16 rounded-2xl border border-dashed border-bond-navy/20 bg-bond-soft-bg/50 p-8 text-center md:p-10">
         <p className="font-display text-xl font-semibold text-bond-navy md:text-2xl">
-          Hey, you made it to the bottom!
+          End of the core PRD.
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
-          You read the whole PRD. The AI front desk agent would be proud.
+          The implementation appendix is just below if you want the tactical
+          endpoint, schema, and ElevenLabs setup details.
         </p>
       </div>
     </SectionWrapper>
