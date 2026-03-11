@@ -1238,46 +1238,70 @@ Note: LLM costs are currently absorbed by ElevenLabs but will eventually be pass
 
 ## Appendix F: Bond Public API to ElevenLabs Documentation
 
-All endpoints below hit the **raw Bond Sports public API** at `https://public.api.bondsports.co/v1`. Each ElevenLabs agent is configured per-organization with a fixed `orgId` in tool URLs and an `x-api-key` header stored as an ElevenLabs secret.
+The endpoints below mix two Bond API surfaces:
+- `https://api.bondsports.co/v4` for the facility schedule feed
+- `https://public.api.bondsports.co/v1` for org-level program, session, and event lookups
+
+Each ElevenLabs agent is configured with a fixed `facilityId`, a fixed `orgId`, and an `X-Api-Key` header stored as an ElevenLabs secret.
 
 ### Integration Model
 
-- **Server tools** call the Bond public API directly. Auth is `x-api-key` header per org.
+- **Server tools** call Bond APIs directly. Auth is `X-Api-Key` header.
 - **Client tools** are only for browser-side UI actions. Never use them for Bond data retrieval.
 - **MCP** is a future abstraction once the tool taxonomy stabilizes.
 
 **Guardrails:**
 
-- The `x-api-key` must be stored as an ElevenLabs secret and sent via header — never as a query parameter or model-controlled value.
-- The `orgId` is baked into each agent's tool URLs. The model never asks the caller for org IDs.
+- The `X-Api-Key` must be stored as an ElevenLabs secret and sent via header, never as a query parameter or model-controlled value.
+- The `facilityId` and `orgId` are baked into each agent's tool URLs. The model never asks the caller for these IDs.
 - Start with read-only program/session/event tools. Defer writes, payments, and admin actions.
 
 ### Bond Public API Endpoints
 
-Base URL: `https://public.api.bondsports.co/v1`
-Auth: `x-api-key` header
+Base URLs:
+- `https://api.bondsports.co/v4`
+- `https://public.api.bondsports.co/v1`
+
+Auth: `X-Api-Key` header
+
+**Query-first guidance:**
+
+- For schedule-heavy questions, use the facility schedule feed first with a tight date window.
+- The Bond OpenAPI spec already supports `search`, `startDate`, `endDate`, `includePast`, `facilitiesIds`, and `itemsPerPage` on the programs endpoint.
+- Prefer as few tool calls as possible. Reuse the first tool with a tighter query or date window before introducing a new drill-down tool.
+- The first tool call should usually be either a **tight facility schedule window** or a **narrow program search**, not a broad dump.
+- Only do an unfiltered catalog fetch when the caller is explicitly browsing broadly (for example: "What programs do you offer?").
+
+#### `GET /v4/facilities/{facilityId}/programs-schedule`
+
+Flattened event schedule for a single facility. Best first call for schedule questions because each row is already a specific event occurrence. In practice, treat `endDate` as the day after the last day you want included.
+
+- **Query params:** `startDate`, `endDate`
+- **Response:** `{ data: FacilityScheduleEvent[] }`
+- **Key fields per event:** `eventName`, `eventStartDate`, `eventStartTime`, `eventEndTime`, `sessionName`, `programName`, `programId`, `sessionId`, `spaces`, `status`
+- **Common status values:** `available`, `full`, `closed`, `not opened`
 
 #### `GET /v1/organization/{orgId}/programs`
 
-Programs with nested sessions, products, and pricing. Primary catalog endpoint.
+Searchable program catalog endpoint. Best first call for catalog, pricing, age-range, and registration questions because it can narrow by keyword and date window before returning nested sessions and pricing.
 
-- **Query params:** `expand`, `facility_id`, `status`, `page`, `per_page`
+- **Query params:** `search`, `includePast`, `startDate`, `endDate`, `facilitiesIds`, `programTypes`, `sports`, `levels`, `expand`, `itemsPerPage`
 - **Default expand:** `sessions,sessions.products,sessions.products.prices`
 - **Response:** `{ data: Program[], meta: { pagination } }`
 
 #### `GET /v1/organization/{orgId}/programs/{programId}/sessions`
 
-Sessions for a specific program with registration windows and events.
+Sessions for a specific program with registration windows, facility, and products.
 
-- **Query params:** `expand`, `status`
-- **Default expand:** `products,products.prices,segments,events`
+- **Query params:** `search`, `searchByProgram`, `includePast`, `startDate`, `endDate`, `expand`, `itemsPerPage`
+- **Recommended expand:** `products,products.prices`
 - **Response:** `{ data: Session[], meta }`
 
 #### `GET /v1/organization/{orgId}/programs/{programId}/sessions/{sessionId}/events`
 
 Calendar occurrences with capacity and waitlist for a session.
 
-- **Query params:** `expand`, `page`
+- **Query params:** `startDate`, `endDate`, `expand`, `itemsPerPage`
 - **Response:** `{ data: SessionEvent[], meta: { pagination } }`
 - **Key fields per event:** `startDate`, `endDate`, `timezone`, `maxParticipants`, `currentParticipants`, `spotsRemaining`, `isWaitlistEnabled`, `waitlistCount`
 
@@ -1295,23 +1319,23 @@ Events within a specific segment. Same shape as session events.
 
 ### Recommended ElevenLabs Tool Catalog
 
-#### `getPrograms` — Primary tool
+#### `getFacilitySchedule` — Primary schedule tool
 
-**Backed by:** `GET /v1/organization/{orgId}/programs?expand=sessions,sessions.products,sessions.products.prices&per_page=100`
+**Backed by:** `GET /v4/facilities/{facilityId}/programs-schedule`
 
-Use for most caller questions: what programs exist, pricing, schedule, ages, registration. The orgId and x-api-key are fixed per agent.
+Use this as the default first tool call for schedule-heavy questions like what is on today, what time is public skate, which rink an event is on, and whether something is available or full. The response is already flattened to the event level, so it is much more agent-friendly than chaining program, session, and event lookups. Keep the date window tight, usually one day and rarely more than a week, and set `endDate` to the next calendar day for single-day lookups.
 
-#### `getProgramSessions` — Drill-down tool
+#### `searchPrograms` — Catalog and pricing tool
 
-**Backed by:** `GET /v1/organization/{orgId}/programs/{programId}/sessions?expand=products,products.prices,segments,events`
+**Backed by:** `GET /v1/organization/{orgId}/programs`
 
-Use when the caller identified a specific program and needs session-level detail. `programId` comes from a prior `getPrograms` response.
+Use when the caller is asking about catalog, pricing, age range, registration windows, or general program discovery. Because this response can already expand nested sessions, products, and prices, it should usually answer the question in one call. Prefer native Bond filters like `search`, `startDate`, and `endDate` over a broad unfiltered fetch.
 
-#### `getSessionEvents` — Availability tool
+#### `getSessionEvents` — Precision fallback
 
 **Backed by:** `GET /v1/organization/{orgId}/programs/{programId}/sessions/{sessionId}/events`
 
-Use for specific calendar dates/times and spot counts. `programId` and `sessionId` come from prior responses.
+Use only when the facility schedule feed is not enough and the caller needs exact session-event capacity or resource detail for a specific matched session. This is the only recommended second-pass drill-down tool. `programId` and `sessionId` should come from a prior `searchPrograms` or `getFacilitySchedule` result.
 
 #### `openSchedulePage` — Client tool
 
@@ -1319,75 +1343,177 @@ Browser-side only. Opens a URL in the widget. Never for data retrieval.
 
 ### Scenario Mapping
 
-| Caller question | Tool | What to infer | Ask only if needed |
+| Caller question | Tool chain | What to infer | Ask only if needed |
 | --- | --- | --- | --- |
-| "What's on today after school?" | `getPrograms` | Today's date, filter sessions | No |
-| "Do you still have spots in Learn to Skate on Saturday?" | `getSessionEvents` | Saturday date, match program/session from prior call | Which location if ambiguous |
-| "What programs do you offer for 8-year-olds?" | `getPrograms` | Filter by age range | Sport or skill level if too broad |
-| "How much are private lessons?" | `getPrograms` | Match to program name/type | Sport or length if multiple formats |
-| "When does spring hockey registration open?" | `getPrograms` | Match sport/season, check registrationStartDate | Youth vs adult if both exist |
-| "Is the Wednesday clinic at the north rink or south rink?" | `getSessionEvents` | Match clinic, find Wednesday events, read facility/space | Which clinic if multiple |
+| "What time is public skate this afternoon?" | `getFacilitySchedule` | `startDate=today`, `endDate=tomorrow`, then filter returned events to public skate matches in the afternoon in local timezone | No |
+| "What's on today after school?" | `getFacilitySchedule` | Today's date, then summarize late-afternoon matches from returned events | No |
+| "Do you still have spots in Learn to Skate on Saturday?" | `getFacilitySchedule` | Upcoming Saturday date, filter matching event/program/session names, then interpret `status` such as `available`, `full`, `closed`, or `not opened` | Ask only if multiple Saturday matches are equally plausible |
+| "What programs do you offer for 8-year-olds?" | `searchPrograms` | Filter by age range from returned programs and sessions | Sport or skill level if too broad |
+| "How much are private lessons?" | `searchPrograms` | `search=private lessons`, inspect nested products/prices | Sport or length if multiple formats |
+| "When does spring hockey registration open?" | `searchPrograms` | `search=spring hockey`, inspect `registrationStartDate` / `registrationEndDate` | Youth vs adult if both exist |
+| "Is the Wednesday clinic at the north rink or south rink?" | `getFacilitySchedule` | Upcoming Wednesday date, filter matching clinic names, then read `spaces` from the returned events | Which clinic if multiple |
 
 ### Copy-Paste Snippets
 
-#### Server tool: `getPrograms`
+#### Server tool: `getFacilitySchedule`
 
 ```json
 {
-  "name": "getPrograms",
-  "description": "Look up all programs, sessions, and pricing for this facility. Use this when the caller asks what programs exist, how much something costs, what ages a program is for, what the schedule is, or when registration opens.",
-  "method": "GET",
-  "url": "https://public.api.bondsports.co/v1/organization/{ORG_ID}/programs",
-  "headers": {
-    "x-api-key": "{{BOND_API_KEY}}",
-    "Content-Type": "application/json"
+  "type": "webhook",
+  "name": "getFacilitySchedule",
+  "description": "Get the facility's flattened event schedule for a tight date window. Use this first for what time, what is on today, which rink, and basic availability questions.",
+  "api_schema": {
+    "url": "https://api.bondsports.co/v4/facilities/114/programs-schedule",
+    "method": "GET",
+    "path_params_schema": [],
+    "query_params_schema": [
+      {
+        "id": "startDate",
+        "type": "string",
+        "value_type": "llm_prompt",
+        "description": "ISO date for the first day to search. Usually today, tomorrow, or the specific day inferred from the caller.",
+        "dynamic_variable": "",
+        "constant_value": "",
+        "enum": null,
+        "is_system_provided": false,
+        "required": true
+      },
+      {
+        "id": "endDate",
+        "type": "string",
+        "value_type": "llm_prompt",
+        "description": "ISO date for the exclusive end of the search window. For a single day like 2026-03-11, use 2026-03-12 so the whole day is included.",
+        "dynamic_variable": "",
+        "constant_value": "",
+        "enum": null,
+        "is_system_provided": false,
+        "required": true
+      }
+    ],
+    "request_body_schema": null,
+    "request_headers": [
+      {
+        "type": "secret",
+        "name": "X-Api-Key",
+        "secret_id": "Mc8HuwI7U2b9vnKLnGOh"
+      }
+    ],
+    "auth_connection": null
   },
-  "query_parameters": [
-    {
-      "name": "expand",
-      "value": "sessions,sessions.products,sessions.products.prices",
-      "value_type": "fixed"
-    },
-    {
-      "name": "per_page",
-      "value": "100",
-      "value_type": "fixed"
-    },
-    {
-      "name": "facility_id",
-      "value_type": "llm_prompt",
-      "description": "Optional facility ID. Only include if the caller specified a location or the assistant must disambiguate between multiple locations."
-    }
-  ]
+  "dynamic_variables": {
+    "dynamic_variable_placeholders": {}
+  },
+  "assignments": [],
+  "disable_interruptions": false,
+  "tool_call_sound": "typing",
+  "tool_call_sound_behavior": "auto",
+  "tool_error_handling_mode": "auto",
+  "response_timeout_secs": 15,
+  "force_pre_tool_speech": "auto",
+  "execution_mode": "immediate"
 }
 ```
 
-#### Server tool: `getProgramSessions`
+#### Server tool: `searchPrograms`
 
 ```json
 {
-  "name": "getProgramSessions",
-  "description": "Get detailed sessions for a specific program including registration windows, events, and pricing. Use after identifying a program from getPrograms when the caller needs session-level specifics.",
-  "method": "GET",
-  "url": "https://public.api.bondsports.co/v1/organization/{ORG_ID}/programs/{programId}/sessions",
-  "headers": {
-    "x-api-key": "{{BOND_API_KEY}}",
-    "Content-Type": "application/json"
+  "type": "webhook",
+  "name": "searchPrograms",
+  "description": "Search programs and sessions for this facility using Bond's native filters. Use this for pricing, age-range, registration, and broader catalog questions.",
+  "api_schema": {
+    "url": "https://public.api.bondsports.co/v1/organization/90/programs",
+    "method": "GET",
+    "path_params_schema": [],
+    "query_params_schema": [
+      {
+        "id": "search",
+        "type": "string",
+        "value_type": "llm_prompt",
+        "description": "Keyword from the caller, such as private lessons, spring hockey, or learn to skate. Leave blank only when the caller is broadly browsing.",
+        "dynamic_variable": "",
+        "constant_value": "",
+        "enum": null,
+        "is_system_provided": false,
+        "required": true
+      },
+      {
+        "id": "startDate",
+        "type": "string",
+        "value_type": "llm_prompt",
+        "description": "ISO date when the caller mentions a time window like today, tomorrow, Saturday, or this week.",
+        "dynamic_variable": "",
+        "constant_value": "",
+        "enum": null,
+        "is_system_provided": false,
+        "required": false
+      },
+      {
+        "id": "endDate",
+        "type": "string",
+        "value_type": "llm_prompt",
+        "description": "ISO date for the end of the requested time window.",
+        "dynamic_variable": "",
+        "constant_value": "",
+        "enum": null,
+        "is_system_provided": false,
+        "required": false
+      },
+      {
+        "id": "includePast",
+        "type": "string",
+        "value_type": "constant",
+        "description": "",
+        "dynamic_variable": "",
+        "constant_value": "false",
+        "enum": null,
+        "is_system_provided": false,
+        "required": true
+      },
+      {
+        "id": "expand",
+        "type": "string",
+        "value_type": "constant",
+        "description": "",
+        "dynamic_variable": "",
+        "constant_value": "sessions,sessions.products,sessions.products.prices",
+        "enum": null,
+        "is_system_provided": false,
+        "required": true
+      },
+      {
+        "id": "itemsPerPage",
+        "type": "integer",
+        "value_type": "constant",
+        "description": "",
+        "dynamic_variable": "",
+        "constant_value": 15,
+        "enum": null,
+        "is_system_provided": false,
+        "required": true
+      }
+    ],
+    "request_body_schema": null,
+    "request_headers": [
+      {
+        "type": "secret",
+        "name": "X-Api-Key",
+        "secret_id": "Mc8HuwI7U2b9vnKLnGOh"
+      }
+    ],
+    "auth_connection": null
   },
-  "path_parameters": [
-    {
-      "name": "programId",
-      "value_type": "llm_prompt",
-      "description": "The program ID from a previous getPrograms response. Match the caller's question to a program name, then use its ID."
-    }
-  ],
-  "query_parameters": [
-    {
-      "name": "expand",
-      "value": "products,products.prices,segments,events",
-      "value_type": "fixed"
-    }
-  ]
+  "dynamic_variables": {
+    "dynamic_variable_placeholders": {}
+  },
+  "assignments": [],
+  "disable_interruptions": false,
+  "tool_call_sound": "typing",
+  "tool_call_sound_behavior": "auto",
+  "tool_error_handling_mode": "auto",
+  "response_timeout_secs": 15,
+  "force_pre_tool_speech": "auto",
+  "execution_mode": "immediate"
 }
 ```
 
@@ -1395,26 +1521,103 @@ Browser-side only. Opens a URL in the widget. Never for data retrieval.
 
 ```json
 {
+  "type": "webhook",
   "name": "getSessionEvents",
-  "description": "Get calendar events (specific dates, times, and availability) for a session. Use when the caller asks what time a class meets, what day it happens, or whether there are spots remaining.",
-  "method": "GET",
-  "url": "https://public.api.bondsports.co/v1/organization/{ORG_ID}/programs/{programId}/sessions/{sessionId}/events",
-  "headers": {
-    "x-api-key": "{{BOND_API_KEY}}",
-    "Content-Type": "application/json"
+  "description": "Get calendar events for a session, including exact dates, times, resources, and availability. Use for what time, what day, and are there spots questions.",
+  "api_schema": {
+    "url": "https://public.api.bondsports.co/v1/organization/90/programs/{PROGRAM_ID}/sessions/{SESSION_ID}/events",
+    "method": "GET",
+    "path_params_schema": [
+      {
+        "id": "PROGRAM_ID",
+        "type": "string",
+        "value_type": "llm_prompt",
+        "description": "Program ID from a prior tool result. Do not guess. Use the matching program from an earlier search response.",
+        "dynamic_variable": "",
+        "constant_value": "",
+        "enum": null,
+        "is_system_provided": false,
+        "required": true
+      },
+      {
+        "id": "SESSION_ID",
+        "type": "string",
+        "value_type": "llm_prompt",
+        "description": "Session ID from a prior tool result. Do not guess. Use the matching session from an earlier response.",
+        "dynamic_variable": "",
+        "constant_value": "",
+        "enum": null,
+        "is_system_provided": false,
+        "required": true
+      }
+    ],
+    "query_params_schema": [
+      {
+        "id": "startDate",
+        "type": "string",
+        "value_type": "llm_prompt",
+        "description": "ISO date for the start of the requested event window.",
+        "dynamic_variable": "",
+        "constant_value": "",
+        "enum": null,
+        "is_system_provided": false,
+        "required": false
+      },
+      {
+        "id": "endDate",
+        "type": "string",
+        "value_type": "llm_prompt",
+        "description": "ISO date for the end of the requested event window.",
+        "dynamic_variable": "",
+        "constant_value": "",
+        "enum": null,
+        "is_system_provided": false,
+        "required": false
+      },
+      {
+        "id": "expand",
+        "type": "string",
+        "value_type": "constant",
+        "description": "",
+        "dynamic_variable": "",
+        "constant_value": "resources,capacity",
+        "enum": null,
+        "is_system_provided": false,
+        "required": true
+      },
+      {
+        "id": "itemsPerPage",
+        "type": "integer",
+        "value_type": "constant",
+        "description": "",
+        "dynamic_variable": "",
+        "constant_value": 15,
+        "enum": null,
+        "is_system_provided": false,
+        "required": true
+      }
+    ],
+    "request_body_schema": null,
+    "request_headers": [
+      {
+        "type": "secret",
+        "name": "X-Api-Key",
+        "secret_id": "Mc8HuwI7U2b9vnKLnGOh"
+      }
+    ],
+    "auth_connection": null
   },
-  "path_parameters": [
-    {
-      "name": "programId",
-      "value_type": "llm_prompt",
-      "description": "Program ID from a previous getPrograms response."
-    },
-    {
-      "name": "sessionId",
-      "value_type": "llm_prompt",
-      "description": "Session ID from a previous getPrograms or getProgramSessions response."
-    }
-  ]
+  "dynamic_variables": {
+    "dynamic_variable_placeholders": {}
+  },
+  "assignments": [],
+  "disable_interruptions": false,
+  "tool_call_sound": "typing",
+  "tool_call_sound_behavior": "auto",
+  "tool_error_handling_mode": "auto",
+  "response_timeout_secs": 15,
+  "force_pre_tool_speech": "auto",
+  "execution_mode": "immediate"
 }
 ```
 
@@ -1444,20 +1647,35 @@ Browser-side only. Opens a URL in the widget. Never for data retrieval.
 ```text
 You have access to Bond Sports API tools for this facility. Use them to answer questions with real data.
 
-Use getPrograms as your default first tool call. It returns the full catalog of programs with sessions, pricing, and schedules. Use it when the caller asks:
-- What programs, classes, or activities are available
-- How much something costs
-- What ages a program is for
-- What the schedule looks like today or this week
-- When registration opens or closes
+Use as few tool calls as possible. Reuse getFacilitySchedule or searchPrograms with tighter filters before reaching for a second drill-down tool.
 
-Use getProgramSessions when the caller has identified a specific program and needs more detail about its sessions, registration windows, or segments.
+Use getFacilitySchedule as your default first tool call for schedule and availability questions. Use it when the caller asks:
+- What is on today, tomorrow, or this week
+- What time public skate, stick and puck, or another event is
+- Which rink, space, or location an event is on
+- Whether an event is available, full, closed, or not opened
 
-Use getSessionEvents when the caller needs specific calendar dates/times or wants to know if there are spots remaining in a specific session.
+When getFacilitySchedule is used, always keep the date window tight:
+- Convert today, tomorrow, Saturday, next week, and similar phrases into startDate and endDate
+- For a single-day lookup, set startDate to that day and endDate to the next calendar day
+- Rarely request more than 7 days unless the caller is broadly browsing
+- Filter the returned rows by eventName, sessionName, and programName before replying
 
-Tool chaining: Start with getPrograms. If the caller narrows to a specific program, use getProgramSessions. If they need event-level detail or availability, use getSessionEvents.
+Use searchPrograms when the caller is asking about catalog, pricing, age range, registration windows, or broader program discovery.
 
-Never ask the caller for program IDs, session IDs, or organization IDs. Extract these from prior tool responses. Infer dates from natural language. If multiple options match, ask one clarifying question.
+Because searchPrograms already expands nested sessions, products, and prices, it should usually answer the question without another catalog tool call.
+
+Use getSessionEvents only when getFacilitySchedule is not enough and you need exact event-level session data for a matched session.
+
+Tool chaining:
+- For schedule-like questions, start with getFacilitySchedule
+- For catalog-like questions, start with searchPrograms
+- Reuse the same tool with narrower dates or search terms when that can resolve ambiguity
+- Only move to getSessionEvents when the first tool did not provide enough detail
+
+Never ask the caller for program IDs, session IDs, organization IDs, or facility IDs. Extract these from prior tool responses or hardcode them in the tool URL where appropriate. Infer dates from natural language. If multiple options match, ask one clarifying question.
+
+For phrases like "this afternoon" or "after school", use startDate for that day and endDate for the next day, then filter the returned event times in the facility's local timezone before replying.
 
 Do not use client tools to fetch Bond data. Client tools are only for browser-side actions.
 ```

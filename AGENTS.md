@@ -246,3 +246,13 @@ import { cn } from "@/lib/utils";
   - `PRD_REVIEW_SUMMARY.md`
   - `PRD_REVIEW_COUNCIL.md`
   - `src/lib/prd-data.ts` (the frontend source of truth for rendered PRD decision content)
+
+## Learned User Preferences
+
+- Keep PRD comparisons, vendor scoring, and revenue projections conservative and reality-based; avoid overstated assumptions, inflated scores, or aggressive adoption forecasts.
+- Make phase boundaries explicit in PRD content, and do not present proposed or later-phase work as already decided or in scope for Phase 1.
+
+## Learned Workspace Facts
+
+- The PRD app is an interactive, presentation-style Next.js document where product content and assumptions are iterated frequently in the UI, not just in markdown.
+- Schedule guidance for the Bond voice agent now distinguishes between the facility-level `v4` schedule feed for event lookup and the `v1` public API for catalog, pricing, and drill-down lookups.
