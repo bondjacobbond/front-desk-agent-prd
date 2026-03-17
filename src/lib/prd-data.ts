@@ -1364,7 +1364,7 @@ export const risks = [
     likelihood: "Low-Medium",
     impact: "High",
     mitigation:
-      "Depends heavily on platform choice. ElevenLabs path: $0.09-0.10/min with no platform fee — strong margins at $399/mo even at low volume. Bland path: $150K/yr + $0.30/min requires 32+ facilities to break even. Either way, model breakeven scenarios at 3, 50, and 150 facilities before committing.",
+      "Depends heavily on platform choice. ElevenLabs path: $0.09-0.10/min with no platform fee — strong margins at $399/mo even at low volume. Bland public pricing now shows Build ($299/mo, $0.12 talk, $0.04 transfer) and Scale ($499/mo, $0.11 talk, $0.03 transfer), but Bond was quoted enterprise terms. Model both cases (self-serve tier and enterprise quote) across 3, 50, and 150 facilities before committing.",
   },
   {
     risk: "Email channel gap (if Bland path)",
@@ -1432,13 +1432,13 @@ export const openDecisions = [
     issue: "Voice platform for pilot",
     status: "Needs Decision",
     owners: "Matt (CEO), Jacob (PM)",
-    desc: "Two pilot options: (A) Bland for speed to market — production-quality voice, managed services, $150K+ but negotiable; (B) ElevenLabs for cost efficiency — prototype exists, $0.09/min usage-only. Either way, Phase 1 MVP is FAQ + transfers — no custom API needed to launch. Next step: negotiate with Bland while continuing ElevenLabs prototype.",
+    desc: "Two pilot options: (A) Bland for speed to market — production-quality voice and managed services; public tiers show Build ($299/mo) and Scale ($499/mo), but Bond was quoted enterprise terms; (B) ElevenLabs for cost efficiency — prototype exists, $0.09/min usage-only. Either way, Phase 1 MVP is FAQ + transfers — no custom API needed to launch. Next step: confirm Bland tier eligibility while continuing ElevenLabs prototype.",
   },
   {
     issue: "Bland negotiation",
     status: "Action Required",
     owners: "Matt (CEO)",
-    desc: "Bland offered $150K minimum: $100K/yr platform fee + $50K one-time managed services setup + $0.30/min usage. Matt believes this is negotiable. Need a counter-proposal — e.g. reduced pilot deal for 3 facilities, lower platform fee, or performance-based structure. Outcome determines whether Path A is viable.",
+    desc: "Bland pricing now has a gap between published and quoted terms: public cards show Build ($299/mo, $0.12 talk, $0.04 transfer) and Scale ($499/mo, $0.11 talk, $0.03 transfer), but Bond received an enterprise-oriented quote. Need commercial clarity on which plan type applies to our pilot and under what commitments (managed services scope, SLA, minimums). Outcome determines whether Path A is viable.",
   },
   {
     issue: "Launch pricing model",
@@ -1525,7 +1525,7 @@ export const vendors = [
       "Bland's proprietary voice LLM is purpose-built for voice with 3 years of fine-tuning. ElevenLabs voice quality is best-in-class for TTS, but the end-to-end conversational experience (latency, turn-taking, interruption handling) may not match Bland's integrated approach without tuning effort",
       "Bond must still build: multi-location variable system, production monitoring and alerting, live call supervision with human takeover, post-call analytics comparable to Bland's Citations, and admin configuration UI for facilities",
       "Timeline: 4-6 months to a pilot-quality MVP is realistic given ElevenLabs foundation, but production-hardening with real call data adds 3+ months. Still slower than Bland's ~2 month managed services path.",
-      "Engineering cost: 2-3 engineers × 6-9 months = $300-500K fully loaded. Lower than previous $600K-$1M estimate thanks to ElevenLabs, but still higher than Bland's $150K year-one cost.",
+      "Engineering cost: 2-3 engineers × 6-9 months = $300-500K fully loaded. Lower than previous $600K-$1M estimate thanks to ElevenLabs, but still materially higher than Bland self-serve for small pilots and should be compared against the enterprise quote Bond actually received.",
       "No managed services team listening to calls and tuning — Bond must build its own QA and monitoring practice",
       "Risk of underestimating production complexity: the gap between 'demo that works' and 'production agent that handles edge cases at scale' is significant. Bland's managed services exist for a reason.",
       "Blank Metal adds $90-250K if multiple sprints needed, though a focused 1-sprint engagement ($30-50K) may suffice for architecture and initial build guidance",
@@ -1551,31 +1551,32 @@ export const vendors = [
     score: 3.9,
     tier: "Tier 1 - Pilot Option (Speed to Market)",
     pricing: {
-      model: "Enterprise: platform fee + managed services + usage",
+      model:
+        "Published tiered plans (Build/Scale) plus enterprise custom terms",
       plans: [
         {
-          name: "Platform Fee",
-          price: "$100K/yr",
-          rate: "Required",
-          concurrency: "Single-tenant",
+          name: "Build (published)",
+          price: "$299/mo",
+          rate: "$0.12/min talk + $0.04/min transfer",
+          concurrency: "50 concurrent calls",
         },
         {
-          name: "Managed Services",
-          price: "$50K",
-          rate: "Required for production",
-          concurrency: "~2 months to production",
+          name: "Scale (published)",
+          price: "$499/mo",
+          rate: "$0.11/min talk + $0.03/min transfer",
+          concurrency: "100 concurrent calls",
         },
         {
-          name: "Usage",
-          price: "$0.30/min",
-          rate: "Talk time",
-          concurrency: "Negotiable with commitment",
+          name: "Enterprise (quoted to Bond)",
+          price: "Custom",
+          rate: "Enterprise quote received; includes managed services expectations",
+          concurrency: "Unlimited (contract-dependent)",
         },
         {
-          name: "Minimum Barrier",
-          price: "$150K",
-          rate: "Year 1 floor",
-          concurrency: "Concessions possible",
+          name: "Planning Assumption",
+          price: "Use enterprise quote as downside case",
+          rate: "Use Build/Scale as upside benchmark if accessible",
+          concurrency: "Validate availability during procurement",
         },
       ],
     },
@@ -1598,14 +1599,14 @@ export const vendors = [
     ],
     weaknesses: [
       "Email NOT supported out of the box — Bond's #2 priority channel. On Bland's roadmap but not available today. Workaround: Zendesk trigger → call/SMS",
-      "$150K minimum barrier to entry (platform + managed services) before any usage — significant upfront investment before revenue",
+      "Commercial uncertainty: publicly listed Build/Scale plans exist, but Bond was quoted enterprise terms. Assume enterprise economics until procurement confirms eligibility for published tiers",
       "White-label login not supported: Bond's customers cannot log into Bland dashboard directly. Must use API to embed data in Bond's back office",
       "Vendor dependency for orchestration layer — Conversational Pathways are proprietary to Bland",
-      "$0.30/min usage is 2-3x self-serve rates — enterprise pricing reflects managed services and SLAs",
+      "Enterprise contracts can still price materially above published self-serve rates due to managed services, support scope, and SLA terms",
       "~2 months of managed services to reach production quality — not instant deployment",
     ],
     verdict:
-      "Pilot option A — speed to market path. Demo validated (Feb 19, 2026) — impressive voice quality, orchestration, and multi-location capabilities. Conversational Pathways provide fastest time to a polished product. $150K minimum is a real commitment, but Matt's thesis is that speed-to-market advantage justifies Year 1 cost premium if it puts Bond ahead of competitors. Needs active negotiation on terms.",
+      "Pilot option A — speed to market path. Demo validated (Feb 19, 2026) — impressive voice quality, orchestration, and multi-location capabilities. Conversational Pathways provide fastest time to a polished product. Economics are now a range (published Build/Scale vs enterprise quote received by Bond), so pricing risk is primarily contract qualification and managed services scope. Needs active negotiation on terms.",
     scores: {
       voice: 5,
       email: 1,
@@ -2911,4 +2912,326 @@ Do not use client tools to fetch Bond data. Client tools are only for browser-si
 }`,
     },
   ],
+};
+
+export const documentationAppendixBland = {
+  overview: {
+    title: "Implementation Appendix for Bland",
+    description:
+      "This appendix documents Bond's current Bland setup for Palm Beach Skate Zone. Tools are managed via Bland Custom Tools API, and conversation flow is managed in a Bland Pathway.",
+    recommendations: [
+      "Use Bland Custom Tools as the source of truth for runtime tool inputs and mappings.",
+      "Use the Pathway API to audit the active flow and check version metadata before publishing changes.",
+      "Keep facility and org IDs fixed in tool endpoint paths for single-facility deployments.",
+      "Prefer schedule-first lookup, then catalog lookup, then session-event drill-down only when needed.",
+      "After tool updates, republish pathway versions so embedded snapshots stay aligned.",
+    ],
+    guardrails: [
+      "Treat GET /v1/tools/{tool_id} as canonical tool configuration state. Pathway-embedded tool snapshots can lag.",
+      "Store and send the Bond X-Api-Key in the connected REST resource/headers; never expose secrets in prompts.",
+      "Do not ask callers for facilityId or orgId in single-facility mode.",
+      "Keep date windows tight and infer dates from natural language before calling tools.",
+    ],
+    quickStart: [
+      "Live pathway list currently returns one pathway: Palm Beach Skate Zone Customer Service (production version 11).",
+      "Live pathway detail for 3d228efe-0298-4999-9926-faf2979cd579 returns 16 nodes, 20 edges, and start node Greeting.",
+      "Live tools list currently returns three active custom tools bound to Bond schedule/catalog/session-events reads.",
+      "Live tool records use named input mappings (e.g., {{input.startDate}}) in the latest runtime config.",
+      "Pathway-embedded tool snapshots can lag and still show older array-indexed templates.",
+    ],
+  },
+  endpoints: documentationAppendix.endpoints,
+  tools: [
+    {
+      name: "Get Facility Schedule (Bland)",
+      type: "server" as const,
+      purpose:
+        "Primary schedule tool in Bland. Answers what is on today, what time events run, and basic availability.",
+      backing:
+        "GET /v4/facilities/114/programs-schedule with query startDate={{input.startDate}} and endDate={{input.endDate}}",
+      expectsResponse: true,
+      responseTimeoutSecs: 15,
+      whenToUse: [
+        "Caller asks about hours, today's schedule, event times, or basic availability.",
+        "Caller asks which rink/space is being used for an event.",
+      ],
+      arguments: [
+        {
+          name: "startDate",
+          required: true,
+          source: "infer" as const,
+          description:
+            "ISO date inferred from phrases like today, tomorrow, this afternoon, or Saturday.",
+        },
+        {
+          name: "endDate",
+          required: true,
+          source: "infer" as const,
+          description:
+            "ISO exclusive end date. For a single day, use the next calendar day.",
+        },
+      ],
+      responseShape: [
+        "{ data: FacilityScheduleEvent[] }",
+        "Event rows include names, dates/times, session/program IDs, and status.",
+      ],
+      notes: [
+        "Live tool id: TL-040ffd80-94ff-4c8e-b4bb-bb468f376846",
+        "Canonical mapping is in Bland Tool API, not pathway-embedded snapshots.",
+      ],
+    },
+    {
+      name: "Search Programs (Bland)",
+      type: "server" as const,
+      purpose:
+        "Catalog and pricing tool in Bland. Used for programs, registration windows, and pricing discovery.",
+      backing:
+        "GET /v1/organization/90/programs with search/startDate/endDate + fixed includePast, expand, itemsPerPage",
+      expectsResponse: true,
+      responseTimeoutSecs: 15,
+      whenToUse: [
+        "Caller asks about classes, pricing, age ranges, or registration windows.",
+        "Caller wants broad program discovery rather than a specific event occurrence.",
+      ],
+      arguments: [
+        {
+          name: "search",
+          required: true,
+          source: "infer" as const,
+          description:
+            "Keyword inferred from caller intent (e.g., learn to skate, private lessons, spring hockey).",
+        },
+        {
+          name: "startDate",
+          required: false,
+          source: "infer" as const,
+          description: "Optional ISO start date for requested window.",
+        },
+        {
+          name: "endDate",
+          required: false,
+          source: "infer" as const,
+          description: "Optional ISO end date for requested window.",
+        },
+      ],
+      responseShape: [
+        "{ data: Program[], meta: { pagination } }",
+        "Programs include nested sessions, products, and prices.",
+      ],
+      notes: [
+        "Live tool id: TL-5764b543-4bc2-4ab3-bbf1-79b4da9183fa",
+        "Current config keeps includePast=false, expand=sessions,sessions.products,sessions.products.prices, itemsPerPage=15.",
+      ],
+    },
+    {
+      name: "Get Session Events (Bland)",
+      type: "server" as const,
+      purpose:
+        "Precision fallback in Bland for exact occurrence-level dates/times/capacity on a specific session.",
+      backing:
+        "GET /v1/organization/90/programs/<PROGRAM_ID>/sessions/<SESSION_ID>/events",
+      expectsResponse: true,
+      responseTimeoutSecs: 15,
+      whenToUse: [
+        "Caller needs exact event-level dates/times for a specific matched session.",
+        "Caller asks about spots/waitlist details for a known session.",
+      ],
+      arguments: [
+        {
+          name: "programId",
+          required: true,
+          source: "infer" as const,
+          description: "Program ID from prior tool output.",
+        },
+        {
+          name: "sessionId",
+          required: true,
+          source: "infer" as const,
+          description: "Session ID from prior tool output.",
+        },
+        {
+          name: "startDate",
+          required: false,
+          source: "infer" as const,
+          description: "Optional ISO start date for event window.",
+        },
+        {
+          name: "endDate",
+          required: false,
+          source: "infer" as const,
+          description: "Optional ISO end date for event window.",
+        },
+      ],
+      responseShape: [
+        "{ data: SessionEvent[], meta: { pagination } }",
+        "Each event includes start/end date, timezone, and capacity fields.",
+      ],
+      notes: [
+        "Live tool id: TL-e95b431e-42ba-4001-870d-9b98b3d7d5a4",
+        "Path params are mapped from input.programId and input.sessionId.",
+      ],
+    },
+  ],
+  scenarios: [
+    {
+      callerQuestion: "What time is public skate tonight?",
+      tool: "Get Facility Schedule (Bland)",
+      infer: [
+        "Infer tonight's date window.",
+        "Set startDate=today and endDate=tomorrow.",
+      ],
+      ask: [],
+      nextResponse:
+        "Give exact time(s), mention availability if present, and ask a helpful follow-up.",
+    },
+    {
+      callerQuestion: "How much is Learn to Skate?",
+      tool: "Search Programs (Bland)",
+      infer: [
+        "Set search to learn to skate.",
+        "Read nested product/pricing data from the catalog response.",
+      ],
+      ask: ["Ask age group only if multiple similarly named options exist."],
+      nextResponse:
+        "Provide price and relevant session info, then offer next-step help.",
+    },
+    {
+      callerQuestion: "For this session, what exact dates are left?",
+      tool: "Get Session Events (Bland)",
+      infer: [
+        "Use known programId/sessionId from prior tool output.",
+        "Apply a tight date window when user gives one.",
+      ],
+      ask: ["Ask which session only if IDs are not yet resolved."],
+      nextResponse:
+        "Return event dates/times and availability details in concise spoken form.",
+    },
+  ],
+  snippets: [
+    {
+      title: "Live pathway list response",
+      language: "json" as const,
+      description:
+        "Directly retrieved from Bland API and used to populate this PRD content.",
+      code: `[
+  {
+    "id": "3d228efe-0298-4999-9926-faf2979cd579",
+    "name": "Palm Beach Skate Zone Customer Service",
+    "description": "",
+    "published_at": "2026-03-16T19:02:23.170Z",
+    "production_version_number": 11
+  }
+]`,
+    },
+    {
+      title: "Live pathway detail summary",
+      language: "json" as const,
+      description:
+        "Directly retrieved from Bland API detail endpoint.",
+      code: `{
+  "name": "Palm Beach Skate Zone Customer Service",
+  "description": "",
+  "nodeCount": 16,
+  "edgeCount": 20,
+  "startNodes": ["Greeting"],
+  "toolRefs": [
+    { "name": "Get Facility Schedule", "tool_id": "TL-040ffd80-94ff-4c8e-b4bb-bb468f376846" },
+    { "name": "Search Programs", "tool_id": "TL-5764b543-4bc2-4ab3-bbf1-79b4da9183fa" },
+    { "name": "Get Session Events", "tool_id": "TL-e95b431e-42ba-4001-870d-9b98b3d7d5a4" }
+  ]
+}`,
+    },
+    {
+      title: "Live tools runtime mappings",
+      language: "json" as const,
+      description:
+        "Directly retrieved from Bland tool records and used as the runtime source-of-truth snapshot.",
+      code: `[
+  {
+    "tool_id": "TL-040ffd80-94ff-4c8e-b4bb-bb468f376846",
+    "name": "Get Facility Schedule",
+    "path": "/v4/facilities/114/programs-schedule",
+    "queryParams": [
+      { "key": "startDate", "value": "{{input.startDate}}" },
+      { "key": "endDate", "value": "{{input.endDate}}" }
+    ],
+    "required": ["startDate", "endDate"]
+  },
+  {
+    "tool_id": "TL-5764b543-4bc2-4ab3-bbf1-79b4da9183fa",
+    "name": "Search Programs",
+    "path": "/v1/organization/90/programs",
+    "queryParams": [
+      { "key": "search", "value": "{{input.search}}" },
+      { "key": "startDate", "value": "{{input.startDate}}" },
+      { "key": "endDate", "value": "{{input.endDate}}" },
+      { "key": "includePast", "value": "false" },
+      { "key": "expand", "value": "sessions,sessions.products,sessions.products.prices" },
+      { "key": "itemsPerPage", "value": "15" }
+    ],
+    "required": ["search"]
+  },
+  {
+    "tool_id": "TL-e95b431e-42ba-4001-870d-9b98b3d7d5a4",
+    "name": "Get Session Events",
+    "path": "/v1/organization/90/programs/<PROGRAM_ID>/sessions/<SESSION_ID>/events",
+    "pathParams": [
+      { "key": "PROGRAM_ID", "value": "{{input.programId}}" },
+      { "key": "SESSION_ID", "value": "{{input.sessionId}}" }
+    ],
+    "queryParams": [
+      { "key": "startDate", "value": "{{input.startDate}}" },
+      { "key": "endDate", "value": "{{input.endDate}}" },
+      { "key": "expand", "value": "resources,capacity" },
+      { "key": "itemsPerPage", "value": "15" }
+    ],
+    "required": ["programId", "sessionId"]
+  }
+]`,
+    },
+    {
+      title: "Observed pathway snapshot lag",
+      language: "json" as const,
+      description:
+        "The pathway detail payload can lag behind tool record updates. This was observed in live PBSZ data.",
+      code: `{
+  "pathwayId": "3d228efe-0298-4999-9926-faf2979cd579",
+  "exampleEmbeddedMapping": {
+    "startDate": "{{input.queryParams.0.value}}",
+    "endDate": "{{input.queryParams.1.value}}"
+  },
+  "latestToolRecordMapping": {
+    "startDate": "{{input.startDate}}",
+    "endDate": "{{input.endDate}}"
+  },
+  "operationalInterpretation": "Trust tool records for runtime mappings; treat pathway-embedded snapshots as potentially stale."
+}`,
+    },
+    {
+      title: "Current Bland pathway snapshot",
+      language: "json" as const,
+      description:
+        "Operational metadata for the Palm Beach Skate Zone setup.",
+      code: `{
+  "id": "3d228efe-0298-4999-9926-faf2979cd579",
+  "name": "Palm Beach Skate Zone Customer Service",
+  "publishedAt": "2026-03-16T19:02:23.170Z",
+  "productionVersionNumber": 11,
+  "nodeCount": 16,
+  "edgeCount": 20,
+  "startNode": "Greeting",
+  "toolIds": [
+    "TL-040ffd80-94ff-4c8e-b4bb-bb468f376846",
+    "TL-5764b543-4bc2-4ab3-bbf1-79b4da9183fa",
+    "TL-e95b431e-42ba-4001-870d-9b98b3d7d5a4"
+  ],
+  "note": "Pathway-embedded tool config can lag behind Tool API updates."
+}`,
+    },
+  ],
+};
+
+export const documentationAppendixTabs = {
+  elevenlabs: documentationAppendix,
+  bland: documentationAppendixBland,
 };

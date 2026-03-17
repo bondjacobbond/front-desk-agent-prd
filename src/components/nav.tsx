@@ -43,9 +43,12 @@ const mainSections = [
   { id: "decisions", label: "Open Decisions", icon: FileQuestion },
 ];
 
-const appendixSections = [
-  { id: "documentation", label: "Documentation", icon: FileText },
-];
+const showIntegrationDocs =
+  process.env.NEXT_PUBLIC_SHOW_INTEGRATION_DOCS === "true";
+
+const appendixSections = showIntegrationDocs
+  ? [{ id: "documentation", label: "Documentation", icon: FileText }]
+  : [];
 
 const sections = [...mainSections, ...appendixSections];
 
@@ -117,29 +120,33 @@ export function Nav() {
                 </li>
               ))}
             </ul>
-            <div className="mt-5 px-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-bond-navy/45">
-                Appendix
-              </p>
-            </div>
-            <ul className="mt-2 space-y-0.5">
-              {appendixSections.map(({ id, label, icon: Icon }) => (
-                <li key={id}>
-                  <button
-                    onClick={() => handleClick(id)}
-                    className={cn(
-                      "flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm font-medium transition-all",
-                      active === id
-                        ? "bg-bond-navy/10 text-bond-navy"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                    )}
-                  >
-                    <Icon className="h-4 w-4 shrink-0" />
-                    {label}
-                  </button>
-                </li>
-              ))}
-            </ul>
+            {appendixSections.length > 0 && (
+              <>
+                <div className="mt-5 px-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-bond-navy/45">
+                    Appendix
+                  </p>
+                </div>
+                <ul className="mt-2 space-y-0.5">
+                  {appendixSections.map(({ id, label, icon: Icon }) => (
+                    <li key={id}>
+                      <button
+                        onClick={() => handleClick(id)}
+                        className={cn(
+                          "flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm font-medium transition-all",
+                          active === id
+                            ? "bg-bond-navy/10 text-bond-navy"
+                            : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                        )}
+                      >
+                        <Icon className="h-4 w-4 shrink-0" />
+                        {label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
           <div className="border-t border-border/50 px-5 py-4">
             <p className="text-[10px] text-muted-foreground">
@@ -188,29 +195,33 @@ export function Nav() {
                     </li>
                   ))}
                 </ul>
-                <div className="mt-5 px-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-bond-navy/45">
-                    Appendix
-                  </p>
-                </div>
-                <ul className="mt-2 space-y-1">
-                  {appendixSections.map(({ id, label, icon: Icon }) => (
-                    <li key={id}>
-                      <button
-                        onClick={() => handleClick(id)}
-                        className={cn(
-                          "flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all",
-                          active === id
-                            ? "bg-bond-navy/10 text-bond-navy"
-                            : "text-muted-foreground hover:bg-muted",
-                        )}
-                      >
-                        <Icon className="h-4 w-4 shrink-0" />
-                        {label}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                {appendixSections.length > 0 && (
+                  <>
+                    <div className="mt-5 px-3">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-bond-navy/45">
+                        Appendix
+                      </p>
+                    </div>
+                    <ul className="mt-2 space-y-1">
+                      {appendixSections.map(({ id, label, icon: Icon }) => (
+                        <li key={id}>
+                          <button
+                            onClick={() => handleClick(id)}
+                            className={cn(
+                              "flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all",
+                              active === id
+                                ? "bg-bond-navy/10 text-bond-navy"
+                                : "text-muted-foreground hover:bg-muted",
+                            )}
+                          >
+                            <Icon className="h-4 w-4 shrink-0" />
+                            {label}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </div>
             </SheetContent>
           </Sheet>

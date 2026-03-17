@@ -202,7 +202,7 @@ We've spent significant time evaluating this question — meeting with vendors, 
 - Supports live call monitoring during implementation for real-time fine-tuning.
 - Can take actions via integrations/webhooks — booking, payment processing, etc.
 - Citation/reporting system flags gaps (questions the agent couldn't answer) for iterative improvement.
-- Pricing is flexible: per-minute, per-resolution, per-contact, flat fee per facility. They're willing to structure a deal that works for our resale model.
+- Pricing appears two-track: published self-serve tiers (Build: $299/mo, Scale: $499/mo, plus usage rates) and enterprise custom contracts (the path Bond was quoted). For planning, treat enterprise terms as the conservative case until tier eligibility is confirmed.
 - **Key concern:** mass updates. If we create a pathway and replicate it across 300 facilities, then need to add a refund capability, do we have to update each one individually? Bland's sales rep couldn't answer definitively — punted to implementation team.
 - ~$30M ARR, 155% net retention. Work with JP Morgan (home lending lead gen), Gallup (polling), Enterprise Rent-A-Car, Houston Texans.
 - Would provide an FDE (forward-deployed engineer) to build out initial pathways and train our team.
@@ -213,7 +213,7 @@ We've spent significant time evaluating this question — meeting with vendors, 
 - Agent Operating Procedures (AOPs) written in plain English — no visual workflow builder, which could be easier for non-technical facility staff
 - Knowledge base integration, QA/monitoring, A/B testing, custom analytics
 - Voice demo showed authentication, multi-step workflows, tool calls
-- Concern: pricing. Contract minimums seemed extremely high, may not fit our ICP yet. More enterprise-oriented.
+- Concern: pricing. Public tier cards suggest lower entry points, but Bond's actual quote was enterprise-oriented. Need to validate what contract path is realistically available for our pilot profile.
 - Multi-tenant implementation approach was being researched — not a solved problem on their end.
 
 **EmbedReach (embedreach.com):**
@@ -1737,3 +1737,39 @@ Do not use client tools to fetch Bond data. Client tools are only for browser-si
   "meta": { "pagination": { "total": 10, "perPage": 100, "currentPage": 1, "lastPage": 1, "hasMore": false } }
 }
 ```
+
+---
+
+## Implementation Appendix Tabs (ElevenLabs vs Bland)
+
+The app documentation section now separates platform-specific implementation guidance into tabs:
+
+- **ElevenLabs tab:** Existing server-tool reference, schemas, scenarios, and snippets.
+- **Bland tab:** Pathway/API setup, live tool IDs, and runtime mapping notes.
+
+### Bland setup (separate from ElevenLabs)
+
+Live configuration in this document is based on direct retrieval from:
+
+- `GET /v1/pathway`
+- `GET /v1/pathway/{pathway_id}`
+- `GET /v1/tools`
+- `GET /v1/tools/{tool_id}`
+
+The appendix content below reflects what those endpoints returned for Palm Beach Skate Zone.
+
+### Current Palm Beach Skate Zone Bland snapshot
+
+- **Pathway ID:** `3d228efe-0298-4999-9926-faf2979cd579`
+- **Pathway Name:** `Palm Beach Skate Zone Customer Service`
+- **Published At:** `2026-03-16T19:02:23.170Z`
+- **Production Version:** `11`
+- **Topology:** `16` nodes, `20` edges, start node is `Greeting`
+- **Tool IDs in use:**
+  - `TL-040ffd80-94ff-4c8e-b4bb-bb468f376846` (`Get Facility Schedule`)
+  - `TL-5764b543-4bc2-4ab3-bbf1-79b4da9183fa` (`Search Programs`)
+  - `TL-e95b431e-42ba-4001-870d-9b98b3d7d5a4` (`Get Session Events`)
+
+### Bland operational note
+
+Pathway detail currently includes embedded custom tool snapshots that can lag behind the latest tool records. In the current PBSZ environment, pathway-embedded tool payloads still show array-indexed templates in some places, while the live tool records use named mappings (`{{input.startDate}}`, `{{input.endDate}}`, etc.).

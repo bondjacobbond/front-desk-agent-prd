@@ -1,0 +1,35 @@
+{
+  "type": "function",
+  "name": "searchPrograms",
+  "description": "Search programs and sessions for this facility using Bond's native filters. Use for pricing, age-range, registration, and broader catalog questions. Call when the caller asks what programs, classes, or activities are available; about pricing, age ranges, prerequisites, or registration dates; or is browsing the catalog.",
+  "server": {
+    "url": "VAPI_WEBHOOK_URL_PLACEHOLDER"
+  },
+  "function": {
+    "name": "searchPrograms",
+    "description": "Search programs and sessions for this facility. Use for pricing, age-range, registration, and catalog questions.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "search": {
+          "type": "string",
+          "description": "Keyword from the caller, such as public skate, learn to skate, private lessons, or spring hockey. Leave blank only when the caller is broadly browsing."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "ISO date when the caller mentions a time window like today, tomorrow, Saturday, or this week."
+        },
+        "endDate": {
+          "type": "string",
+          "description": "ISO date for the end of the requested time window."
+        }
+      }
+    }
+  },
+  "messages": [
+    {
+      "type": "request-start",
+      "content": "Let me look that up for you."
+    }
+  ]
+}

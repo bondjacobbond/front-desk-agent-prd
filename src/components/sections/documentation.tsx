@@ -15,7 +15,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { documentationAppendix } from "@/lib/prd-data";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { documentationAppendixTabs } from "@/lib/prd-data";
 import type { DocumentationToolArgument } from "@/lib/prd-data";
 import { cn } from "@/lib/utils";
 import {
@@ -133,22 +134,60 @@ function CodeBlock({
 }
 
 export function DocumentationSection() {
-  return (
-    <SectionWrapper id="documentation" muted>
-      <SectionLabel>Appendix</SectionLabel>
-      <SectionTitle>Bond &rarr; ElevenLabs Integration Reference</SectionTitle>
-      <SectionDescription>
-        Copy-pastable endpoint schemas, tool definitions, and prompt snippets for
-        wiring Bond discovery data into ElevenLabs.
-      </SectionDescription>
+  const [platform, setPlatform] = useState<"elevenlabs" | "bland">("elevenlabs");
+  const activeAppendix = documentationAppendixTabs[platform];
 
-      {/* Strategy pills */}
-      <div className="mt-8 flex flex-wrap gap-2">
-        {[
+  const strategyPills =
+    platform === "elevenlabs"
+      ? [
           { label: "Server tools for data", color: "bg-emerald-500" },
           { label: "Client tools for UI only", color: "bg-blue-500" },
           { label: "MCP later", color: "bg-amber-500" },
-        ].map((pill) => (
+        ]
+      : [
+          { label: "Custom tools via API", color: "bg-emerald-500" },
+          { label: "Pathways for flow control", color: "bg-blue-500" },
+          { label: "Tool API as source of truth", color: "bg-amber-500" },
+        ];
+
+  return (
+    <SectionWrapper id="documentation" muted>
+      <SectionLabel>Appendix</SectionLabel>
+      <SectionTitle>
+        {platform === "elevenlabs"
+          ? "Bond → ElevenLabs Integration Reference"
+          : "Bond → Bland Integration Reference"}
+      </SectionTitle>
+      <SectionDescription>
+        {platform === "elevenlabs"
+          ? "Copy-pastable endpoint schemas, tool definitions, and prompt snippets for wiring Bond discovery data into ElevenLabs."
+          : "Copy-pastable pathway API references, tool definitions, and runtime mapping notes for Bland."}
+      </SectionDescription>
+
+      <Tabs
+        value={platform}
+        onValueChange={(value) => setPlatform(value as "elevenlabs" | "bland")}
+        className="mt-6"
+      >
+        <TabsList className="h-10 w-fit rounded-full bg-white p-1">
+          <TabsTrigger
+            value="elevenlabs"
+            className="rounded-full px-4 text-xs font-semibold"
+          >
+            ElevenLabs
+          </TabsTrigger>
+          <TabsTrigger
+            value="bland"
+            className="rounded-full px-4 text-xs font-semibold"
+          >
+            Bland
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
+
+      {/* Strategy pills */}
+      <div className="mt-8 flex flex-wrap gap-2">
+        {strategyPills.map((pill) => (
           <span
             key={pill.label}
             className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-foreground/80 shadow-sm ring-1 ring-border/60"
@@ -167,7 +206,7 @@ export function DocumentationSection() {
           Guardrails
         </p>
         <ul className="mt-3 space-y-2">
-          {documentationAppendix.overview.guardrails.map((g) => (
+          {activeAppendix.overview.guardrails.map((g) => (
             <li
               key={g}
               className="flex items-start gap-2 text-sm leading-relaxed text-foreground/80"
@@ -188,7 +227,7 @@ export function DocumentationSection() {
         />
 
         <div className="mt-6 space-y-4">
-          {documentationAppendix.endpoints.map((endpoint, i) => (
+          {activeAppendix.endpoints.map((endpoint, i) => (
             <motion.div
               key={endpoint.name}
               initial={{ opacity: 0, y: 12 }}
@@ -279,12 +318,18 @@ export function DocumentationSection() {
       <div className="mt-16">
         <SectionHeading
           number="02"
-          title="ElevenLabs Tool Catalog"
-          description="Each tool maps to a Bond endpoint. Expand for arguments, response shapes, and ElevenLabs config notes."
+          title={
+            platform === "elevenlabs" ? "ElevenLabs Tool Catalog" : "Bland Tool Catalog"
+          }
+          description={
+            platform === "elevenlabs"
+              ? "Each tool maps to a Bond endpoint. Expand for arguments, response shapes, and ElevenLabs config notes."
+              : "Each custom tool maps to a Bond endpoint. Expand for arguments, response shapes, and runtime mapping notes."
+          }
         />
 
         <Accordion type="multiple" className="mt-6 space-y-3">
-          {documentationAppendix.tools.map((tool) => {
+          {activeAppendix.tools.map((tool) => {
             const config = toolTypeConfig[tool.type];
             const Icon = config.icon;
 
@@ -450,7 +495,7 @@ export function DocumentationSection() {
         />
 
         <div className="mt-6 space-y-3">
-          {documentationAppendix.scenarios.map((s, i) => (
+          {activeAppendix.scenarios.map((s, i) => (
             <motion.div
               key={s.callerQuestion}
               initial={{ opacity: 0, y: 12 }}
@@ -523,11 +568,15 @@ export function DocumentationSection() {
         <SectionHeading
           number="04"
           title="Copy-Paste Snippets"
-          description="Ready to drop into the ElevenLabs dashboard or your codebase."
+          description={
+            platform === "elevenlabs"
+              ? "Ready to drop into the ElevenLabs dashboard or your codebase."
+              : "Ready to run against Bland APIs or use in runbooks."
+          }
         />
 
         <div className="mt-6 space-y-6">
-          {documentationAppendix.snippets.map((snippet, i) => (
+          {activeAppendix.snippets.map((snippet, i) => (
             <motion.div
               key={snippet.title}
               initial={{ opacity: 0, y: 12 }}

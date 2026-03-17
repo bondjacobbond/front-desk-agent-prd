@@ -1,0 +1,32 @@
+{
+  "type": "function",
+  "name": "getFacilitySchedule",
+  "description": "Get the facility's flattened event schedule for a date window. Use this first for what time, what is on today, which rink, and basic availability questions. Call when the caller asks what is on today, tomorrow, or this week; what time public skate, stick and puck, or another event is; which rink or space an event is on; or whether something is available, full, closed, or not opened.",
+  "server": {
+    "url": "VAPI_WEBHOOK_URL_PLACEHOLDER"
+  },
+  "function": {
+    "name": "getFacilitySchedule",
+    "description": "Get the facility's flattened event schedule for a tight date window. Use this first for what time, what is on today, which rink, and basic availability questions.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "description": "ISO date (YYYY-MM-DD) for the first day to search. Usually today, tomorrow, or the specific day inferred from the caller."
+        },
+        "endDate": {
+          "type": "string",
+          "description": "ISO date for the exclusive end of the search window. For a single day like 2026-03-11, use 2026-03-12 so the whole day is included."
+        }
+      },
+      "required": ["startDate", "endDate"]
+    }
+  },
+  "messages": [
+    {
+      "type": "request-start",
+      "content": "Let me check the schedule for you."
+    }
+  ]
+}

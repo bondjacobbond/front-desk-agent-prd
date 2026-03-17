@@ -14,6 +14,9 @@ import { RisksSection } from "@/components/sections/risks";
 import { DecisionsSection } from "@/components/sections/decisions";
 import { DocumentationSection } from "@/components/sections/documentation";
 
+const showIntegrationDocs =
+  process.env.NEXT_PUBLIC_SHOW_INTEGRATION_DOCS === "true";
+
 export default function Home() {
   return (
     <>
@@ -33,9 +36,11 @@ export default function Home() {
         <RisksSection />
         <DecisionsSection />
       </main>
-      <aside className="border-t border-border/50 lg:ml-56">
-        <DocumentationSection />
-      </aside>
+      {showIntegrationDocs && (
+        <aside className="border-t border-border/50 lg:ml-56">
+          <DocumentationSection />
+        </aside>
+      )}
     </>
   );
 }

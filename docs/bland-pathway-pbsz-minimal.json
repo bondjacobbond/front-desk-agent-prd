@@ -1,0 +1,444 @@
+{
+  "nodes": [
+    {
+      "id": "start",
+      "type": "Default",
+      "position": {
+        "x": -420,
+        "y": -220
+      },
+      "data": {
+        "name": "Start",
+        "text": "Hi, thanks for calling Palm Beach Skate Zone, this is Ashley. How can I help you?",
+        "isStart": true,
+        "modelOptions": {
+          "modelType": "quick",
+          "temperature": 0.2,
+          "skipUserResponse": false,
+          "block_interruptions": false
+        }
+      }
+    },
+    {
+      "id": "route_intent",
+      "type": "Default",
+      "position": {
+        "x": -420,
+        "y": 20
+      },
+      "data": {
+        "name": "Route Intent",
+        "prompt": "Classify the caller intent and route to the best pathway. Keep response short and friendly. Use schedule tools for timing/availability, programs tool for catalog/pricing, transfer for bookings/complex cases.",
+        "modelOptions": {
+          "modelType": "smart",
+          "temperature": 0.2,
+          "skipUserResponse": false,
+          "block_interruptions": false
+        },
+        "pathwayExamples": [
+          {
+            "Chosen Pathway": "Caller asks about times, what's on today, or availability",
+            "Conversation History": "What time is public skate tonight?"
+          },
+          {
+            "Chosen Pathway": "Caller asks about classes, pricing, age range, or registration",
+            "Conversation History": "How much is Learn to Skate and when does it start?"
+          },
+          {
+            "Chosen Pathway": "Caller asks for exact dates/times for a specific program session",
+            "Conversation History": "For program 123 session 456, what exact event dates are left?"
+          },
+          {
+            "Chosen Pathway": "Caller wants booking/sign-up or asks for a human",
+            "Conversation History": "Can you book a birthday party for Saturday?"
+          },
+          {
+            "Chosen Pathway": "Caller says goodbye",
+            "Conversation History": "Thanks, bye"
+          }
+        ]
+      }
+    },
+    {
+      "id": "tool_schedule",
+      "type": "Webhook",
+      "position": {
+        "x": -1050,
+        "y": 300
+      },
+      "data": {
+        "name": "Tool: Get Facility Schedule",
+        "method": "POST",
+        "url": "https://YOUR_TOOLS_HOST/bland/get-facility-schedule",
+        "body": "{\"facilityId\":42,\"callerMessage\":\"{{lastUserMessage}}\"}",
+        "prompt": "Call the schedule tool to answer time and availability questions.",
+        "responseData": [
+          {
+            "data": "status",
+            "name": "schedule_status",
+            "context": ""
+          },
+          {
+            "data": "assistant_response",
+            "name": "tool_result",
+            "context": ""
+          }
+        ],
+        "responsePathways": [
+          [
+            "schedule_status",
+            "==",
+            "ok",
+            {
+              "id": "respond_tool",
+              "name": "Respond with Tool Result"
+            }
+          ],
+          [
+            "schedule_status",
+            "==",
+            "error",
+            {
+              "id": "fallback_human",
+              "name": "Fallback Transfer"
+            }
+          ]
+        ],
+        "timeoutValue": 10,
+        "modelOptions": {
+          "modelType": "smart",
+          "temperature": 0.2,
+          "skipUserResponse": false,
+          "block_interruptions": false
+        }
+      }
+    },
+    {
+      "id": "tool_programs",
+      "type": "Webhook",
+      "position": {
+        "x": -420,
+        "y": 300
+      },
+      "data": {
+        "name": "Tool: Search Programs",
+        "method": "POST",
+        "url": "https://YOUR_TOOLS_HOST/bland/search-programs",
+        "body": "{\"orgId\":90,\"callerMessage\":\"{{lastUserMessage}}\"}",
+        "prompt": "Call the programs tool for classes, pricing, and registration questions.",
+        "responseData": [
+          {
+            "data": "status",
+            "name": "programs_status",
+            "context": ""
+          },
+          {
+            "data": "assistant_response",
+            "name": "tool_result",
+            "context": ""
+          }
+        ],
+        "responsePathways": [
+          [
+            "programs_status",
+            "==",
+            "ok",
+            {
+              "id": "respond_tool",
+              "name": "Respond with Tool Result"
+            }
+          ],
+          [
+            "programs_status",
+            "==",
+            "error",
+            {
+              "id": "fallback_human",
+              "name": "Fallback Transfer"
+            }
+          ]
+        ],
+        "timeoutValue": 10,
+        "modelOptions": {
+          "modelType": "smart",
+          "temperature": 0.2,
+          "skipUserResponse": false,
+          "block_interruptions": false
+        }
+      }
+    },
+    {
+      "id": "tool_session_events",
+      "type": "Webhook",
+      "position": {
+        "x": 210,
+        "y": 300
+      },
+      "data": {
+        "name": "Tool: Get Session Events",
+        "method": "POST",
+        "url": "https://YOUR_TOOLS_HOST/bland/get-session-events",
+        "body": "{\"orgId\":90,\"callerMessage\":\"{{lastUserMessage}}\"}",
+        "prompt": "Call session-events tool only for specific program/session date-time details.",
+        "responseData": [
+          {
+            "data": "status",
+            "name": "events_status",
+            "context": ""
+          },
+          {
+            "data": "assistant_response",
+            "name": "tool_result",
+            "context": ""
+          }
+        ],
+        "responsePathways": [
+          [
+            "events_status",
+            "==",
+            "ok",
+            {
+              "id": "respond_tool",
+              "name": "Respond with Tool Result"
+            }
+          ],
+          [
+            "events_status",
+            "==",
+            "error",
+            {
+              "id": "fallback_human",
+              "name": "Fallback Transfer"
+            }
+          ]
+        ],
+        "timeoutValue": 10,
+        "modelOptions": {
+          "modelType": "smart",
+          "temperature": 0.2,
+          "skipUserResponse": false,
+          "block_interruptions": false
+        }
+      }
+    },
+    {
+      "id": "respond_tool",
+      "type": "Default",
+      "position": {
+        "x": -420,
+        "y": 560
+      },
+      "data": {
+        "name": "Respond with Tool Result",
+        "prompt": "Use this tool result to answer naturally in 1-3 sentences: {{tool_result}}. Then ask one helpful follow-up that moves toward booking or next step.",
+        "modelOptions": {
+          "modelType": "smart",
+          "temperature": 0.2,
+          "skipUserResponse": false,
+          "block_interruptions": false
+        }
+      }
+    },
+    {
+      "id": "fallback_human",
+      "type": "Transfer Call",
+      "position": {
+        "x": 250,
+        "y": 560
+      },
+      "data": {
+        "name": "Fallback Transfer",
+        "prompt": "I want to make sure you get exact information. Let me connect you with our front desk team.",
+        "transferNumber": "+1XXXXXXXXXX",
+        "modelOptions": {
+          "modelType": "smart",
+          "temperature": 0.2,
+          "skipUserResponse": false,
+          "block_interruptions": false
+        }
+      }
+    },
+    {
+      "id": "booking_transfer",
+      "type": "Transfer Call",
+      "position": {
+        "x": -1050,
+        "y": 560
+      },
+      "data": {
+        "name": "Booking or Human Transfer",
+        "prompt": "Great question. For booking or account-specific help, I\u2019ll connect you with our team right now.",
+        "transferNumber": "+1XXXXXXXXXX",
+        "modelOptions": {
+          "modelType": "smart",
+          "temperature": 0.2,
+          "skipUserResponse": false,
+          "block_interruptions": false
+        }
+      }
+    },
+    {
+      "id": "goodbye",
+      "type": "End Call",
+      "position": {
+        "x": 210,
+        "y": 760
+      },
+      "data": {
+        "name": "Goodbye",
+        "prompt": "Thanks for calling Palm Beach Skate Zone. Have a great day!",
+        "modelOptions": {
+          "modelType": "smart",
+          "temperature": 0.2,
+          "skipUserResponse": false,
+          "block_interruptions": false
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_start_route",
+      "type": "custom",
+      "source": "start",
+      "target": "route_intent",
+      "data": {
+        "label": "User responded",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_route_schedule",
+      "type": "custom",
+      "source": "route_intent",
+      "target": "tool_schedule",
+      "data": {
+        "label": "Caller asks about times, what's on today, or availability",
+        "description": "Schedule/time/availability intent",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_route_programs",
+      "type": "custom",
+      "source": "route_intent",
+      "target": "tool_programs",
+      "data": {
+        "label": "Caller asks about classes, pricing, age range, or registration",
+        "description": "Catalog/pricing intent",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_route_events",
+      "type": "custom",
+      "source": "route_intent",
+      "target": "tool_session_events",
+      "data": {
+        "label": "Caller asks for exact dates/times for a specific program session",
+        "description": "Session event drill-down",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_route_transfer",
+      "type": "custom",
+      "source": "route_intent",
+      "target": "booking_transfer",
+      "data": {
+        "label": "Caller wants booking/sign-up or asks for a human",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_route_goodbye",
+      "type": "custom",
+      "source": "route_intent",
+      "target": "goodbye",
+      "data": {
+        "label": "Caller says goodbye",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_schedule_respond",
+      "type": "custom",
+      "source": "tool_schedule",
+      "target": "respond_tool",
+      "data": {
+        "label": "schedule_status == ok",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_schedule_fallback",
+      "type": "custom",
+      "source": "tool_schedule",
+      "target": "fallback_human",
+      "data": {
+        "label": "schedule_status == error",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_programs_respond",
+      "type": "custom",
+      "source": "tool_programs",
+      "target": "respond_tool",
+      "data": {
+        "label": "programs_status == ok",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_programs_fallback",
+      "type": "custom",
+      "source": "tool_programs",
+      "target": "fallback_human",
+      "data": {
+        "label": "programs_status == error",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_events_respond",
+      "type": "custom",
+      "source": "tool_session_events",
+      "target": "respond_tool",
+      "data": {
+        "label": "events_status == ok",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_events_fallback",
+      "type": "custom",
+      "source": "tool_session_events",
+      "target": "fallback_human",
+      "data": {
+        "label": "events_status == error",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_respond_route",
+      "type": "custom",
+      "source": "respond_tool",
+      "target": "route_intent",
+      "data": {
+        "label": "Caller has another question",
+        "isHighlighted": false
+      }
+    },
+    {
+      "id": "e_respond_goodbye",
+      "type": "custom",
+      "source": "respond_tool",
+      "target": "goodbye",
+      "data": {
+        "label": "Caller says goodbye",
+        "isHighlighted": false
+      }
+    }
+  ]
+}

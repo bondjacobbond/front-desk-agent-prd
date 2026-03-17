@@ -1,0 +1,40 @@
+{
+  "type": "function",
+  "name": "getSessionEvents",
+  "description": "Get calendar events for a specific session, including exact dates, times, resources, and availability. Use only when the facility schedule feed is not enough. Requires programId and sessionId from a previous searchPrograms or getFacilitySchedule response. Call when the caller asks what time is the class or what day for a specific session; if there are still spots available or about waitlist status; or needs the actual event-level calendar.",
+  "server": {
+    "url": "VAPI_WEBHOOK_URL_PLACEHOLDER"
+  },
+  "function": {
+    "name": "getSessionEvents",
+    "description": "Get calendar events for a session. Use only when you already have programId and sessionId from a prior tool result.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "programId": {
+          "type": "string",
+          "description": "Program ID from a prior searchPrograms or getFacilitySchedule response. Do not guess."
+        },
+        "sessionId": {
+          "type": "string",
+          "description": "Session ID from a prior searchPrograms or getFacilitySchedule response. Do not guess."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "ISO date for the start of the requested event window."
+        },
+        "endDate": {
+          "type": "string",
+          "description": "ISO date for the end of the requested event window."
+        }
+      },
+      "required": ["programId", "sessionId"]
+    }
+  },
+  "messages": [
+    {
+      "type": "request-start",
+      "content": "Let me get those details for you."
+    }
+  ]
+}
