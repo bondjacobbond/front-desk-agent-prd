@@ -306,7 +306,7 @@ export const featurePhases: Array<{
       },
       {
         name: "Schedule & Availability Queries",
-        desc: "Agent accesses real-time Bond data for program schedules, class times, availability, and waitlist status.",
+        desc: "Agent accesses real-time Bond data for program schedules, class times, and availability.",
         priority: "P0",
         size: "M",
       },
@@ -338,59 +338,27 @@ export const featurePhases: Array<{
     apis: [
       {
         method: "GET",
-        path: "/v4/api/organization/{organizationId}/programs",
-        desc: "Paginated list of programs with up to 10 sessions each.",
+        path: "/v4/facilities/{facilityId}/programs-schedule",
+        desc: "Facility-wide event schedule. Primary tool for 'what's on today/this week' questions. Returns flattened events across all programs for a date range.",
+        params: ["startDate", "endDate"],
+      },
+      {
+        method: "GET",
+        path: "/v1/organization/{orgId}/programs",
+        desc: "Catalog and pricing. Primary tool for programs, pricing, age ranges, registration dates. Use with expand=sessions,sessions.products,sessions.products.prices.",
         params: [
-          "programTypes",
-          "sports",
-          "gender",
-          "levels",
           "search",
-          "includePast",
           "startDate",
           "endDate",
-          "expand (e.g. accountingCodes)",
-          "page",
+          "expand (sessions,sessions.products,sessions.products.prices)",
           "itemsPerPage",
-          "offset",
         ],
       },
       {
         method: "GET",
-        path: "/v4/api/organization/{organizationId}/programs/{programId}/sessions",
-        desc: "All sessions for a specific program including dates, registration windows, facilities, products, and participant limits.",
-        params: [
-          "gender",
-          "levels",
-          "search",
-          "includePast",
-          "startDate",
-          "endDate",
-          "searchByProgram",
-          "expand (e.g. accountingCodes)",
-        ],
-      },
-      {
-        method: "GET",
-        path: "/v4/api/organization/{organizationId}/programs/{programId}/sessions/{sessionId}/products",
-        desc: "Products (pricing tiers and membership gating) for a session.",
-      },
-      {
-        method: "GET",
-        path: "/v4/api/organization/{organizationId}/programs/{programId}/sessions/{sessionId}/segments",
-        desc: "Segments of a session (schedule blocks within a session).",
-      },
-      {
-        method: "GET",
-        path: "/v4/api/organization/{organizationId}/programs/{programId}/sessions/{sessionId}/segments/{segmentId}/events",
-        desc: "Individual events within a segment (specific occurrences on the calendar).",
-      },
-      {
-        method: "GET",
-        path: "/v4/api/organization/{organizationId}/schedule",
-        desc: "Facility-wide event schedule. Returns events across all programs for a date range — the primary endpoint the agent uses to answer 'what's happening today/this week' questions.",
-        params: ["startDate", "endDate", "facilityId", "sportId"],
-        note: "Needed — not yet available in public API",
+        path: "/v1/organization/{orgId}/programs/{programId}/sessions/{sessionId}/events",
+        desc: "Event-level calendar occurrences for a matched session. Precision fallback when caller needs exact dates/times or capacity for a specific session.",
+        params: ["startDate", "endDate", "expand (resources,capacity)"],
       },
     ],
     demo: {
@@ -2135,7 +2103,7 @@ export const documentationAppendix = {
       queryParams: ["startDate", "endDate", "expand (e.g. resources,capacity)", "itemsPerPage"],
       responseShape: [
         "Returns { data: SessionEvent[], meta: { pagination } }.",
-        "Each SessionEvent includes id, startDate, endDate, timezone, capacity fields (maxParticipants, currentParticipants, spotsRemaining), and waitlist status.",
+        "Each SessionEvent includes id, startDate, endDate, timezone, capacity fields (maxParticipants, currentParticipants, spotsRemaining).",
       ],
       usedBy: [
         "Schedule and availability questions about specific occurrences.",
@@ -2170,7 +2138,7 @@ export const documentationAppendix = {
       queryParams: ["expand", "page"],
       responseShape: [
         "Returns { data: SessionEvent[], meta: { pagination } }.",
-        "Same event shape as session events — dates, capacity, waitlist.",
+        "Same event shape as session events — dates, capacity.",
       ],
       usedBy: [
         "Segmented schedule queries.",
@@ -2301,7 +2269,7 @@ export const documentationAppendix = {
       responseTimeoutSecs: 15,
       whenToUse: [
         "Caller asks 'what time is the class' or 'what day' for a specific session.",
-        "Caller asks if there are still spots available or about waitlist status.",
+        "Caller asks if there are still spots available.",
         "Caller needs the actual event-level calendar, not just the session date range.",
       ],
       arguments: [
@@ -2340,7 +2308,7 @@ export const documentationAppendix = {
       ],
       responseShape: [
         "{ data: SessionEvent[], meta: { pagination } }",
-        "Each event: id, startDate, endDate, timezone, maxParticipants, currentParticipants, spotsRemaining, isWaitlistEnabled, waitlistCount.",
+        "Each event: id, startDate, endDate, timezone, maxParticipants, currentParticipants, spotsRemaining.",
       ],
       notes: [
         "Use this only as a precision fallback after matching a specific program/session.",
@@ -3034,7 +3002,7 @@ export const documentationAppendixBland = {
       responseTimeoutSecs: 15,
       whenToUse: [
         "Caller needs exact event-level dates/times for a specific matched session.",
-        "Caller asks about spots/waitlist details for a known session.",
+        "Caller asks about spots for a known session.",
       ],
       arguments: [
         {

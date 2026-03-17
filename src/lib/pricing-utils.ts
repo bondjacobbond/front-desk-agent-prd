@@ -1,6 +1,7 @@
 import { pricingModel, rampModel } from "@/lib/prd-data";
 
 export type VendorPath = "elevenlabs" | "bland";
+export type BlandTier = "pro" | "enterprise";
 
 export interface PricingPreset {
   label: string;
@@ -18,6 +19,34 @@ export interface VendorDefaults {
   sprints: [number, number, number];
 }
 
+export interface BlandTierDefaults {
+  aiCostPerMinute: number;
+  platformCostPerYear: number;
+  setupCost: number;
+  label: string;
+  subLabel: string;
+}
+
+// Bland's updated pricing (effective Dec 2025).
+// Pro = Scale self-serve plan ($499/mo, $0.11/min connected call time).
+// Enterprise = volume contract (~$0.08/min at Bond's expected scale, $100K/yr platform, $50K onboarding).
+export const BLAND_TIER_DEFAULTS: Record<BlandTier, BlandTierDefaults> = {
+  pro: {
+    aiCostPerMinute: 0.11,
+    platformCostPerYear: 5_988, // $499/mo Scale plan
+    setupCost: 0,
+    label: "Pro (Scale)",
+    subLabel: "$0.11/min · $499/mo platform · no setup",
+  },
+  enterprise: {
+    aiCostPerMinute: 0.08,
+    platformCostPerYear: 100_000,
+    setupCost: 50_000,
+    label: "Enterprise",
+    subLabel: "$0.08/min · $100K/yr platform · $50K setup",
+  },
+};
+
 export const VENDOR_DEFAULTS: Record<VendorPath, VendorDefaults> = {
   elevenlabs: {
     aiCostPerMinute: 0.09,
@@ -28,9 +57,9 @@ export const VENDOR_DEFAULTS: Record<VendorPath, VendorDefaults> = {
     sprints: [4, 2, 1],
   },
   bland: {
-    aiCostPerMinute: 0.3,
-    platformCostPerYear: 100_000,
-    setupCost: 50_000,
+    aiCostPerMinute: BLAND_TIER_DEFAULTS.enterprise.aiCostPerMinute,
+    platformCostPerYear: BLAND_TIER_DEFAULTS.enterprise.platformCostPerYear,
+    setupCost: BLAND_TIER_DEFAULTS.enterprise.setupCost,
     label: "Bland AI",
     engFte: [0.5, 0.25, 0.25],
     sprints: [2, 1, 0],
@@ -90,6 +119,7 @@ export function buildPriceLabel(
 
 export interface PricingState {
   vendorPath: VendorPath;
+  blandTier: BlandTier;
   aiCostPerMinute: number;
   blandPlatformCost: number;
   blandSetupCost: number;
@@ -143,6 +173,7 @@ export interface DerivedData {
 export function computeDerived(state: PricingState): DerivedData {
   const {
     vendorPath,
+    // blandTier is UI-only — computation uses the slider values directly
     aiCostPerMinute,
     blandPlatformCost,
     blandSetupCost,

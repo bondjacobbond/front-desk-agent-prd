@@ -352,7 +352,7 @@ Bond needs a product that: creates a new high-margin revenue stream, deepens pla
 | Feature                              | Description                                                                                                                                                               | Priority         | Size | Phase   |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---- | ------- |
 | Inbound Voice Handling               | AI answers inbound phone calls with natural, human-like conversation. Configurable greeting, facility-specific voice personality.                                         | P0 — Must Have   | L    | Phase 1 |
-| Schedule & Availability Queries      | Agent accesses real-time Bond data to answer questions about program schedules, class times, availability, and waitlist status.                                           | P0 — Must Have   | M    | Phase 1 |
+| Schedule & Availability Queries      | Agent accesses real-time Bond data to answer questions about program schedules, class times, and availability.                                                             | P0 — Must Have   | M    | Phase 1 |
 | Pricing & Program Information        | Agent provides accurate pricing, program descriptions, age requirements, skill levels, and prerequisite information pulled from Bond.                                     | P0 — Must Have   | M    | Phase 1 |
 | Facility Policy Knowledge            | Agent knows and communicates facility-specific policies: cancellation rules, refund policies, late arrival policies, weather cancellation procedures.                     | P0 — Must Have   | M    | Phase 1 |
 | Customer Recognition                 | Agent identifies returning customers by phone number, greets by name, and has context on their active registrations, memberships, and history.                            | P1 — Should Have | M    | Phase 1 |
@@ -1299,11 +1299,11 @@ Sessions for a specific program with registration windows, facility, and product
 
 #### `GET /v1/organization/{orgId}/programs/{programId}/sessions/{sessionId}/events`
 
-Calendar occurrences with capacity and waitlist for a session.
+Calendar occurrences with capacity for a session.
 
 - **Query params:** `startDate`, `endDate`, `expand`, `itemsPerPage`
 - **Response:** `{ data: SessionEvent[], meta: { pagination } }`
-- **Key fields per event:** `startDate`, `endDate`, `timezone`, `maxParticipants`, `currentParticipants`, `spotsRemaining`, `isWaitlistEnabled`, `waitlistCount`
+- **Key fields per event:** `startDate`, `endDate`, `timezone`, `maxParticipants`, `currentParticipants`, `spotsRemaining`
 
 #### `GET /v1/organization/{orgId}/programs/{programId}/sessions/{sessionId}/products`
 

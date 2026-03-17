@@ -3,8 +3,10 @@
 import { useState, useMemo } from "react";
 import {
   type VendorPath,
+  type BlandTier,
   type PricingPreset,
   VENDOR_DEFAULTS,
+  BLAND_TIER_DEFAULTS,
   PRESETS,
   INITIAL,
   computeDerived,
@@ -13,14 +15,15 @@ import {
 
 export function usePricingState() {
   const [vendorPath, setVendorPath] = useState<VendorPath>("elevenlabs");
+  const [blandTier, setBlandTier] = useState<BlandTier>("enterprise");
   const [aiCostPerMinute, setAiCostPerMinute] = useState(
     VENDOR_DEFAULTS.elevenlabs.aiCostPerMinute,
   );
   const [blandPlatformCost, setBlandPlatformCost] = useState(
-    VENDOR_DEFAULTS.bland.platformCostPerYear,
+    BLAND_TIER_DEFAULTS.enterprise.platformCostPerYear,
   );
   const [blandSetupCost, setBlandSetupCost] = useState(
-    VENDOR_DEFAULTS.bland.setupCost,
+    BLAND_TIER_DEFAULTS.enterprise.setupCost,
   );
 
   const [baseFee, setBaseFee] = useState(INITIAL.baseFee);
@@ -54,10 +57,24 @@ export function usePricingState() {
 
   const handleVendorSwitch = (v: VendorPath) => {
     setVendorPath(v);
-    setAiCostPerMinute(VENDOR_DEFAULTS[v].aiCostPerMinute);
+    if (v === "bland") {
+      const tier = blandTier;
+      setAiCostPerMinute(BLAND_TIER_DEFAULTS[tier].aiCostPerMinute);
+      setBlandPlatformCost(BLAND_TIER_DEFAULTS[tier].platformCostPerYear);
+      setBlandSetupCost(BLAND_TIER_DEFAULTS[tier].setupCost);
+    } else {
+      setAiCostPerMinute(VENDOR_DEFAULTS[v].aiCostPerMinute);
+    }
     setEngFteY1(VENDOR_DEFAULTS[v].engFte[0]);
     setEngFteY2(VENDOR_DEFAULTS[v].engFte[1]);
     setEngFteY3(VENDOR_DEFAULTS[v].engFte[2]);
+  };
+
+  const handleBlandTierSwitch = (tier: BlandTier) => {
+    setBlandTier(tier);
+    setAiCostPerMinute(BLAND_TIER_DEFAULTS[tier].aiCostPerMinute);
+    setBlandPlatformCost(BLAND_TIER_DEFAULTS[tier].platformCostPerYear);
+    setBlandSetupCost(BLAND_TIER_DEFAULTS[tier].setupCost);
   };
 
   const applyPreset = (p: PricingPreset) => {
@@ -72,6 +89,7 @@ export function usePricingState() {
 
   const stateForExport: PricingState = {
     vendorPath,
+    blandTier,
     aiCostPerMinute,
     blandPlatformCost,
     blandSetupCost,
@@ -97,6 +115,7 @@ export function usePricingState() {
     () =>
       computeDerived({
         vendorPath,
+        blandTier,
         aiCostPerMinute,
         blandPlatformCost,
         blandSetupCost,
@@ -119,6 +138,7 @@ export function usePricingState() {
       }),
     [
       vendorPath,
+      blandTier,
       aiCostPerMinute,
       blandPlatformCost,
       blandSetupCost,
