@@ -22,6 +22,7 @@ export function PricingSection() {
     consultingEnabled,
     handleReset,
     handleVendorSwitch,
+    handleBlandTierSwitch,
     applyPreset,
     activePreset,
     isModified,
@@ -78,6 +79,7 @@ export function PricingSection() {
             isModified={isModified}
             consultingEnabled={consultingEnabled}
             handleVendorSwitch={handleVendorSwitch}
+            handleBlandTierSwitch={handleBlandTierSwitch}
             applyPreset={applyPreset}
             handleReset={handleReset}
             setters={setters}

@@ -181,10 +181,7 @@ export function usePricingState() {
     y3Facilities !== INITIAL.facilities[2] ||
     vendorPath !== "elevenlabs" ||
     blandTier !== "enterprise" ||
-    (vendorPath === "bland" &&
-      aiCostPerMinute !== blandTierDefaults.aiCostPerMinute) ||
-    (vendorPath === "elevenlabs" &&
-      aiCostPerMinute !== VENDOR_DEFAULTS.elevenlabs.aiCostPerMinute) ||
+    aiCostPerMinute !== VENDOR_DEFAULTS[vendorPath].aiCostPerMinute ||
     blandPlatformCost !== blandTierDefaults.platformCostPerYear ||
     blandSetupCost !== blandTierDefaults.setupCost ||
     engCostPerYear !== 200_000 ||
@@ -230,6 +227,7 @@ export function usePricingState() {
     isModified,
     consultingEnabled,
     handleVendorSwitch,
+    handleBlandTierSwitch,
     applyPreset,
     handleReset,
     setters: {

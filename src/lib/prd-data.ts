@@ -1332,7 +1332,7 @@ export const risks = [
     likelihood: "Low-Medium",
     impact: "High",
     mitigation:
-      "Depends heavily on platform choice. ElevenLabs path: $0.09-0.10/min with no platform fee — strong margins at $399/mo even at low volume. Bland public pricing now shows Build ($299/mo, $0.12 talk, $0.04 transfer) and Scale ($499/mo, $0.11 talk, $0.03 transfer), but Bond was quoted enterprise terms. Model both cases (self-serve tier and enterprise quote) across 3, 50, and 150 facilities before committing.",
+      "Depends heavily on platform choice. ElevenLabs path: $0.09-0.10/min with no platform fee — strong margins at $399/mo even at low volume. Bland updated pricing (Dec 2025): Build ($299/mo, $0.12/min), Scale ($499/mo, $0.11/min), Enterprise custom (~$0.08/min at Bond's expected volume, $100K/yr platform, $50K setup). Use the pricing model to compare all three paths across 3, 50, and 150 facilities before committing.",
   },
   {
     risk: "Email channel gap (if Bland path)",
@@ -1406,7 +1406,7 @@ export const openDecisions = [
     issue: "Bland negotiation",
     status: "Action Required",
     owners: "Matt (CEO)",
-    desc: "Bland pricing now has a gap between published and quoted terms: public cards show Build ($299/mo, $0.12 talk, $0.04 transfer) and Scale ($499/mo, $0.11 talk, $0.03 transfer), but Bond received an enterprise-oriented quote. Need commercial clarity on which plan type applies to our pilot and under what commitments (managed services scope, SLA, minimums). Outcome determines whether Path A is viable.",
+    desc: "Bland updated pricing (Dec 2025) establishes three clear tiers: Pro/Scale ($499/mo, $0.11/min — self-serve, no setup) and Enterprise (custom, ~$0.08/min at volume, $100K/yr platform, $50K setup). Bond needs to confirm which tier applies to its pilot and what managed services, SLA, and minimum commitments are included at each tier. Outcome determines whether Path A is viable and which pricing assumption to use in the model.",
   },
   {
     issue: "Launch pricing model",
@@ -1480,7 +1480,7 @@ export const vendors = [
       "Already prototyped: Palm Beach Skate Zone front desk agent built and tested on ElevenLabs platform (Feb 2026) — validates feasibility",
       "Full ownership of orchestration layer — Bond controls the logic, conversation flows, and integration architecture",
       "Deepest possible Bond data integration — no intermediary API constraints",
-      "Best long-term unit economics: ElevenLabs at $0.09/min (Creator+) vs. Bland at $0.30/min — over 3x cost advantage at scale. Plans include bundled minutes (e.g., Scale: 3,600 min/mo for $0.09/min, Business: 13,750 min/mo)",
+      "Best long-term unit economics: ElevenLabs at $0.09/min (Creator+) vs. Bland Pro at $0.11/min or Bland Enterprise at ~$0.08/min — meaningful cost advantage for ElevenLabs at scale, though the gap narrows at enterprise volume. Plans include bundled minutes (e.g., Scale: 3,600 min/mo for $0.09/min, Business: 13,750 min/mo)",
       "No $150K minimum barrier — ElevenLabs is usage-based from day one",
       "Multi-tenancy designed for Bond's exact needs from the start",
       "Omni-channel from day one (voice + email + SMS + web chat under one orchestration layer) — no email gap like Bland",

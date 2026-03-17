@@ -9,8 +9,13 @@ import {
 } from "@/components/ui/accordion";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { buildPriceLabel, PRESETS, INITIAL } from "@/lib/pricing-utils";
-import type { VendorPath } from "@/lib/pricing-utils";
+import {
+  buildPriceLabel,
+  PRESETS,
+  INITIAL,
+  BLAND_TIER_DEFAULTS,
+} from "@/lib/pricing-utils";
+import type { VendorPath, BlandTier } from "@/lib/pricing-utils";
 import { SliderInput } from "./SliderInput";
 import type { usePricingState } from "./usePricingState";
 
@@ -102,19 +107,25 @@ function BondPricingSection({
 
 function VoiceVendorSection({
   vendorPath,
+  blandTier,
   handleVendorSwitch,
+  handleBlandTierSwitch,
   aiCostPerMinute,
   blandPlatformCost,
   blandSetupCost,
   setters,
 }: {
   vendorPath: VendorPath;
+  blandTier: BlandTier;
   handleVendorSwitch: (v: VendorPath) => void;
+  handleBlandTierSwitch: (t: BlandTier) => void;
   aiCostPerMinute: number;
   blandPlatformCost: number;
   blandSetupCost: number;
   setters: PricingStateResult["setters"];
 }) {
+  const activeBlandSub = BLAND_TIER_DEFAULTS[blandTier].subLabel;
+
   const vendorOptions = [
     {
       key: "elevenlabs" as VendorPath,
@@ -124,9 +135,13 @@ function VoiceVendorSection({
     {
       key: "bland" as VendorPath,
       label: "Bland AI",
-      sub: "$0.30/min · $100K/yr + $50K setup",
+      sub: vendorPath === "bland" ? activeBlandSub : "Pro or Enterprise tier",
     },
   ] as const;
+
+  const blandTierOptions = (
+    Object.entries(BLAND_TIER_DEFAULTS) as [BlandTier, (typeof BLAND_TIER_DEFAULTS)[BlandTier]][]
+  ).map(([key, val]) => ({ key, label: val.label, sub: val.subLabel }));
 
   return (
     <div className="mb-6">
@@ -158,6 +173,31 @@ function VoiceVendorSection({
         ))}
       </div>
 
+      {vendorPath === "bland" && (
+        <div className="mb-4 pl-1">
+          <p className="text-[10px] font-semibold text-muted-foreground mb-2">
+            Bland tier
+          </p>
+          <div className="flex gap-2">
+            {blandTierOptions.map((t) => (
+              <button
+                key={t.key}
+                onClick={() => handleBlandTierSwitch(t.key)}
+                className={cn(
+                  "flex-1 rounded-lg border px-3 py-2 text-left transition-all",
+                  blandTier === t.key
+                    ? "border-bond-navy/60 bg-bond-navy/[0.06] text-bond-navy"
+                    : "border-border/50 bg-white text-muted-foreground hover:border-border hover:text-foreground",
+                )}
+              >
+                <p className="text-[11px] font-bold">{t.label}</p>
+                <p className="text-[9px] mt-0.5 leading-tight">{t.sub}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div
         className={cn(
           "grid gap-5",
@@ -180,8 +220,10 @@ function VoiceVendorSection({
               value={blandPlatformCost}
               min={0}
               max={200_000}
-              step={5_000}
-              format={(v) => `$${(v / 1000).toFixed(0)}K`}
+              step={1_000}
+              format={(v) =>
+                v < 1_000 ? `$${v}` : `$${(v / 1000).toFixed(0)}K`
+              }
               onChange={setters.setBlandPlatformCost}
             />
             <SliderInput
@@ -190,7 +232,7 @@ function VoiceVendorSection({
               min={0}
               max={100_000}
               step={5_000}
-              format={(v) => `$${(v / 1000).toFixed(0)}K`}
+              format={(v) => (v === 0 ? "None" : `$${(v / 1000).toFixed(0)}K`)}
               onChange={setters.setBlandSetupCost}
             />
           </>
@@ -440,11 +482,13 @@ export function AssumptionsAccordion(props: PricingStateResult) {
     isModified,
     consultingEnabled,
     handleVendorSwitch,
+    handleBlandTierSwitch,
     applyPreset,
     handleReset,
     setters,
   } = props;
   const vendorPath = state.vendorPath;
+  const blandTier = state.blandTier;
 
   return (
     <Card className="mt-6 rounded-2xl border-2 border-dashed border-bond-navy/20 bg-bond-navy/[0.02]">
@@ -483,7 +527,9 @@ export function AssumptionsAccordion(props: PricingStateResult) {
 
               <VoiceVendorSection
                 vendorPath={vendorPath}
+                blandTier={blandTier}
                 handleVendorSwitch={handleVendorSwitch}
+                handleBlandTierSwitch={handleBlandTierSwitch}
                 aiCostPerMinute={state.aiCostPerMinute}
                 blandPlatformCost={state.blandPlatformCost}
                 blandSetupCost={state.blandSetupCost}
