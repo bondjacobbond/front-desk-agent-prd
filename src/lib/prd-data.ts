@@ -1400,13 +1400,13 @@ export const openDecisions = [
     issue: "Voice platform for pilot",
     status: "Needs Decision",
     owners: "Matt (CEO), Jacob (PM)",
-    desc: "Two pilot options: (A) Bland for speed to market — production-quality voice and managed services; public tiers show Build ($299/mo) and Scale ($499/mo), but Bond was quoted enterprise terms; (B) ElevenLabs for cost efficiency — prototype exists, $0.09/min usage-only. Either way, Phase 1 MVP is FAQ + transfers — no custom API needed to launch. Next step: confirm Bland tier eligibility while continuing ElevenLabs prototype.",
+    desc: "Two pilot options: (A) Bland Enterprise for speed to market — production-quality voice, SMS, and managed services; Enterprise plan required for SMS (Pro/Scale self-serve does not include it); pricing is negotiable. (B) ElevenLabs for cost efficiency — prototype exists, $0.09/min usage-only, Bond owns the SMS layer. Either way, Phase 1 MVP is FAQ + transfers — no custom API needed to launch. Next step: get a firm Bland Enterprise number.",
   },
   {
     issue: "Bland negotiation",
     status: "Action Required",
     owners: "Matt (CEO)",
-    desc: "Bland updated pricing (Dec 2025) establishes three clear tiers: Pro/Scale ($499/mo, $0.11/min — self-serve, no setup) and Enterprise (custom, ~$0.08/min at volume, $100K/yr platform, $50K setup). Bond needs to confirm which tier applies to its pilot and what managed services, SLA, and minimum commitments are included at each tier. Outcome determines whether Path A is viable and which pricing assumption to use in the model.",
+    desc: "Enterprise plan is required for Bond — SMS is only available on Enterprise, not self-serve Pro/Scale tiers. Enterprise pricing is negotiable: published starting points are ~$0.08/min at volume, $100K/yr platform, $50K setup, but actual terms depend on managed services scope, SLA, and minimums Bond can commit to. Priority: get to a firm enterprise number so Path A viability can be assessed against ElevenLabs build cost.",
   },
   {
     issue: "Launch pricing model",
@@ -1559,7 +1559,7 @@ export const vendors = [
       "Detailed call quality metrics: latency, interruptions, transcription accuracy, engagement quality, background noise, sentiment gauge",
       "Unit testing and regression tracking for agent behavior in production",
       "API-native: 99% of dashboard functionality available via API — enables Bond to embed call logs and analytics in its own back office",
-      "SMS and RCS supported (multi-channel: voice + text from same pathway)",
+      "SMS and RCS supported on Enterprise plan (multi-channel: voice + text from same pathway) — required for Bond's use case; not available on self-serve Pro/Scale tiers",
       "Access tiers: Viewer, Prompter, Operator, Admin — Bond controls who can edit vs. deploy",
       "Single-tenant architecture by design: Bond controls when updates are pushed (sandbox testing before production)",
       "Webhook nodes for real-time API integration (Bond data, scheduling, payments)",
@@ -1567,7 +1567,7 @@ export const vendors = [
     ],
     weaknesses: [
       "Email NOT supported out of the box — Bond's #2 priority channel. On Bland's roadmap but not available today. Workaround: Zendesk trigger → call/SMS",
-      "Commercial uncertainty: publicly listed Build/Scale plans exist, but Bond was quoted enterprise terms. Assume enterprise economics until procurement confirms eligibility for published tiers",
+      "Enterprise plan is required for SMS — Bond's self-serve Pro path is blocked for SMS use case. Enterprise pricing is negotiable but carries higher commitment (platform fee + setup). Terms TBD in active negotiation with Matt",
       "White-label login not supported: Bond's customers cannot log into Bland dashboard directly. Must use API to embed data in Bond's back office",
       "Vendor dependency for orchestration layer — Conversational Pathways are proprietary to Bland",
       "Enterprise contracts can still price materially above published self-serve rates due to managed services, support scope, and SLA terms",

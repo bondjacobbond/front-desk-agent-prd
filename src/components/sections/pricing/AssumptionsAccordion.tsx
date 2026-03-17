@@ -195,6 +195,16 @@ function VoiceVendorSection({
               </button>
             ))}
           </div>
+          {blandTier === "pro" && (
+            <p className="mt-2 text-[10px] text-amber-700 bg-amber-50 border border-amber-200/60 rounded-md px-2.5 py-1.5 leading-snug">
+              SMS is only available on the Enterprise plan. Bond requires SMS — Pro is modeled here for cost comparison only.
+            </p>
+          )}
+          {blandTier === "enterprise" && (
+            <p className="mt-2 text-[10px] text-bond-navy/70 bg-bond-navy/[0.03] border border-bond-navy/10 rounded-md px-2.5 py-1.5 leading-snug">
+              Enterprise includes SMS and managed services. Pricing is negotiable — adjust the sliders to model different deal terms.
+            </p>
+          )}
         </div>
       )}
 

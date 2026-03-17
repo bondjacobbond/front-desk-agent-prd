@@ -36,14 +36,14 @@ export const BLAND_TIER_DEFAULTS: Record<BlandTier, BlandTierDefaults> = {
     platformCostPerYear: 5_988, // $499/mo Scale plan
     setupCost: 0,
     label: "Pro (Scale)",
-    subLabel: "$0.11/min · $499/mo platform · no setup",
+    subLabel: "$0.11/min · $499/mo · voice only (no SMS)",
   },
   enterprise: {
     aiCostPerMinute: 0.08,
     platformCostPerYear: 100_000,
     setupCost: 50_000,
     label: "Enterprise",
-    subLabel: "$0.08/min · $100K/yr platform · $50K setup",
+    subLabel: "$0.08/min · $100K/yr · SMS included · negotiable",
   },
 };
 
