@@ -169,6 +169,7 @@ export function usePricingState() {
       p.perMinute === perMinute,
   );
 
+  const blandTierDefaults = BLAND_TIER_DEFAULTS[blandTier];
   const isModified =
     baseFee !== INITIAL.baseFee ||
     perResolution !== INITIAL.perResolution ||
@@ -178,10 +179,14 @@ export function usePricingState() {
     y1Facilities !== INITIAL.facilities[0] ||
     y2Facilities !== INITIAL.facilities[1] ||
     y3Facilities !== INITIAL.facilities[2] ||
-    aiCostPerMinute !== VENDOR_DEFAULTS[vendorPath].aiCostPerMinute ||
     vendorPath !== "elevenlabs" ||
-    blandPlatformCost !== VENDOR_DEFAULTS.bland.platformCostPerYear ||
-    blandSetupCost !== VENDOR_DEFAULTS.bland.setupCost ||
+    blandTier !== "enterprise" ||
+    (vendorPath === "bland" &&
+      aiCostPerMinute !== blandTierDefaults.aiCostPerMinute) ||
+    (vendorPath === "elevenlabs" &&
+      aiCostPerMinute !== VENDOR_DEFAULTS.elevenlabs.aiCostPerMinute) ||
+    blandPlatformCost !== blandTierDefaults.platformCostPerYear ||
+    blandSetupCost !== blandTierDefaults.setupCost ||
     engCostPerYear !== 200_000 ||
     engFteY1 !== VENDOR_DEFAULTS[vendorPath].engFte[0] ||
     engFteY2 !== VENDOR_DEFAULTS[vendorPath].engFte[1] ||
@@ -194,9 +199,10 @@ export function usePricingState() {
 
   const handleReset = () => {
     setVendorPath("elevenlabs");
+    setBlandTier("enterprise");
     setAiCostPerMinute(VENDOR_DEFAULTS.elevenlabs.aiCostPerMinute);
-    setBlandPlatformCost(VENDOR_DEFAULTS.bland.platformCostPerYear);
-    setBlandSetupCost(VENDOR_DEFAULTS.bland.setupCost);
+    setBlandPlatformCost(BLAND_TIER_DEFAULTS.enterprise.platformCostPerYear);
+    setBlandSetupCost(BLAND_TIER_DEFAULTS.enterprise.setupCost);
     setBaseFee(INITIAL.baseFee);
     setPerResolution(INITIAL.perResolution);
     setPerMinute(INITIAL.perMinute);
